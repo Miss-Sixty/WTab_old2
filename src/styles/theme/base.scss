@@ -1,0 +1,22 @@
+:root {
+  --prism-scheme: light;
+  
+  --w-alpha-5: rgba(0, 0, 0, 0.05);
+  --w-alpha-10: rgba(0, 0, 0, .1);
+  --w-alpha-60: rgba(0, 0, 0, 0.06);
+
+  // 右键菜单背景色
+  --w-contextmenu-bg-color: #fff;
+  --w-contextmenu-hover-bg-color: rgba(0, 0, 0, 0.08);
+
+  // 小组件背景色
+  --w-widget-bg-color: #fff;
+  // 添加小组件轮播背景色
+  --w-widget-carousel-bg-color: rgb(208, 209, 212);
+
+  // dialog 背景色
+  --w-dialog-bg-color: rgb(245, 245, 245);
+
+  // 设置 card 背景色
+  --w-settings-bg-color: #fff;
+}

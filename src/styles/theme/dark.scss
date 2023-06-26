@@ -1,0 +1,21 @@
+html.dark {
+  color-scheme: dark;
+
+  --w-alpha-5: rgba(255, 255, 255, 0.05);
+  --w-alpha-10: rgba(255, 255, 255, 0.1);
+
+  // 右键菜单背景色
+  --w-contextmenu-bg-color: rgb(30, 30, 30);
+  --w-contextmenu-hover-bg-color: rgba(255, 255, 255, 0.08);
+
+  // 小组件背景色
+  --w-widget-bg-color: rgb(30, 30, 30);
+  // 添加小组件轮播背景色
+  --w-widget-carousel-bg-color: rgba(255, 255, 255, 0.08);
+
+  // dialog 背景色
+  --w-dialog-bg-color: rgb(30, 30, 30);
+
+  // 设置 card 背景色
+  --w-settings-bg-color: rgb(40, 40, 40);
+}
