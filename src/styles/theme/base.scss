@@ -1,8 +1,8 @@
 :root {
   --prism-scheme: light;
-  
+
   --w-alpha-5: rgba(0, 0, 0, 0.05);
-  --w-alpha-10: rgba(0, 0, 0, .1);
+  --w-alpha-10: rgba(0, 0, 0, 0.1);
   --w-alpha-60: rgba(0, 0, 0, 0.06);
 
   // 右键菜单背景色
@@ -19,4 +19,11 @@
 
   // 设置 card 背景色
   --w-settings-bg-color: #fff;
+
+  // button
+  --w-button-text-color: #fff;
+  --w-button-bg-color: #fcbe10;
+  --w-button-border-color: #f7c028;
+  --w-button-hover-border-color: #f4c547;
+  --w-button-hover-bg-color: #f4c547;
 }

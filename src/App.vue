@@ -4,6 +4,7 @@ import analyze from 'rgbaster'
 import useWallpaperStore from '@/stores/wallpaper'
 import useColorMeta from '@/hooks/useColorMeta'
 import useLayoutStore from '@/stores/layout'
+import Button from '@/components/Button.vue'
 const wallpaperStore = useWallpaperStore()
 const layoutStore = useLayoutStore()
 
@@ -121,7 +122,7 @@ const AsyncWallpaper = defineAsyncComponent(() => import('@/components/Wallpaper
       </template>
     </TransitionGroup>
 
-    <AsyncHeader @clickSettings="onContentMenuVisible" />
+    <AsyncHeader @clickSettings="onContentMenuVisible"></AsyncHeader>
 
     <AsyncContextmenu
       ref="contextMenuRef"
@@ -129,10 +130,10 @@ const AsyncWallpaper = defineAsyncComponent(() => import('@/components/Wallpaper
       @editWidget="layoutStore.editing = true"
       @about="aboutVisible = true"
       @wallpaper="wallpaperVisible = true"
-    />
-    <AsyncAbout v-model="aboutVisible" />
-    <AsyncSettings v-model="settingsVisible" />
-    <AsyncWallpaper v-model="wallpaperVisible" />
+    ></AsyncContextmenu>
+    <AsyncAbout v-model="aboutVisible"></AsyncAbout>
+    <AsyncSettings v-model="settingsVisible"></AsyncSettings>
+    <AsyncWallpaper v-model="wallpaperVisible"></AsyncWallpaper>
   </div>
 </template>
 
