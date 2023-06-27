@@ -3,10 +3,6 @@ defineProps({
   title: {
     type: String,
     default: ''
-  },
-  isBg: {
-    type: Boolean,
-    default: true
   }
 })
 </script>
@@ -14,9 +10,11 @@ defineProps({
 <template>
   <div class="content">
     <h4>{{ title }}</h4>
-    <div class="card" :class="{ bg: isBg }">
-      <slot />
-    </div>
+    <slot name="card">
+      <div class="card">
+        <slot />
+      </div>
+    </slot>
   </div>
 </template>
 
@@ -26,12 +24,12 @@ defineProps({
     margin: 8px 6px 6px 10px;
   }
   .card {
-    // box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
     padding: 10px 20px;
     border-radius: 6px;
-    &.bg {
-      background-color: var(--w-settings-bg-color);
-    }
+    background-color: var(--w-settings-bg-color);
+  }
+  &:not(:last-child) {
+    margin-bottom: 16px;
   }
 }
 </style>

@@ -15,7 +15,7 @@ defineProps({
 
 <template>
   <div class="img-box">
-    <img :src="src" fit="cover" />
+    <img class="img" :src="src" fit="cover" />
     <Icon v-if="active"><Check /></Icon>
   </div>
 </template>
@@ -29,7 +29,7 @@ defineProps({
   cursor: pointer;
   position: relative;
 
-  image {
+  img {
     width: 100%;
     height: 100%;
     display: block;
