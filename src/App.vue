@@ -4,7 +4,7 @@ import analyze from 'rgbaster'
 import useWallpaperStore from '@/stores/wallpaper'
 import useColorMeta from '@/hooks/useColorMeta'
 import useLayoutStore from '@/stores/layout'
-import Button from '@/components/Button.vue'
+import Radio from '@/components/Radio.vue'
 const wallpaperStore = useWallpaperStore()
 const layoutStore = useLayoutStore()
 
@@ -83,6 +83,7 @@ const AsyncContextmenu = defineAsyncComponent(() => import('@/components/Context
 const AsyncAbout = defineAsyncComponent(() => import('@/components/About.vue'))
 const AsyncSettings = defineAsyncComponent(() => import('@/components/Settings/index.vue'))
 const AsyncWallpaper = defineAsyncComponent(() => import('@/components/Wallpaper/index.vue'))
+const a = ref(true)
 </script>
 
 <template>
@@ -121,6 +122,11 @@ const AsyncWallpaper = defineAsyncComponent(() => import('@/components/Wallpaper
         />
       </template>
     </TransitionGroup>
+
+    <!-- <div style="margin-top: 100px; background-color: aquamarine">
+      <Radio>fff</Radio>
+      <Radio v-model="a">fff</Radio>
+    </div> -->
 
     <AsyncHeader @clickSettings="onContentMenuVisible"></AsyncHeader>
 

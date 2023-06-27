@@ -31,12 +31,12 @@ defineProps({
   outline: none;
   transition: 0.1s;
   font-weight: 500;
+  font-size: 14px;
   user-select: none;
   vertical-align: middle;
   -webkit-appearance: none;
   background-color: var(--w-button-bg-color);
   padding: 8px 15px;
-  font-size: 14px;
   border-radius: 4px;
   border: 1px solid var(--w-button-border-color);
   transition: background-color 0.2s, border-color 0.2s, color 0.2s;

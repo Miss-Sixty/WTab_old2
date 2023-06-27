@@ -45,3 +45,15 @@ a:active {
   height: 1em;
   width: 1em;
 }
+
+a,
+area,
+button,
+[role='button'],
+input,
+label,
+select,
+summary,
+textarea {
+  touch-action: manipulation;
+}
