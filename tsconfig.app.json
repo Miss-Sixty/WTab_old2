@@ -8,5 +8,9 @@
     "paths": {
       "@/*": ["./src/*"]
     }
+  },
+  "lib": {
+    "dom": true,
+    "es2022": true
   }
 }

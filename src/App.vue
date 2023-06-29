@@ -4,6 +4,7 @@ import analyze from 'rgbaster'
 import useWallpaperStore from '@/stores/wallpaper'
 import useColorMeta from '@/hooks/useColorMeta'
 import useLayoutStore from '@/stores/layout'
+import { GridLayout, GridItem } from '@/components/Grid'
 import Radio from '@/components/Radio.vue'
 const wallpaperStore = useWallpaperStore()
 const layoutStore = useLayoutStore()
@@ -84,6 +85,8 @@ const AsyncAbout = defineAsyncComponent(() => import('@/components/About.vue'))
 const AsyncSettings = defineAsyncComponent(() => import('@/components/Settings/index.vue'))
 const AsyncWallpaper = defineAsyncComponent(() => import('@/components/Wallpaper/index.vue'))
 const AsyncWidgetList = defineAsyncComponent(() => import('@/components/WidgetList.vue'))
+
+const dragging = ref(false)
 </script>
 
 <template>
@@ -137,6 +140,19 @@ const AsyncWidgetList = defineAsyncComponent(() => import('@/components/WidgetLi
     <AsyncSettings v-model="settingsVisible"></AsyncSettings>
     <AsyncWallpaper v-model="wallpaperVisible"></AsyncWallpaper>
     <AsyncWidgetList v-model="addWidgetVisible"></AsyncWidgetList>
+
+    <main class="main">
+      <GridLayout
+        v-model="layoutStore.data"
+        :colsNum="layoutStore.colsNum"
+        :baseSize="layoutStore.baseSize"
+        :baseMargin="layoutStore.baseMargin"
+        :editing="layoutStore.editing"
+        v-model:dragging="dragging"
+      >
+        <GridItem v-for="item in layoutStore.data" :key="item.id" :id="item.id">333</GridItem>
+      </GridLayout>
+    </main>
   </div>
 </template>
 
@@ -156,6 +172,18 @@ const AsyncWidgetList = defineAsyncComponent(() => import('@/components/WidgetLi
     object-fit: cover;
     z-index: -1;
     pointer-events: none;
+  }
+
+  .main {
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 5vh 0;
+    height: 100%;
+    // position: fixed;
+    // left: 0;
+    // right: 0;
+    // top: 0;
+    // bottom: 0;
   }
 }
 
