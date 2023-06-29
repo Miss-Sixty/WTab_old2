@@ -23,6 +23,7 @@ export default defineStore(
       try {
         // const res = await fetch('https://bingw.jasonzeng.dev?format=json')
         // const data = await res.json()
+        // OHR.VillandryGarden_EN-US2096198100
         const data = { urlbase: '/th?id=OHR.PetraTreasury_EN-US1981994011' }
         setTimeout(() => {
           bing.value.url_mini = `https://www.bing.com${data.urlbase}_320x240.jpg`

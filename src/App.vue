@@ -35,8 +35,6 @@ const onContentMenuVisible = ({
   dom: any
   item: any
 }) => {
-  console.log('111', ev, type, dom, item)
-
   let x = 0
   let y = 0
   if (type === 'settings') {
@@ -78,12 +76,14 @@ const onContentMenuVisible = ({
 const aboutVisible = ref(false)
 const settingsVisible = ref(false)
 const wallpaperVisible = ref(false)
+const addWidgetVisible = ref(false)
+
 const AsyncHeader = defineAsyncComponent(() => import('@/components/Header.vue'))
 const AsyncContextmenu = defineAsyncComponent(() => import('@/components/Contextmenu.vue'))
 const AsyncAbout = defineAsyncComponent(() => import('@/components/About.vue'))
 const AsyncSettings = defineAsyncComponent(() => import('@/components/Settings/index.vue'))
 const AsyncWallpaper = defineAsyncComponent(() => import('@/components/Wallpaper/index.vue'))
-const a = ref(true)
+const AsyncWidgetList = defineAsyncComponent(() => import('@/components/WidgetList.vue'))
 </script>
 
 <template>
@@ -123,11 +123,6 @@ const a = ref(true)
       </template>
     </TransitionGroup>
 
-    <!-- <div style="margin-top: 100px; background-color: aquamarine">
-      <Radio>fff</Radio>
-      <Radio v-model="a">fff</Radio>
-    </div> -->
-
     <AsyncHeader @clickSettings="onContentMenuVisible"></AsyncHeader>
 
     <AsyncContextmenu
@@ -136,16 +131,19 @@ const a = ref(true)
       @editWidget="layoutStore.editing = true"
       @about="aboutVisible = true"
       @wallpaper="wallpaperVisible = true"
+      @addWidget="addWidgetVisible = true"
     ></AsyncContextmenu>
     <AsyncAbout v-model="aboutVisible"></AsyncAbout>
     <AsyncSettings v-model="settingsVisible"></AsyncSettings>
     <AsyncWallpaper v-model="wallpaperVisible"></AsyncWallpaper>
+    <AsyncWidgetList v-model="addWidgetVisible"></AsyncWidgetList>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .home {
   height: 100%;
+  user-select: none;
 
   .background {
     position: fixed;

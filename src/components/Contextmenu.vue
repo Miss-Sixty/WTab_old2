@@ -4,7 +4,7 @@ import { onClickOutside } from '@vueuse/core'
 import { ArrowRightUp } from '@/icons'
 import Icon from '@/components/Icon.vue'
 
-const emit = defineEmits(['widget', 'settings', 'delWidget', 'about', 'wallpaper', 'editWidget'])
+const emit = defineEmits(['addWidget', 'settings', 'delWidget', 'about', 'wallpaper', 'editWidget'])
 
 const contextmenuType = ref('')
 const styles = ref({})
@@ -54,7 +54,7 @@ const show = (type: string, boundingClientRect: any) => {
 defineExpose({ show })
 
 const onEmitChange = (
-  type: 'widget' | 'settings' | 'delWidget' | 'about' | 'wallpaper' | 'editWidget',
+  type: 'addWidget' | 'settings' | 'delWidget' | 'about' | 'wallpaper' | 'editWidget',
   data?: any
 ) => {
   popperVisible.value = false
@@ -74,7 +74,7 @@ const onEmitChange = (
         </li>
         <li v-show="contextmenuType === 'settings'" class="separator"></li>
 
-        <li class="item" @click="onEmitChange('widget')">添加小组件</li>
+        <li class="item" @click="onEmitChange('addWidget')">添加小组件</li>
         <li class="item" @click="onEmitChange('editWidget')">编辑小组件</li>
         <li
           v-show="contextmenuType === 'widget'"

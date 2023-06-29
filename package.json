@@ -15,12 +15,16 @@
   "dependencies": {
     "@floating-ui/dom": "^1.4.2",
     "@vueuse/core": "^10.2.0",
+    "@vueuse/integrations": "^10.2.1",
+    "change-case": "^4.1.2",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.8",
     "localforage": "^1.10.0",
+    "lodash-es": "^4.17.21",
     "pinia": "^2.1.4",
     "pinia-plugin-persistedstate": "^3.1.0",
     "rgbaster": "^2.1.1",
+    "uuid": "^9.0.0",
     "vue": "^3.3.4",
     "zipson": "^0.2.12"
   },
