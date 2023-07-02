@@ -15,7 +15,7 @@ const { open, onChange } = useFileDialog({
 })
 
 onChange((files) => {
-  const [rawFile] = files || []
+  const [rawFile]: any = files || []
   localforage.setItem('wallpaper', rawFile)
   wallpaperStore.myWallpaper = URL.createObjectURL(rawFile)
 })

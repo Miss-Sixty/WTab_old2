@@ -28,8 +28,8 @@ const { copy, isSupported } = useClipboard()
 </script>
 <template>
   <Dialog :header="false" :width="650" title="关于我们">
-    <div class="content">
-      <div class="content__top">
+    <div class="detail">
+      <div class="detail__top">
         <h1 class="text">每日一言</h1>
         <p class="date">{{ time.date }}</p>
         <p class="week">{{ time.week }}</p>
@@ -37,7 +37,7 @@ const { copy, isSupported } = useClipboard()
         <p class="from text" v-if="from">《{{ from }}》</p>
         <p class="from_who text" v-if="from_who">—— {{ from_who }} ——</p>
       </div>
-      <div class="content__btn">
+      <div class="detail__btn">
         <Button @click="$emit('reset')">刷新一言</Button>
         <Button v-if="isSupported" @click="copy(hitokoto)">复 制</Button>
       </div>
@@ -46,7 +46,7 @@ const { copy, isSupported } = useClipboard()
 </template>
 
 <style lang="scss">
-.content {
+.detail {
   position: relative;
   text-align: center;
   display: flex;

@@ -35,7 +35,7 @@ const closeDialog = () => {
               <span class="dialog-header__title">{{ title }}</span>
             </div>
 
-            <button class="button" @click="closeDialog">
+            <button class="close" @click="closeDialog">
               <Icon><Close /></Icon>
             </button>
 
@@ -90,7 +90,7 @@ const closeDialog = () => {
       }
     }
 
-    .button {
+    .close {
       position: absolute;
       top: 6px;
       right: 6px;

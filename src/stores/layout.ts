@@ -42,9 +42,9 @@ export default defineStore(
     const current: ComputedRef<string[]> = breakpointsData.current() //当前布局断点
     // 一共多少列
     const colsNum: ComputedRef<number> = computed(() => {
-      let colsNum: string
+      let colsNum: string | undefined
       if (!current.value.length) colsNum = Object.keys(breakpoints)[0]
-      else colsNum = current.value.at(-1)
+      else colsNum = current.value.at(-1) || '4'
       return Number(colsNum)
     })
 

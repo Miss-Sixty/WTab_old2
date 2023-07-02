@@ -24,7 +24,7 @@ const exportData = () => {
  * @param {File} rawFile
  */
 onChange((files) => {
-  const [rawFile] = files || []
+  const [rawFile]: any = files || []
   settingsStore.uploadConfig(rawFile)
 })
 

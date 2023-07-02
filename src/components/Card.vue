@@ -8,10 +8,10 @@ defineProps({
 </script>
 
 <template>
-  <div class="content">
+  <div class="card">
     <h4>{{ title }}</h4>
     <slot name="card">
-      <div class="card">
+      <div class="content">
         <slot />
       </div>
     </slot>
@@ -19,11 +19,11 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
-.content {
+.card {
   h4 {
     margin: 8px 6px 6px 10px;
   }
-  .card {
+  .content {
     padding: 10px 20px;
     border-radius: 6px;
     background-color: var(--w-settings-bg-color);

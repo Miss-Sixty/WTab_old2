@@ -5,7 +5,6 @@ import useWallpaperStore from '@/stores/wallpaper'
 import useColorMeta from '@/hooks/useColorMeta'
 import useLayoutStore from '@/stores/layout'
 import { GridLayout, GridItem } from '@/components/Grid'
-import Radio from '@/components/Radio.vue'
 import Widget from '@/widget/index.vue'
 
 const wallpaperStore = useWallpaperStore()
@@ -93,6 +92,14 @@ const dragging = ref(false)
 const delWidget = (item: any) => {
   layoutStore.deleteWidget(item)
 }
+// 编辑组件
+const editWidget = (item: any) => {
+  layoutStore.editing = true
+}
+
+const addWidgeChange = () => {
+  addWidgetVisible.value = true
+}
 </script>
 
 <template>
@@ -137,10 +144,10 @@ const delWidget = (item: any) => {
     <AsyncContextmenu
       ref="contextMenuRef"
       @settings="settingsVisible = true"
-      @editWidget="layoutStore.editing = true"
+      @editWidget="editWidget"
       @about="aboutVisible = true"
       @wallpaper="wallpaperVisible = true"
-      @addWidget="addWidgetVisible = true"
+      @addWidget="addWidgeChange"
     ></AsyncContextmenu>
     <AsyncAbout v-model="aboutVisible"></AsyncAbout>
     <AsyncSettings v-model="settingsVisible"></AsyncSettings>
@@ -194,11 +201,6 @@ const delWidget = (item: any) => {
     overflow-y: auto;
     padding: 5vh 0;
     height: 100%;
-    // position: fixed;
-    // left: 0;
-    // right: 0;
-    // top: 0;
-    // bottom: 0;
   }
 }
 

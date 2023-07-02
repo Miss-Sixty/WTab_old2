@@ -3,6 +3,14 @@ import useLayoutStore from '@/stores/layout'
 import Widget from '@/widget/index.vue'
 import widgets from '@/widget'
 import Dialog from '@/components/Dialog.vue'
+// const emit = defineEmits(['update:modelValue'])
+
+// defineProps({
+//   modelValue: {
+//     type: Boolean,
+//     default: false
+//   }
+// })
 
 const layoutStore = useLayoutStore()
 
@@ -11,7 +19,7 @@ const onClick = (item: any, size: string) => {
 }
 </script>
 <template>
-  <Dialog title="添加小组件">
+  <Dialog  title="添加小组件">
     <div>
       <div class="item" v-for="(widget, i) in widgets" :key="i">
         <h2>{{ widget.name }}</h2>
