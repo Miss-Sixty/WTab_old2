@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-// import Detail from './components/Detail.vue'
+import Detail from './components/Detail.vue'
 import Tiny from './components/Tiny.vue'
 import Small from './components/Small.vue'
 import Medium from './components/Medium.vue'
@@ -48,13 +48,13 @@ const clickChange = () => {
     <Medium v-if="size === 'medium'" :hitokoto="hitokoto" :from_who="from_who" />
     <Large v-if="size === 'large'" :hitokoto="hitokoto" :from_who="from_who" />
 
-    <!-- <Detail
+    <Detail
       v-model="detailVisible"
       :hitokoto="hitokoto"
       :from_who="from_who"
       :from="from"
       @reset="init"
-    /> -->
+    />
   </div>
 </template>
 

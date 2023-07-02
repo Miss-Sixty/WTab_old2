@@ -189,7 +189,6 @@ provide('gridLayoutContextKey', {
 
 <style lang="scss" scoped>
 .grid {
-  background-color: aquamarine;
   position: relative;
   margin: auto;
   transition: width 0.2s;

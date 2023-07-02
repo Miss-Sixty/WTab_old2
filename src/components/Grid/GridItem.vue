@@ -85,6 +85,5 @@ const dragStyle = computed(() => {
   position: absolute;
   user-select: none;
   transition: transform 0.2s;
-  background-color: bisque;
 }
 </style>

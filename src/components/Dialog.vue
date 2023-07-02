@@ -14,6 +14,10 @@ defineProps({
   width: {
     type: Number,
     default: 1024
+  },
+  header: {
+    type: Boolean,
+    default: true
   }
 })
 const closeDialog = () => {
@@ -27,12 +31,13 @@ const closeDialog = () => {
       <div v-show="modelValue" class="overlay-dialog">
         <transition name="zoom">
           <div v-show="modelValue" class="dialog" :style="{ width: width + 'px' }">
-            <div class="dialog-header">
+            <div v-if="header" class="dialog-header">
               <span class="dialog-header__title">{{ title }}</span>
-              <button class="button" @click="closeDialog">
-                <Icon><Close /></Icon>
-              </button>
             </div>
+
+            <button class="button" @click="closeDialog">
+              <Icon><Close /></Icon>
+            </button>
 
             <div class="dialog-body">
               <!-- <el-scrollbar view-style="padding: 10px 40px;"> -->
@@ -83,29 +88,31 @@ const closeDialog = () => {
         line-height: 24px;
         font-size: 18px;
       }
-      .button {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        width: 50px;
-        height: 40px;
-        border-radius: 5px;
-        background: transparent;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.25s;
-        &:hover {
-          background-color: var(--w-alpha-5);
-        }
+    }
 
-        .icon {
-          font-size: 18px;
-        }
+    .button {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 50px;
+      height: 40px;
+      border-radius: 5px;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.25s;
+      z-index: 1;
+      &:hover {
+        background-color: var(--w-alpha-5);
+      }
+
+      .icon {
+        font-size: 18px;
       }
     }
 

@@ -6,6 +6,8 @@ import useColorMeta from '@/hooks/useColorMeta'
 import useLayoutStore from '@/stores/layout'
 import { GridLayout, GridItem } from '@/components/Grid'
 import Radio from '@/components/Radio.vue'
+import Widget from '@/widget/index.vue'
+
 const wallpaperStore = useWallpaperStore()
 const layoutStore = useLayoutStore()
 
@@ -87,6 +89,10 @@ const AsyncWallpaper = defineAsyncComponent(() => import('@/components/Wallpaper
 const AsyncWidgetList = defineAsyncComponent(() => import('@/components/WidgetList.vue'))
 
 const dragging = ref(false)
+// 删除组件
+const delWidget = (item: any) => {
+  layoutStore.deleteWidget(item)
+}
 </script>
 
 <template>
@@ -150,7 +156,16 @@ const dragging = ref(false)
         :editing="layoutStore.editing"
         v-model:dragging="dragging"
       >
-        <GridItem v-for="item in layoutStore.data" :key="item.id" :id="item.id">333</GridItem>
+        <GridItem v-for="item in layoutStore.data" :key="item.id" :id="item.id">
+          <Widget
+            :size="item.size"
+            :type="layoutStore.editing ? 'delWidget' : ''"
+            scale
+            :componentKey="item.key"
+            :dragging="dragging"
+            @delWidget="delWidget(item)"
+          ></Widget>
+        </GridItem>
       </GridLayout>
     </main>
   </div>

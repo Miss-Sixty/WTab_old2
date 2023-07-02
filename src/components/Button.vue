@@ -41,6 +41,10 @@ defineProps({
   border: 1px solid var(--w-button-border-color);
   transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 
+  & + .button {
+    margin-left: 10px;
+  }
+
   &:hover {
     border-color: var(--w-button-hover-border-color);
     background-color: var(--w-button-hover-bg-color);

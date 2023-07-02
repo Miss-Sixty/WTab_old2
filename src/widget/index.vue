@@ -3,9 +3,11 @@ import { AddLine, SubtractLine } from '@/icons'
 import Icon from '@/components/Icon.vue'
 import useLayoutStore from '@/stores/layout'
 const layoutStore = useLayoutStore()
+import widgets from '@/widget'
+import { useChangeCase } from '@vueuse/integrations/useChangeCase'
 
 defineEmits(['addWidget', 'delWidget'])
-const porps = defineProps({
+const props = defineProps({
   // 只能是 addWidget 或 delWidget
   type: {
     type: String,
@@ -20,8 +22,8 @@ const porps = defineProps({
     validator: (val: string) => ['tiny', 'small', 'medium', 'large'].includes(val),
     required: true
   },
-  componentData: {
-    type: Object,
+  componentKey: {
+    type: String,
     required: true
   },
   dragging: {
@@ -39,7 +41,7 @@ const iconType: any = {
     bgColor: '#f56c6c'
   }
 }
-const iconData: any = computed(() => iconType?.[porps.type] || {})
+const iconData: any = computed(() => iconType?.[props.type] || {})
 </script>
 
 <template>
@@ -55,7 +57,12 @@ const iconData: any = computed(() => iconType?.[porps.type] || {})
     <Icon @click="$emit(type)" v-show="type" :style="{ backgroundColor: iconData.bgColor }">
       <component :is="iconData.icon" />
     </Icon>
-    <component class="content__widget" :is="componentData" :dragging="dragging" :size="size" />
+    <component
+      class="content__widget"
+      :is="widgets[useChangeCase(componentKey, 'pascalCase').value].component"
+      :dragging="dragging"
+      :size="size"
+    />
   </div>
 </template>
 

@@ -23,7 +23,7 @@ const onClick = (item: any, size: string) => {
               type="addWidget"
               @addWidget="onClick(widget, size)"
               scale
-              :componentData="widget.component"
+              :componentKey="widget.key"
             ></Widget>
           </div>
         </div>

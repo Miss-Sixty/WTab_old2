@@ -98,6 +98,12 @@ export default defineStore(
 
       data.value.push({ id, key, size, w, h, position })
     }
+
+    // 删除小组件
+    function deleteWidget(item: any) {
+      const index = data.value.findIndex((i: any) => i.id === item.id)
+      data.value.splice(index, 1)
+    }
     return {
       editing,
       data,
@@ -105,7 +111,8 @@ export default defineStore(
       addPageWidget,
       colsNum,
       baseSize,
-      baseMargin
+      baseMargin,
+      deleteWidget
     }
   },
   {
