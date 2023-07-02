@@ -9,7 +9,6 @@ const settingsRef = ref()
 
 <template>
   <header class="header">
-    <button @click="layoutStore.editing = true">click</button>
     <Transition name="slide-fade">
       <button v-show="layoutStore.editing" @click="layoutStore.editing = false">完成编辑</button>
     </Transition>
