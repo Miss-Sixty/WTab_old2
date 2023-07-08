@@ -3,7 +3,7 @@ import Dialog from '@/components/Dialog.vue'
 import Card from '@/components/Card.vue'
 import Cell from '@/components/Cell.vue'
 import Button from '@/components/Button.vue'
-import Radio from '@/components/Radio.vue'
+import { Radio, RadioGroup } from '@/components/Radio'
 import { useFileDialog, useColorMode } from '@vueuse/core'
 // import { Sunny, Moon } from '@element-plus/icons-vue'
 import useSettingsStore from '@/stores/settings'
@@ -58,14 +58,15 @@ const resetData = async () => {
     <Card title="主题">
       <Cell title="深色模式">
         <template #right>
-          <div class="radio-group">
-            <Radio v-model="store" label="auto" @click="store = 'auto'">跟随系统</Radio>
-            <Radio v-model="store" label="light" @click="store = 'light'">亮色主题</Radio>
-            <Radio v-model="store" label="dark" @click="store = 'dark'">暗色主题</Radio>
-          </div>
+          <RadioGroup v-model="store">
+            <Radio value="auto">跟随系统</Radio>
+            <Radio value="light">亮色主题</Radio>
+            <Radio value="dark">暗色主题</Radio>
+          </RadioGroup>
         </template>
       </Cell>
     </Card>
+    <Radio value="auto">跟随系统</Radio>
 
     <div class="reset">
       <div class="left">

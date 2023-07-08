@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { v4 as uuidv4 } from 'uuid'
-import { isEqual, max } from 'lodash-es'
+import { nanoid } from 'nanoid'
+import { isEqual } from 'lodash-es'
 import { useBreakpoints } from '@vueuse/core'
 
 export default defineStore(
@@ -87,7 +87,7 @@ export default defineStore(
 
     // 添加页面小组件
     function addPageWidget(key: string, size: string) {
-      const id = uuidv4()
+      const id = nanoid()
       const [w, h] = sizeType[size]
 
       const position: any = {}

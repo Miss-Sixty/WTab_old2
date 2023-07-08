@@ -52,10 +52,10 @@ import Icon from '@/components/Icon.vue'
     a {
       margin: 0 5px;
       transition: color 0.25s;
-      color: #fcbe10;
+      color: #fcc01d;
 
       &:hover {
-        color: rgba($color: #fcbe10, $alpha: 0.7);
+        color: rgba($color: #fcc01d, $alpha: 0.7);
       }
     }
   }

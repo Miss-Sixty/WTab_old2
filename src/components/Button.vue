@@ -53,25 +53,27 @@ defineProps({
   }
 
   &--primary {
-    --w-button-hover-text-color: #ffffff;
-    --w-button-bg-color: #409eff;
-    --w-button-border-color: #409eff;
-    --w-button-hover-border-color: #79bbff;
-    --w-button-hover-bg-color: #79bbff;
+    --w-button-text-color: #fff;
+    --w-button-bg-color: var(--w-color-primary);
+    --w-button-border-color: var(--w-color-primary);
+    --w-button-hover-border-color: var(--w-color-hover);
+    --w-button-hover-bg-color: var(--w-color-hover);
+    --w-button-hover-text-color: #fff;
   }
 
   &--danger {
-    --w-button-hover-text-color: #ffffff;
+    --w-button-text-color: #fff;
     --w-button-bg-color: #f56c6c;
     --w-button-border-color: #f56c6c;
     --w-button-hover-border-color: #fab6b6;
     --w-button-hover-bg-color: #fab6b6;
+    --w-button-hover-text-color: #fff;
     &.is-plain {
       --w-button-text-color: #f56c6c;
       --w-button-bg-color: #fef0f0;
       --w-button-border-color: #f56c6c;
       --w-button-hover-bg-color: #f56c6c;
-      --w-button-hover-text-color: #ffffff;
+      --w-button-hover-text-color: #fff;
     }
   }
 }
