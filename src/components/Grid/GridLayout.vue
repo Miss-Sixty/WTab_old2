@@ -28,8 +28,7 @@ const props = defineProps({
   editing: {
     type: Boolean,
     default: false
-  },
-
+  }
 })
 
 const gridRef = ref()
@@ -181,7 +180,7 @@ provide('gridLayoutContextKey', {
       :w="placeholderGridItem?.w || 0"
       :h="placeholderGridItem?.h || 0"
       id="-1"
-      style="border: 2px solid #ccc; border-radius: 14px"
+      style="border: 2px solid var(--w-color-primary); border-radius: 14px"
     />
     <slot></slot>
   </div>

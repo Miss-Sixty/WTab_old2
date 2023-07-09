@@ -2,6 +2,7 @@
 import useLayoutStore from '@/stores/layout'
 import { Settings } from '@/icons'
 import Icon from '@/components/Icon.vue'
+import Button from '@/components/Button.vue'
 const layoutStore = useLayoutStore()
 defineEmits(['clickSettings'])
 const settingsRef = ref()
@@ -10,7 +11,7 @@ const settingsRef = ref()
 <template>
   <header class="header">
     <Transition name="slide-fade">
-      <button v-show="layoutStore.editing" @click="layoutStore.editing = false">完成编辑</button>
+      <Button v-show="layoutStore.editing" @click="layoutStore.editing = false">完成编辑</Button>
     </Transition>
     <Icon
       ref="settingsRef"
@@ -40,7 +41,9 @@ const settingsRef = ref()
     margin-left: 16px;
     border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.25s, color 0.25s;
+    transition:
+      transform 0.25s,
+      color 0.25s;
     color: rgba(255, 255, 255, 0.35);
     font-size: 36px;
 
@@ -53,7 +56,9 @@ const settingsRef = ref()
 
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-  transition: transform 0.25s, opacity 0.25s;
+  transition:
+    transform 0.25s,
+    opacity 0.25s;
 }
 .slide-fade-enter-from,
 .slide-fade-leave-to {

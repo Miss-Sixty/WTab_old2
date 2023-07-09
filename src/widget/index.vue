@@ -42,6 +42,11 @@ const iconType: any = {
   }
 }
 const iconData: any = computed(() => iconType?.[props.type] || {})
+
+const component = computed(() => {
+  const componentName = useChangeCase(props.componentKey, 'pascalCase').value
+  return widgets[componentName]
+})
 </script>
 
 <template>
@@ -59,7 +64,7 @@ const iconData: any = computed(() => iconType?.[props.type] || {})
     </Icon>
     <component
       class="content__widget"
-      :is="widgets[useChangeCase(componentKey, 'pascalCase').value].component"
+      :is="component.component"
       :dragging="dragging"
       :size="size"
     />

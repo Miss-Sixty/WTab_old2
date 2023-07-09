@@ -5,7 +5,6 @@ import useWallpaperStore from '@/stores/wallpaper'
 import useColorMeta from '@/hooks/useColorMeta'
 import useLayoutStore from '@/stores/layout'
 import { GridLayout, GridItem } from '@/components/Grid'
-import Image from '@/components/Image/index.vue'
 import Widget from '@/widget/index.vue'
 
 const wallpaperStore = useWallpaperStore()
@@ -26,18 +25,9 @@ watch(
   (url) => setThemeColor(url)
 )
 
+const delItemData = ref<any>({})
 const contextMenuRef = ref()
-const onContentMenuVisible = ({
-  ev,
-  type,
-  dom,
-  item
-}: {
-  ev: string
-  type: 'widget' | 'settings'
-  dom: any
-  item: any
-}) => {
+const onContentMenuVisible = ({ ev, type, dom, item }: any) => {
   let x = 0
   let y = 0
   if (type === 'settings') {
@@ -46,11 +36,11 @@ const onContentMenuVisible = ({
     y = rect.bottom
   }
 
-  // if (type === 'widget') {
-  //   widgetData.value = item
-  //   x = $event.clientX
-  //   y = $event.clientY
-  // }
+  if (type === 'widget') {
+    delItemData.value = item
+    x = ev.clientX
+    y = ev.clientY
+  }
 
   const reference = {
     getBoundingClientRect() {
@@ -98,7 +88,7 @@ const editWidget = (item: any) => {
   layoutStore.editing = true
 }
 
-const addWidgeChange = () => {
+const addWidge = () => {
   addWidgetVisible.value = true
 }
 </script>
@@ -148,7 +138,9 @@ const addWidgeChange = () => {
       @editWidget="editWidget"
       @about="aboutVisible = true"
       @wallpaper="wallpaperVisible = true"
-      @addWidget="addWidgeChange"
+      @addWidget="addWidge"
+      @delWidget="delWidget(delItemData)"
+      @close="delItemData = {}"
     ></AsyncContextmenu>
     <AsyncAbout v-model="aboutVisible"></AsyncAbout>
     <AsyncSettings v-model="settingsVisible"></AsyncSettings>
@@ -172,6 +164,7 @@ const addWidgeChange = () => {
             :componentKey="item.key"
             :dragging="dragging"
             @delWidget="delWidget(item)"
+            @contextmenu="onContentMenuVisible({ ev: $event, type: 'widget', dom: null, item })"
           ></Widget>
         </GridItem>
       </GridLayout>

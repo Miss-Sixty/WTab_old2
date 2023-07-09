@@ -4,7 +4,15 @@ import { onClickOutside } from '@vueuse/core'
 import { ArrowRightUp } from '@/icons'
 import Icon from '@/components/Icon.vue'
 
-const emit = defineEmits(['addWidget', 'settings', 'delWidget', 'about', 'wallpaper', 'editWidget'])
+const emit = defineEmits([
+  'addWidget',
+  'settings',
+  'delWidget',
+  'about',
+  'wallpaper',
+  'editWidget',
+  'close'
+])
 
 const contextmenuType = ref('')
 const styles = ref({})
@@ -43,11 +51,12 @@ const onFeedback = () => {
   window.open('https://support.qq.com/products/592621/')
 }
 
-onClickOutside(floatingRef, () => (popperVisible.value = false))
+onClickOutside(floatingRef, () => {
+  popperVisible.value = false
+  emit('close')
+})
 
 const show = (type: string, boundingClientRect: any) => {
-  console.log('show', type, boundingClientRect)
-
   contextmenuType.value = type
   onContextmenu(boundingClientRect)
 }
@@ -116,7 +125,9 @@ ul {
     padding: 6px 16px;
     border-radius: 5px;
     cursor: pointer;
-    transition: color 0.25s, background-color 0.25s;
+    transition:
+      color 0.25s,
+      background-color 0.25s;
     display: flex;
     align-items: center;
     .icon {
