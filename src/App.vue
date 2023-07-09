@@ -5,6 +5,7 @@ import useWallpaperStore from '@/stores/wallpaper'
 import useColorMeta from '@/hooks/useColorMeta'
 import useLayoutStore from '@/stores/layout'
 import { GridLayout, GridItem } from '@/components/Grid'
+import Image from '@/components/Image/index.vue'
 import Widget from '@/widget/index.vue'
 
 const wallpaperStore = useWallpaperStore()
@@ -155,6 +156,11 @@ const addWidgeChange = () => {
     <AsyncWidgetList v-model="addWidgetVisible"></AsyncWidgetList>
 
     <main class="main">
+      <Image
+        src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+        :width="100"
+        :height="100"
+      ></Image>
       <GridLayout
         v-model="layoutStore.data"
         :colsNum="layoutStore.colsNum"
@@ -206,7 +212,9 @@ const addWidgeChange = () => {
 
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-  transition: transform 0.25s, opacity 0.25s;
+  transition:
+    transform 0.25s,
+    opacity 0.25s;
 }
 
 .slide-fade-enter-from,

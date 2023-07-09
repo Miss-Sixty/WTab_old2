@@ -1,0 +1,105 @@
+<script setup lang="ts">
+const emit = defineEmits(['load', 'error'])
+const props = defineProps({
+  width: {
+    type: Number,
+    default: 0
+  },
+  height: {
+    type: Number,
+    default: 0
+  },
+  radius: {
+    type: Number,
+    default: 0
+  },
+  src: String
+})
+
+watch(
+  () => props.src,
+  () => {
+    error.value = false
+    loading.value = true
+  }
+)
+
+const styles = computed(() => {
+  const style: any = {
+    width: `${props.width}px`,
+    height: `${props.height}px`
+  }
+  if (props.radius) {
+    style.borderRadius = `${props.radius}px`
+  }
+
+  return style
+})
+
+const loading = ref(true)
+const error = ref(false)
+
+const onLoad = (event: Event) => {
+  if (!loading.value) return
+  loading.value = false
+  emit('load', event)
+}
+
+const onError = (event: Event) => {
+  error.value = true
+  loading.value = false
+  emit('error', event)
+}
+</script>
+
+<template>
+  <div class="image" :style="styles">
+    <!-- 图片 -->
+    <img class="image__img" :src="src" @load="onLoad" @error="onError" />
+
+    <Transition name="opacity">
+      <div class="image__placeholder" v-if="loading || error">
+        <!-- 加载中 -->
+        <slot name="loading" v-if="loading">加载中</slot>
+        <!-- 加载失败 -->
+        <slot name="error" v-if="error">加载失败</slot>
+      </div>
+    </Transition>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.image {
+  position: relative;
+  display: inline-block;
+  background-color: antiquewhite;
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  &__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--w-image-placeholder-text-color);
+    font-size: 14px;
+    background: var(--w-image-placeholder-background);
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.opacity-enter-active,
+.opacity-leave-active {
+  transition: opacity 0.3s;
+}
+.opacity-enter-from,
+.opacity-leave-to {
+  opacity: 0;
+}
+</style>
