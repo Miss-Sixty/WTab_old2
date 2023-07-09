@@ -156,11 +156,6 @@ const addWidgeChange = () => {
     <AsyncWidgetList v-model="addWidgetVisible"></AsyncWidgetList>
 
     <main class="main">
-      <Image
-        src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-        :width="100"
-        :height="100"
-      ></Image>
       <GridLayout
         v-model="layoutStore.data"
         :colsNum="layoutStore.colsNum"

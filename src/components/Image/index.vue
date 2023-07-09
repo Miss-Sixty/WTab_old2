@@ -2,18 +2,22 @@
 const emit = defineEmits(['load', 'error'])
 const props = defineProps({
   width: {
-    type: Number,
-    default: 0
+    type: String,
+    default: ''
   },
   height: {
-    type: Number,
-    default: 0
+    type: String,
+    default: ''
   },
   radius: {
     type: Number,
     default: 0
   },
-  src: String
+  src: String,
+  scale: {
+    type: Boolean,
+    default: false
+  }
 })
 
 watch(
@@ -26,8 +30,8 @@ watch(
 
 const styles = computed(() => {
   const style: any = {
-    width: `${props.width}px`,
-    height: `${props.height}px`
+    width: props.width,
+    height: props.height
   }
   if (props.radius) {
     style.borderRadius = `${props.radius}px`
@@ -55,7 +59,13 @@ const onError = (event: Event) => {
 <template>
   <div class="image" :style="styles">
     <!-- 图片 -->
-    <img class="image__img" :src="src" @load="onLoad" @error="onError" />
+    <img
+      class="image__img"
+      :class="{ 'image__img-scale': scale }"
+      :src="src"
+      @load="onLoad"
+      @error="onError"
+    />
 
     <Transition name="opacity">
       <div class="image__placeholder" v-if="loading || error">
@@ -73,10 +83,17 @@ const onError = (event: Event) => {
   position: relative;
   display: inline-block;
   background-color: antiquewhite;
+
   &__img {
     display: block;
     width: 100%;
     height: 100%;
+    &-scale {
+      transition: transform 0.25s;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
   }
   &__placeholder {
     position: absolute;

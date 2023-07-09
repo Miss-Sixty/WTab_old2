@@ -66,10 +66,7 @@ const resetData = async () => {
         </template>
       </Cell>
     </Card>
-    <RadioGroup v-model="store">
-            <Radio value="auto">跟随系统</Radio>
-          
-          </RadioGroup>
+
     <div class="reset">
       <div class="left">
         <p>重置数据</p>

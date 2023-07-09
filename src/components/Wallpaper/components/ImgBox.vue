@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue'
+import Image from '@/components/Image/index.vue'
+
 import { Check } from '@/icons'
 defineProps({
   src: {
@@ -15,7 +17,7 @@ defineProps({
 
 <template>
   <div class="img-box">
-    <img class="img" :src="src" fit="cover" />
+    <Image scale width="100%" height="100%" class="img" :src="src" fit="cover" />
     <Icon v-if="active"><Check /></Icon>
   </div>
 </template>
@@ -29,15 +31,6 @@ defineProps({
   cursor: pointer;
   position: relative;
 
-  img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    transition: transform 0.25s;
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
   .icon {
     position: absolute;
     right: 0;
