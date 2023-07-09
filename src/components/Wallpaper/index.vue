@@ -52,7 +52,7 @@ const active = (type: 'my' | 'bing') => wallpaperStore.wallpaperType === type
             <p class="right__info">将您的图片设为壁纸。</p>
             <p class="right__tip">建议分辨率：1920×1080 或更高</p>
             <div>
-              <Button type="primary" @click="open">浏览…</Button>
+              <Button style="width:130px" type="primary" @click="open">浏览…</Button>
             </div>
           </div>
         </div>

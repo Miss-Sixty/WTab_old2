@@ -7,9 +7,11 @@ import { Radio, RadioGroup } from '@/components/Radio'
 import { useFileDialog, useColorMode } from '@vueuse/core'
 // import { Sunny, Moon } from '@element-plus/icons-vue'
 import useSettingsStore from '@/stores/settings'
+
 const settingsStore = useSettingsStore()
 const { open, onChange } = useFileDialog({
-  multiple: false
+  multiple: false,
+  accept: '.wtab'
 })
 
 /**

@@ -58,20 +58,18 @@ const onError = (event: Event) => {
 
 <template>
   <div class="image" :style="styles">
-    <!-- 图片 -->
     <img
       class="image__img"
       :class="{ 'image__img-scale': scale }"
       :src="src"
       @load="onLoad"
       @error="onError"
+      v-if="!loading && !error"
     />
 
     <Transition name="opacity">
       <div class="image__placeholder" v-if="loading || error">
-        <!-- 加载中 -->
         <slot name="loading" v-if="loading">加载中</slot>
-        <!-- 加载失败 -->
         <slot name="error" v-if="error">加载失败</slot>
       </div>
     </Transition>
@@ -82,7 +80,6 @@ const onError = (event: Event) => {
 .image {
   position: relative;
   display: inline-block;
-  background-color: antiquewhite;
 
   &__img {
     display: block;

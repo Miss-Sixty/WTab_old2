@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import id from './id'
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
   modelValue: {
@@ -33,7 +34,7 @@ const model = computed({
       :value="value"
       v-model="model"
       ref="radioRef"
-      name="1"
+      :name="id"
     />
     <span class="radio__inner">
       <slot>{{ value }}</slot>
@@ -82,7 +83,11 @@ const model = computed({
     margin: 0;
     position: relative;
     cursor: pointer;
-    transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    transition:
+      color 0.2s,
+      background-color 0.2s,
+      border-color 0.2s,
+      box-shadow 0.2s;
     user-select: none;
     padding: 8px 15px;
     border-radius: 0;

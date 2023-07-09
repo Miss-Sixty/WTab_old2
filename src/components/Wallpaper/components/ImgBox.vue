@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue'
 import Image from '@/components/Image/index.vue'
-
 import { Check } from '@/icons'
+defineEmits(['click'])
 defineProps({
   src: {
     type: String,
@@ -16,8 +16,18 @@ defineProps({
 </script>
 
 <template>
-  <div class="img-box">
-    <Image scale width="100%" height="100%" class="img" :src="src" fit="cover" />
+  <div class="img-box" @click="src && $emit('click')">
+    <Image
+      scale
+      width="100%"
+      height="100%"
+      class="img"
+      :src="src"
+      fit="cover"
+      :style="src ? 'cursor: pointer' : ''"
+    >
+      <template #error>{{ src ? '加载失败' : '请上传壁纸' }}</template>
+    </Image>
     <Icon v-if="active"><Check /></Icon>
   </div>
 </template>
@@ -28,7 +38,6 @@ defineProps({
   height: 90px;
   border-radius: 6px;
   overflow: hidden;
-  cursor: pointer;
   position: relative;
 
   .icon {

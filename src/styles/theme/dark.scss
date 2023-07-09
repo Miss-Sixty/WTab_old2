@@ -29,5 +29,5 @@ html.dark {
 
   // image
   --w-image-placeholder-text-color: #707070;
-  --w-image-placeholder-background: #000;
+  --w-image-placeholder-background: var(--w-alpha-5);
 }
