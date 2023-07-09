@@ -7,11 +7,24 @@ import { Radio, RadioGroup } from '@/components/Radio'
 import { useFileDialog, useColorMode } from '@vueuse/core'
 // import { Sunny, Moon } from '@element-plus/icons-vue'
 import useSettingsStore from '@/stores/settings'
+import useBookmarkStore from '@/stores/bookmark'
+const bookmarkStore = useBookmarkStore()
 
 const settingsStore = useSettingsStore()
 const { open, onChange } = useFileDialog({
   multiple: false,
   accept: '.wtab'
+})
+
+const { open: openBooks, onChange: onChangeBooks } = useFileDialog({
+  multiple: false,
+  accept: '.html'
+})
+
+onChangeBooks((files) => {
+  const [rawFile]: any = files || []
+
+  bookmarkStore.setBookmark(rawFile)
 })
 
 /**
@@ -53,6 +66,19 @@ const resetData = async () => {
       <Cell title="导入备份数据">
         <template #right>
           <Button @click="open()">导 入</Button>
+        </template>
+      </Cell>
+      <Cell title="导入浏览器书签">
+        <template #right>
+          <Button
+            v-show="bookmarkStore.data.length"
+            plain
+            type="danger"
+            @click="bookmarkStore.reset"
+          >
+            清空书签
+          </Button>
+          <Button @click="openBooks()">导 入</Button>
         </template>
       </Cell>
     </Card>

@@ -64,15 +64,13 @@ const onError = (event: Event) => {
       :src="src"
       @load="onLoad"
       @error="onError"
-      v-if="!loading && !error"
+      v-if="!error"
     />
 
-    <Transition name="opacity">
-      <div class="image__placeholder" v-if="loading || error">
-        <slot name="loading" v-if="loading">加载中</slot>
-        <slot name="error" v-if="error">加载失败</slot>
-      </div>
-    </Transition>
+    <div class="image__placeholder" v-if="loading || error">
+      <slot name="loading" v-if="loading">加载中</slot>
+      <slot name="error" v-if="error">加载失败</slot>
+    </div>
   </div>
 </template>
 
@@ -105,15 +103,7 @@ const onError = (event: Event) => {
     background: var(--w-image-placeholder-background);
     width: 100%;
     height: 100%;
+    user-select: none;
   }
-}
-
-.opacity-enter-active,
-.opacity-leave-active {
-  transition: opacity 0.3s;
-}
-.opacity-enter-from,
-.opacity-leave-to {
-  opacity: 0;
 }
 </style>
