@@ -158,6 +158,7 @@ const addWidge = () => {
       >
         <GridItem v-for="item in layoutStore.data" :key="item.id" :id="item.id">
           <Widget
+            :editing="layoutStore.editing"
             :size="item.size"
             :type="layoutStore.editing ? 'delWidget' : ''"
             scale

@@ -1,58 +1,62 @@
 // 代码来自 element-plus-icons https://github.com/element-plus/element-plus-icons/blob/main/packages/vue/build/generate.ts
 // 稍微调整了部分代码
-import { readFile, writeFile } from 'fs/promises'
+
+import path from 'node:path'
+import { readFile, writeFile } from 'node:fs/promises'
 import { emptyDir, ensureDir } from 'fs-extra'
+import consola from 'consola'
 import camelcase from 'camelcase'
 import glob from 'fast-glob'
-import { format } from 'prettier'
+import { type BuiltInParserName, format } from 'prettier'
 import chalk from 'chalk'
-import { dirname, resolve, basename } from 'path'
-import { fileURLToPath } from 'url'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 const pathComponents = resolve(dir, './vue')
-const pathSvg = resolve(dir, './svg')
+const pathSvgs = resolve(dir, './svg')
 
 const getSvgFiles = async () => {
-  return glob('*.svg', { cwd: pathSvg, absolute: true })
+  return glob('*.svg', { cwd: pathSvgs, absolute: true })
 }
 
-const getName = (file) => {
-  const filename = basename(file).replace('.svg', '')
+const getName = (file: string) => {
+  const filename = path.basename(file).replace('.svg', '')
   const componentName = camelcase(filename, { pascalCase: true })
   return {
     filename,
-    componentName,
+    componentName
   }
 }
 
-const formatCode = (code, parser = 'babel') =>
+const formatCode = (code: string, parser: BuiltInParserName = 'typescript') =>
   format(code, {
     parser,
     semi: false,
-    singleQuote: true,
+    singleQuote: true
   })
 
-const transformToVueComponent = async (file) => {
+const transformToVueComponent = async (file: string) => {
   const content = await readFile(file, 'utf-8')
   const { filename, componentName } = getName(file)
-  const vue = formatCode(
+  const vue = await formatCode(
     `
 <template>
 ${content}
 </template>
 <script lang="ts">
+import type { DefineComponent } from 'vue'
 export default ({
   name: "${componentName}",
-})
+}) as DefineComponent
 </script>`,
     'vue'
   )
-  writeFile(resolve(pathComponents, `${filename}.vue`), vue, 'utf-8')
+  writeFile(path.resolve(pathComponents, `${filename}.vue`), vue, 'utf-8')
 }
 
-const generateEntry = async (files) => {
-  const code = formatCode(
+const generateEntry = async (files: string[]) => {
+  const code = await formatCode(
     files
       .map((file) => {
         const { filename, componentName } = getName(file)
@@ -60,14 +64,16 @@ const generateEntry = async (files) => {
       })
       .join('\n')
   )
-  await writeFile(resolve(dir, './index.ts'), code, 'utf-8')
+  await writeFile(path.resolve(dir, 'index.ts'), code, 'utf-8')
 }
 
-console.info(chalk.blue('开始生成 Vue 组件代码'))
+consola.info(chalk.blue('generating vue components'))
 await ensureDir(pathComponents)
 await emptyDir(pathComponents)
 const files = await getSvgFiles()
-console.info(chalk.blue('开始生成 Vue 文件'))
+
+consola.info(chalk.blue('generating vue files'))
 await Promise.all(files.map((file) => transformToVueComponent(file)))
-console.info(chalk.blue('结束'))
+
+consola.info(chalk.blue('generating entry file'))
 await generateEntry(files)

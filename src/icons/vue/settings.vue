@@ -6,7 +6,8 @@
   </svg>
 </template>
 <script lang="ts">
+import type { DefineComponent } from 'vue'
 export default {
   name: 'Settings',
-}
+} as DefineComponent
 </script>

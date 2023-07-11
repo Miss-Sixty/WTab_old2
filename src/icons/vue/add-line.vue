@@ -4,7 +4,8 @@
   </svg>
 </template>
 <script lang="ts">
+import type { DefineComponent } from 'vue'
 export default {
   name: 'AddLine',
-}
+} as DefineComponent
 </script>

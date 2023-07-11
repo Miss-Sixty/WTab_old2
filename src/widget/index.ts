@@ -9,6 +9,12 @@ const list: any = {
     text: '我们历经沧桑，这样错过了一生最好的时光。',
     sizes: ['tiny', 'small', 'medium', 'large']
   },
+  externalLink: {
+    key: 'externalLink',
+    name: '外链',
+    text: '外链',
+    sizes: ['tiny', 'small',]
+  },
   // shop: {
   //   key: 'shop',
   //   name: '门店',
