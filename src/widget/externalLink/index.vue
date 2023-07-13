@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-// import Detail from './components/Detail.vue'
+import { EditBox } from '@/icons'
+import Detail from './components/Detail.vue'
 import Tiny from './components/Tiny.vue'
 // import Small from './components/Small.vue'
 // import Medium from './components/Medium.vue'
 // import Large from './components/Large.vue'
 import Icon from '@/components/Icon.vue'
+
 defineOptions({
   name: 'ExternalLink'
 })
 
-const porps = defineProps({
+const props = defineProps({
   dragging: Boolean,
   size: {
     type: String,
@@ -18,41 +19,59 @@ const porps = defineProps({
     validator: (val: string) => ['tiny', 'small', 'medium', 'large'].includes(val),
     required: true
   },
-  editing: Boolean
+  editing: Boolean,
+  data: Object
 })
 
 const clickChange = () => {
-  if (porps.dragging) return
-  const newWindow: any = window.open('_blank')
-  newWindow.location.href = 'https://www.gamersky.com/'
+  if (props.dragging) return
+  window.open(props.data?.url, '_blank')
 }
+
+const editChang = () => {
+  if (props.dragging) return
+  detailVisible.value = true
+}
+
+const detailVisible = ref(false)
 </script>
 
 <template>
-  <div class="widget" @click="clickChange">
-    <Icon class="edit" >
-      
-    </Icon>
+  <div class="widget">
+    <Icon class="edit" v-show="editing" @click="editChang"> <EditBox /> </Icon>
     <Tiny
       v-if="size === 'tiny'"
-      icon="https://infinityicon.infinitynewtab.com/user-share-icon/6ed5ee396463ecee368cad1dbd2309ba.png?imageMogr2/thumbnail/240x/format/webp/blur/1x0/quality/100|imageslim"
+      @click="clickChange"
+      :icon="data?.icon"
+      :name="data?.name"
+      :bgColor="data?.bgColor"
+      :src="data?.src"
     />
     <!--  <Small v-if="size === 'small'" :hitokoto="hitokoto" :from_who="from_who" />
     <Medium v-if="size === 'medium'" :hitokoto="hitokoto" :from_who="from_who" />
     <Large v-if="size === 'large'" :hitokoto="hitokoto" :from_who="from_who" />
-
-    <Detail
-      v-model="detailVisible"
-      :hitokoto="hitokoto"
-      :from_who="from_who"
-      :from="from"
-      @reset="init"
-    /> -->
+-->
+    <Detail v-model="detailVisible" :data="data" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .widget {
   cursor: pointer;
+  position: relative;
+
+  .edit {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--w-alpha-60);
+    z-index: 1;
+    font-size: 32px;
+    transition: transform 0.25s;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
 }
 </style>

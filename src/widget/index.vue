@@ -28,6 +28,10 @@ const props = defineProps({
   },
   dragging: {
     type: Boolean
+  },
+  editing: Boolean,
+  data: {
+    type: Object
   }
 })
 
@@ -64,9 +68,12 @@ const component = computed(() => {
     </Icon>
     <component
       class="content__widget"
+      :style="{ backgroundColor: data?.bgColor || 'var(--w-widget-bg-color)' }"
       :is="component.component"
       :dragging="dragging"
       :size="size"
+      :editing="editing"
+      :data="data"
     />
   </div>
 </template>
@@ -82,14 +89,14 @@ const component = computed(() => {
     height: 100%;
     border-radius: 14px;
     overflow: hidden;
-    background-color: var(--w-widget-bg-color);
+    // background-color: var(--w-widget-bg-color);
   }
 
   .icon {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 1;
+    z-index: 2;
     transition-duration: 0.25s;
     border-radius: 99px;
     color: #fff;

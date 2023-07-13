@@ -78,6 +78,7 @@ const onError = (event: Event) => {
 .image {
   position: relative;
   display: inline-block;
+  overflow: hidden;
 
   &__img {
     display: block;

@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <div class="card">
-    <h4>{{ title }}</h4>
+    <h4 v-if="title">{{ title }}</h4>
     <slot name="card">
       <div class="content">
         <slot />

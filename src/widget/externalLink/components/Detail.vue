@@ -1,91 +1,105 @@
 <script setup lang="ts">
-import dayjs from 'dayjs'
-import { useClipboard } from '@vueuse/core'
 import Dialog from '@/components/Dialog.vue'
 import Button from '@/components/Button.vue'
-
-defineEmits(['reset'])
-defineProps({
-  hitokoto: {
-    type: String,
-    default: ''
-  },
-  from_who: {
-    type: String,
-    default: ''
-  },
-  from: {
-    type: String,
-    default: ''
-  }
+import Card from '@/components/Card.vue'
+import Cell from '@/components/Cell.vue'
+import Image from '@/components/Image/index.vue'
+import useLayoutStore from '@/stores/layout'
+const layoutStore = useLayoutStore()
+const props = defineProps({
+  data: Object
 })
-const time = computed(() => ({
-  date: dayjs().format('YYYY年MM月DD日'),
-  week: dayjs().format('dddd')
-}))
 
-const { copy, isSupported } = useClipboard()
+const modelData = computed(
+  () => layoutStore.data.find((item: any) => item.id === props.data?.id) || {}
+)
 </script>
 <template>
-  <Dialog :header="false" :width="650" title="关于我们">
-    <div class="detail">
-      <div class="detail__top">
-        <h1 class="text">每日一言</h1>
-        <p class="date">{{ time.date }}</p>
-        <p class="week">{{ time.week }}</p>
-        <p class="hitokoto">{{ hitokoto }}</p>
-        <p class="from text" v-if="from">《{{ from }}》</p>
-        <p class="from_who text" v-if="from_who">—— {{ from_who }} ——</p>
-      </div>
-      <div class="detail__btn">
-        <Button @click="$emit('reset')">刷新一言</Button>
-        <Button v-if="isSupported" @click="copy(hitokoto)">复 制</Button>
-      </div>
+  <Dialog :width="650" title="图标设置">
+    <div class="img" :style="{ backgroundColor: modelData.bgColor }">
+      <span>{{ modelData.text }}</span>
+      <!-- <Image width="80px" height="80px" :radius="14" :src="data?.icon" /> -->
+    </div>
+    <Card class="card">
+      <Cell title="网站地址">
+        <template #right>
+          <input type="text" v-model="modelData.url" />
+        </template>
+      </Cell>
+      <Cell title="网站名称">
+        <template #right>
+          <input type="text" v-model="modelData.name" />
+        </template>
+      </Cell>
+      <Cell title="图标文字">
+        <template #right>
+          <input type="text" v-model="modelData.text" />
+        </template>
+      </Cell>
+      <Cell title="背景颜色">
+        <template #right>
+          <div class="color">
+            <div
+              class="color-item"
+              v-for="item in [
+                'rgba(255,71,52,1)',
+                'rgba(255,122,9,1)',
+                'rgba(255,207,12,1)',
+                'rgba(42,233,121,1)',
+                'rgba(44,214,223,1)',
+                'rgba(0,116,255,1)',
+                'rgba(109,9,255,1)',
+                'rgba(255,36,160,1)'
+              ]"
+              :key="item"
+              :style="{ color: item }"
+              @click="modelData.bgColor = item"
+            ></div>
+          </div>
+        </template>
+      </Cell>
+    </Card>
+
+    <div class="btn">
+      <Button>确 定</Button>
+      <Button>关 闭</Button>
     </div>
   </Dialog>
 </template>
 
 <style lang="scss">
-.detail {
-  position: relative;
-  text-align: center;
+.img {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto 20px;
+  height: 80px;
+  width: 80px;
+  border: 1px solid #ccc;
+  border-radius: 14px;
+}
 
-  &__top {
-    flex: 1;
-    .text {
-      opacity: 0.6;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 1;
-    }
-    h1 {
-      margin-top: 36px;
-    }
-    .date {
-      font-size: 22px;
-      margin: 50px 0 0;
-    }
-    .week {
-      font-size: 22px;
-      margin: 0;
-    }
-    .hitokoto {
-      font-size: 18px;
-      margin: 90px 0 0;
-    }
-    .from {
-      font-size: 16px;
-      margin-top: 40px;
-    }
-    .from_who {
-      font-size: 16px;
+.card {
+  input {
+    width: 100%;
+  }
+
+  .color {
+    display: flex;
+    justify-content: space-around;
+    &-item {
+      width: 18px;
+      height: 18px;
+      box-sizing: border-box;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: currentcolor;
     }
   }
-  &__btn {
-    margin-bottom: 80px;
-  }
+}
+
+.btn {
+  text-align: center;
+  margin-top: 40px;
 }
 </style>

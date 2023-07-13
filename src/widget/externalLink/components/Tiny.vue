@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import Image from '@/components/Image/index.vue'
 defineProps({
-  icon: String
+  icon: String,
+  name: String
 })
 </script>
 
 <template>
   <div class="content">
-    <Image :src="icon" />
+    <Image v-if="icon" height="100%" width="100%" :src="icon" />
+    <span v-else>{{ name }}</span>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 </style>

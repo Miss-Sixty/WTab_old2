@@ -16,7 +16,9 @@ const porps = defineProps({
     // 限制传入的值
     validator: (val: string) => ['tiny', 'small', 'medium', 'large'].includes(val),
     required: true
-  }
+  },
+  editing: Boolean,
+  data: Object
 })
 
 const hitokoto = ref('')

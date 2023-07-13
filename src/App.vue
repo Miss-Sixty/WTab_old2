@@ -166,6 +166,7 @@ const addWidge = () => {
             :dragging="dragging"
             @delWidget="delWidget(item)"
             @contextmenu="onContentMenuVisible({ ev: $event, type: 'widget', dom: null, item })"
+            :data="item"
           ></Widget>
         </GridItem>
       </GridLayout>
