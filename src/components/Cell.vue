@@ -37,7 +37,6 @@ const props = defineProps({
     justify-content: space-between;
 
     .right {
-      flex: 1;
       margin-left: 24px;
     }
   }

@@ -48,29 +48,26 @@ const colors = [
       <span>{{ modelData.name }}</span>
     </div>
     <Card class="card">
-      <Cell title="网站地址">
-        <template #right>
-          <input type="text" v-model="modelData.src" />
-        </template>
+      <Cell class="external-link-cell">
+        <span>网站地址</span>
+        <input type="text" v-model="modelData.src" />
       </Cell>
-      <Cell title="网站名称">
-        <template #right>
-          <input type="text" v-model="modelData.name" />
-        </template>
+      <Cell class="external-link-cell">
+        <span>网站名称</span>
+        <input type="text" v-model="modelData.name" />
       </Cell>
-      <Cell title="背景颜色">
-        <template #right>
-          <div class="color">
-            <div
-              class="color-item"
-              v-for="item in colors"
-              :key="item"
-              :style="{ color: item }"
-              :class="{ active: modelData.bgColor === item }"
-              @click="modelData.bgColor = item"
-            ></div>
-          </div>
-        </template>
+      <Cell class="external-link-cell">
+        <span>背景颜色</span>
+        <div class="color">
+          <div
+            class="color-item"
+            v-for="item in colors"
+            :key="item"
+            :style="{ color: item }"
+            :class="{ active: modelData.bgColor === item }"
+            @click="modelData.bgColor = item"
+          ></div>
+        </div>
       </Cell>
     </Card>
 
@@ -94,23 +91,32 @@ const colors = [
 }
 
 .card {
-  input {
-    width: 100%;
-  }
-
-  .color {
+  .external-link-cell {
     display: flex;
-    justify-content: space-between;
-    &-item {
-      width: 18px;
-      height: 18px;
-      box-sizing: border-box;
-      border-radius: 6px;
-      cursor: pointer;
-      background-color: currentcolor;
+    align-items: center;
+    height: 48px;
+    span {
+      margin-right: 40px;
+    }
+    input {
+      flex: 1;
+    }
 
-      &.active {
-        border: 2px solid #fff;
+    .color {
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+      &-item {
+        width: 18px;
+        height: 18px;
+        box-sizing: border-box;
+        border-radius: 6px;
+        cursor: pointer;
+        background-color: currentcolor;
+
+        &.active {
+          border: 2px solid #fff;
+        }
       }
     }
   }
