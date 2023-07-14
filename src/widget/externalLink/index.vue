@@ -2,9 +2,6 @@
 import { EditBox } from '@/icons'
 import Detail from './components/Detail.vue'
 import Tiny from './components/Tiny.vue'
-// import Small from './components/Small.vue'
-// import Medium from './components/Medium.vue'
-// import Large from './components/Large.vue'
 import Icon from '@/components/Icon.vue'
 
 defineOptions({
@@ -20,12 +17,15 @@ const props = defineProps({
     required: true
   },
   editing: Boolean,
-  data: Object
+  data: {
+    type: Object,
+    default: () => ({})
+  }
 })
 
 const clickChange = () => {
   if (props.dragging) return
-  window.open(props.data?.url, '_blank')
+  window.open(widgetData.value?.src, '_blank')
 }
 
 const editChang = () => {
@@ -34,6 +34,8 @@ const editChang = () => {
 }
 
 const detailVisible = ref(false)
+
+const widgetData = computed(() => props.data?.widgetData)
 </script>
 
 <template>
@@ -42,16 +44,18 @@ const detailVisible = ref(false)
     <Tiny
       v-if="size === 'tiny'"
       @click="clickChange"
-      :icon="data?.icon"
-      :name="data?.name"
-      :bgColor="data?.bgColor"
-      :src="data?.src"
+      :icon="widgetData?.icon"
+      :name="widgetData?.name"
+      :style="{ backgroundColor: widgetData?.bgColor }"
     />
-    <!--  <Small v-if="size === 'small'" :hitokoto="hitokoto" :from_who="from_who" />
-    <Medium v-if="size === 'medium'" :hitokoto="hitokoto" :from_who="from_who" />
-    <Large v-if="size === 'large'" :hitokoto="hitokoto" :from_who="from_who" />
--->
-    <Detail v-model="detailVisible" :data="data" />
+
+    <Detail
+      v-model="detailVisible"
+      :id="data.id"
+      :name="widgetData?.name"
+      :bgColor="widgetData?.bgColor"
+      :src="widgetData?.src"
+    />
   </div>
 </template>
 

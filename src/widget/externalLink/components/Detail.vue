@@ -3,27 +3,54 @@ import Dialog from '@/components/Dialog.vue'
 import Button from '@/components/Button.vue'
 import Card from '@/components/Card.vue'
 import Cell from '@/components/Cell.vue'
-import Image from '@/components/Image/index.vue'
 import useLayoutStore from '@/stores/layout'
 const layoutStore = useLayoutStore()
+const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
-  data: Object
+  id: String,
+  src: String,
+  name: String,
+  bgColor: String,
+  modelValue: Boolean
+})
+const modelValue = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val)
 })
 
-const modelData = computed(
-  () => layoutStore.data.find((item: any) => item.id === props.data?.id) || {}
-)
+const modelData: any = reactive({
+  src: props.src,
+  name: props.name,
+  bgColor: props.bgColor
+})
+
+const submit = () => {
+  const find = layoutStore.data.find((item: any) => item.id === props.id)
+  if (!find) return
+  find.widgetData = modelData
+  modelValue.value = false
+}
+
+const colors = [
+  '#FBAF5D',
+  '#82CA9C',
+  '#BD8CBF',
+  '#7DA7D9',
+  '#ACD373',
+  '#F5989D',
+  '#FF4734',
+  '#FF7A09'
+]
 </script>
 <template>
-  <Dialog :width="650" title="图标设置">
+  <Dialog v-model="modelValue" :width="650" title="图标设置">
     <div class="img" :style="{ backgroundColor: modelData.bgColor }">
-      <span>{{ modelData.text }}</span>
-      <!-- <Image width="80px" height="80px" :radius="14" :src="data?.icon" /> -->
+      <span>{{ modelData.name }}</span>
     </div>
     <Card class="card">
       <Cell title="网站地址">
         <template #right>
-          <input type="text" v-model="modelData.url" />
+          <input type="text" v-model="modelData.src" />
         </template>
       </Cell>
       <Cell title="网站名称">
@@ -31,28 +58,15 @@ const modelData = computed(
           <input type="text" v-model="modelData.name" />
         </template>
       </Cell>
-      <Cell title="图标文字">
-        <template #right>
-          <input type="text" v-model="modelData.text" />
-        </template>
-      </Cell>
       <Cell title="背景颜色">
         <template #right>
           <div class="color">
             <div
               class="color-item"
-              v-for="item in [
-                'rgba(255,71,52,1)',
-                'rgba(255,122,9,1)',
-                'rgba(255,207,12,1)',
-                'rgba(42,233,121,1)',
-                'rgba(44,214,223,1)',
-                'rgba(0,116,255,1)',
-                'rgba(109,9,255,1)',
-                'rgba(255,36,160,1)'
-              ]"
+              v-for="item in colors"
               :key="item"
               :style="{ color: item }"
+              :class="{ active: modelData.bgColor === item }"
               @click="modelData.bgColor = item"
             ></div>
           </div>
@@ -61,8 +75,8 @@ const modelData = computed(
     </Card>
 
     <div class="btn">
-      <Button>确 定</Button>
-      <Button>关 闭</Button>
+      <Button @click="modelValue = false">关 闭</Button>
+      <Button @click="submit">确 定</Button>
     </div>
   </Dialog>
 </template>
@@ -75,7 +89,7 @@ const modelData = computed(
   margin: 10px auto 20px;
   height: 80px;
   width: 80px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 14px;
 }
 
@@ -86,7 +100,7 @@ const modelData = computed(
 
   .color {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     &-item {
       width: 18px;
       height: 18px;
@@ -94,6 +108,10 @@ const modelData = computed(
       border-radius: 6px;
       cursor: pointer;
       background-color: currentcolor;
+
+      &.active {
+        border: 2px solid #fff;
+      }
     }
   }
 }
