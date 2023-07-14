@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
@@ -8,13 +8,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"
     />
     <title>WTab标签页</title>
-    <script>
-      ;(() => {
-        const e = localStorage.getItem('vueuse-color-scheme') || '',
-          a = window.matchMedia('(prefers-color-scheme: dark)').matches
-        ;(!e || e === 'auto' ? a : e === 'dark') && document.documentElement.classList.add('dark')
-      })()
-    </script>
+    <script src="/theme.js"></script>
   </head>
   <body>
     <div id="app"></div>
