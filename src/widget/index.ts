@@ -13,7 +13,7 @@ const list: any = {
     key: 'externalLink',
     name: '外链',
     text: '外链',
-    sizes: ['tiny', 'small',]
+    sizes: ['tiny', 'medium',]
   },
   // shop: {
   //   key: 'shop',

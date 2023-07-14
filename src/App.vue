@@ -11,7 +11,7 @@ const wallpaperStore = useWallpaperStore()
 const layoutStore = useLayoutStore()
 
 // 获取bing壁纸
-wallpaperStore.getBingImg()
+if (!wallpaperStore.bing.url) wallpaperStore.getBingImg()
 const bgImg = ref([0, 0, 0, 0])
 
 // 设置主题色

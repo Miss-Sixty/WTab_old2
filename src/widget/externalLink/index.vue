@@ -3,6 +3,7 @@ import { EditBox } from '@/icons'
 import Detail from './components/Detail.vue'
 import Tiny from './components/Tiny.vue'
 import Icon from '@/components/Icon.vue'
+// import Medium from './components/Medium.vue'
 
 defineOptions({
   name: 'ExternalLink'
@@ -48,6 +49,13 @@ const widgetData = computed(() => props.data?.widgetData)
       :name="widgetData?.name"
       :style="{ backgroundColor: widgetData?.bgColor }"
     />
+    <!-- <Medium
+      v-if="size === 'medium'"
+      @click="clickChange"
+      :icon="widgetData?.icon"
+      :name="widgetData?.name"
+      :style="{ backgroundColor: widgetData?.bgColor }"
+    /> -->
 
     <Detail
       v-model="detailVisible"
