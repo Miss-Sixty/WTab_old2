@@ -20,6 +20,7 @@
     "change-case": "^4.1.2",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.9",
+    "element-plus": "^2.3.8",
     "localforage": "^1.10.0",
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.2",
@@ -27,6 +28,7 @@
     "pinia-plugin-persistedstate": "^3.1.0",
     "rgbaster": "^2.1.1",
     "vue": "^3.3.4",
+    "vue-advanced-cropper": "^2.8.8",
     "zipson": "^0.2.12"
   },
   "devDependencies": {

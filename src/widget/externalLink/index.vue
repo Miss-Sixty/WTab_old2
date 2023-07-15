@@ -63,6 +63,7 @@ const widgetData = computed(() => props.data?.widgetData)
       :name="widgetData?.name"
       :bgColor="widgetData?.bgColor"
       :src="widgetData?.src"
+      :icon="widgetData?.icon"
     />
   </div>
 </template>
@@ -78,6 +79,7 @@ const widgetData = computed(() => props.data?.widgetData)
     width: 100%;
     height: 100%;
     background-color: var(--w-alpha-60);
+    color: var(--w-icon-text-color);
     z-index: 1;
     font-size: 32px;
     transition: transform 0.25s;

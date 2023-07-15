@@ -3,6 +3,7 @@ html.dark {
 
   --w-alpha-5: rgba(255, 255, 255, 0.05);
   --w-alpha-10: rgba(255, 255, 255, 0.1);
+  --w-alpha-60: rgba(255, 255, 255, 0.6);
 
   // 右键菜单背景色
   --w-contextmenu-bg-color: rgb(30, 30, 30);
@@ -30,4 +31,7 @@ html.dark {
   // image
   --w-image-placeholder-text-color: #707070;
   --w-image-placeholder-background: var(--w-alpha-5);
+
+  // icon修改
+  --w-icon-text-color: #000;
 }

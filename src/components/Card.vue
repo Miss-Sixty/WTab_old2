@@ -24,7 +24,7 @@ defineProps({
     margin: 8px 6px 6px 10px;
   }
   .content {
-    padding: 10px 20px;
+    padding: 20px;
     border-radius: 6px;
     background-color: var(--w-settings-bg-color);
   }
