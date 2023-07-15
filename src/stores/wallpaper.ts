@@ -23,7 +23,7 @@ export default defineStore(
 
     async function getBingImg() {
       try {
-        if (dayjs().diff(date.value, 'day') === 0 && bing.value.url) return
+        if (dayjs().diff(date.value, 'day') === 0) return
         const res = await fetch('https://bingw.jasonzeng.dev?format=json')
         const data = await res.json()
         bing.value.url_mini = `https://www.bing.com${data.urlbase}_320x240.jpg`
