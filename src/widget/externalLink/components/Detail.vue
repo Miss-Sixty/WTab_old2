@@ -63,10 +63,13 @@ const _icon = ref(props.icon)
 const submit = () => {
   const find = layoutStore.data.find((item: any) => item.id === props.id)
   if (!find) return
-  find.widgetData.src = _src.value
-  find.widgetData.name = _name.value
-  find.widgetData.bgColor = _bgColor.value
-  find.widgetData.icon = _icon.value
+  find.widgetData = {
+    ...find.widgetData,
+    src: _src.value,
+    name: _name.value,
+    bgColor: _bgColor.value,
+    icon: _icon.value
+  }
 
   modelValue.value = false
 }
