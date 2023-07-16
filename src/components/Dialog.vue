@@ -117,6 +117,7 @@ const closeDialog = () => {
 
       .icon {
         font-size: 18px;
+        color: #adadad;
       }
     }
 
