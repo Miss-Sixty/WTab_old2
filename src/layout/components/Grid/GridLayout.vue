@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useEventListener } from '@vueuse/core'
 import { cloneDeep } from 'lodash-es'
-import { GridItem } from '@/components/Grid'
+import GridItem from './GridItem.vue'
 const emit = defineEmits(['update:modelValue', 'update:dragging'])
 const props = defineProps({
   // 是否拖拽中

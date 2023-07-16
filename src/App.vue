@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useLayoutStore from '@/stores/layout'
-import { GridLayout, GridItem } from '@/components/Grid'
+import { GridLayout, GridItem } from '@/layout/components/Grid'
 import Widget from '@/widget/index.vue'
 import Wallpaper from '@/layout/components/Wallpaper.vue'
 const AsyncHeader = defineAsyncComponent(() => import('@/layout/components/Header.vue'))
