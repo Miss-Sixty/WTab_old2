@@ -25,7 +25,7 @@ watch(
   (url) => setThemeColor(url)
 )
 
-const delItemData = ref<any>({})
+const contextMenuWidgetData = ref<any>({})
 const contextMenuRef = ref()
 const onContentMenuVisible = ({ ev, type, dom, item }: any) => {
   let x = 0
@@ -37,7 +37,7 @@ const onContentMenuVisible = ({ ev, type, dom, item }: any) => {
   }
 
   if (type === 'widget') {
-    delItemData.value = item
+    contextMenuWidgetData.value = item
     x = ev.clientX
     y = ev.clientY
   }
@@ -86,6 +86,7 @@ const delWidget = (item: any) => {
 // 编辑组件
 const editWidget = (item: any) => {
   layoutStore.editing = true
+
 }
 
 const addWidge = () => {
@@ -135,12 +136,12 @@ const addWidge = () => {
     <AsyncContextmenu
       ref="contextMenuRef"
       @settings="settingsVisible = true"
-      @editWidget="editWidget"
+      @editWidget="editWidget(contextMenuWidgetData)"
       @about="aboutVisible = true"
       @wallpaper="wallpaperVisible = true"
       @addWidget="addWidge"
-      @delWidget="delWidget(delItemData)"
-      @close="delItemData = {}"
+      @delWidget="delWidget(contextMenuWidgetData)"
+      @close="contextMenuWidgetData = {}"
     ></AsyncContextmenu>
     <AsyncAbout v-model="aboutVisible"></AsyncAbout>
     <AsyncSettings v-model="settingsVisible"></AsyncSettings>

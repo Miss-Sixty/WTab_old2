@@ -14,11 +14,20 @@ declare module 'vue' {
     Contextmenu: typeof import('./src/components/Contextmenu.vue')['default']
     Dialog: typeof import('./src/components/Dialog.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCol: typeof import('element-plus/es')['ElCol']
+    ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
+    ElRow: typeof import('element-plus/es')['ElRow']
+    ElScroll: typeof import('element-plus/es')['ElScroll']
+    ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+    ElStatistic: typeof import('element-plus/es')['ElStatistic']
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTag: typeof import('element-plus/es')['ElTag']
     GridItem: typeof import('./src/components/Grid/GridItem.vue')['default']
     GridLayout: typeof import('./src/components/Grid/GridLayout.vue')['default']
     Group: typeof import('./src/components/Radio/group.vue')['default']
@@ -30,5 +39,8 @@ declare module 'vue' {
     Settings: typeof import('./src/components/Settings/index.vue')['default']
     Wallpaper: typeof import('./src/components/Wallpaper/index.vue')['default']
     WidgetList: typeof import('./src/components/WidgetList.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

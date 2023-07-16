@@ -13,14 +13,14 @@ const list: any = {
     key: 'externalLink',
     name: '外链',
     text: '外链',
-    sizes: ['tiny', 'medium',]
+    sizes: ['tiny', 'medium']
   },
-  // shop: {
-  //   key: 'shop',
-  //   name: '门店',
-  //   text: '汪汪门店',
-  //   sizes: ['small', 'medium']
-  // }
+  shop: {
+    key: 'shop',
+    name: '门店',
+    text: '汪汪门店',
+    sizes: ['small', 'medium']
+  }
 }
 
 const components: any = {}

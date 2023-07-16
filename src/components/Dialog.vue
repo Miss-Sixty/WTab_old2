@@ -39,11 +39,13 @@ const closeDialog = () => {
               <Icon><Close /></Icon>
             </button>
 
-            <div class="dialog-body">
-              <!-- <el-scrollbar view-style="padding: 10px 40px;"> -->
-              <slot></slot>
-              <!-- </el-scrollbar> -->
-            </div>
+            <el-scrollbar>
+              <div class="dialog-body">
+                <!-- <el-scrollbar view-style="padding: 10px 40px;"> -->
+                <slot></slot>
+                <!-- </el-scrollbar> -->
+              </div>
+            </el-scrollbar>
           </div>
         </transition>
       </div>
@@ -72,7 +74,9 @@ const closeDialog = () => {
     height: 640px;
     max-height: 100%;
     border-radius: 10px;
-    box-shadow: 0px 12px 32px 4px rgba(0, 0, 0, 0.04), 0px 8px 20px rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0px 12px 32px 4px rgba(0, 0, 0, 0.04),
+      0px 8px 20px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     background-color: var(--w-dialog-bg-color);

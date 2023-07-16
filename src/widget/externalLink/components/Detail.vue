@@ -299,7 +299,7 @@ watch(cropperVisible, () => {
       cursor: pointer;
       .icon {
         font-size: 36px;
-        color: #fff;
+        color: var(--w-upload-icon-color);
       }
     }
 
