@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import dayjs from 'dayjs'
+import localforage from 'localforage'
 
 export default defineStore(
   'six-wallpaper',
@@ -14,7 +15,7 @@ export default defineStore(
     const wallpaperType = ref('bing') as Ref<'my' | 'bing'>
     const date = ref()
 
-    const wallpaperColor = computed(() => {
+    const wallpaperUrl = computed(() => {
       if (wallpaperType.value === 'bing') {
         return bing.value.url_mini || bing.value.url || bing.value.url_hd
       }
@@ -35,7 +36,14 @@ export default defineStore(
       }
     }
 
-    return { myWallpaper, bing, wallpaperType, wallpaperColor, getBingImg, date }
+    async function getMyWallpaper() {
+      if (myWallpaper.value) return myWallpaper.value
+      const file: Blob | null = await localforage.getItem('wallpaper')
+      if (!file) return ''
+      myWallpaper.value = URL.createObjectURL(file)
+    }
+
+    return { myWallpaper, getMyWallpaper, bing, wallpaperType, wallpaperUrl, getBingImg, date }
   },
   {
     // 持久化

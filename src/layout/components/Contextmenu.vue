@@ -3,13 +3,13 @@ import { computePosition, flip, shift } from '@floating-ui/dom'
 import { onClickOutside } from '@vueuse/core'
 import { ArrowRightUp } from '@/icons'
 import Icon from '@/components/Icon.vue'
+const AsyncAbout = defineAsyncComponent(() => import('@/layout/components/About.vue'))
+const AsyncSettings = defineAsyncComponent(() => import('@/layout/components/Settings/index.vue'))
+const AsyncWallpaper = defineAsyncComponent(() => import('@/layout/components/Wallpaper/index.vue'))
+const AsyncWidgetList = defineAsyncComponent(() => import('@/layout/components/WidgetList.vue'))
 
 const emit = defineEmits([
-  'addWidget',
-  'settings',
   'delWidget',
-  'about',
-  'wallpaper',
   'editWidget',
   'close'
 ])
@@ -66,12 +66,25 @@ const show = (type: string, boundingClientRect: any) => {
 }
 defineExpose({ show })
 
-const onEmitChange = (
-  type: 'addWidget' | 'settings' | 'delWidget' | 'about' | 'wallpaper' | 'editWidget',
-  data?: any
-) => {
+const onEmitChange = (type: 'delWidget' | 'editWidget', data?: any) => {
   popperVisible.value = false
   emit(type, data)
+}
+
+const aboutVisible = ref(false)
+const settingsVisible = ref(false)
+const wallpaperVisible = ref(false)
+const addWidgetVisible = ref(false)
+
+const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => {
+  popperVisible.value = false
+  const typeRef = {
+    about: aboutVisible,
+    settings: settingsVisible,
+    wallpaper: wallpaperVisible,
+    addWidget: addWidgetVisible
+  }
+  typeRef[type].value = true
 }
 </script>
 
@@ -82,14 +95,14 @@ const onEmitChange = (
         <li
           v-show="contextmenuType === 'settings' || contextmenuType === 'desktop'"
           class="item"
-          @click="onEmitChange('settings')"
+          @click="clickChange('settings')"
         >
           常规设置
         </li>
         <li
           v-show="contextmenuType === 'settings' || contextmenuType === 'desktop'"
           class="item"
-          @click="onEmitChange('wallpaper')"
+          @click="clickChange('wallpaper')"
         >
           壁纸偏好
         </li>
@@ -98,7 +111,7 @@ const onEmitChange = (
           class="separator"
         ></li>
 
-        <li class="item" @click="onEmitChange('addWidget')">添加小组件</li>
+        <li class="item" @click="clickChange('addWidget')">添加小组件</li>
         <li class="item" @click="onEmitChange('editWidget')">编辑小组件</li>
         <li
           v-show="contextmenuType === 'widget'"
@@ -112,12 +125,17 @@ const onEmitChange = (
         <li v-show="contextmenuType === 'settings'" class="item" @click="onFeedback">
           <span>问题反馈</span> <Icon color="rgba(60, 60, 60, .33)"><ArrowRightUp /></Icon>
         </li>
-        <li v-show="contextmenuType === 'settings'" class="item" @click="onEmitChange('about')">
+        <li v-show="contextmenuType === 'settings'" class="item" @click="clickChange('about')">
           关于
         </li>
       </ul>
     </Transition>
   </Teleport>
+
+  <AsyncAbout v-model="aboutVisible"></AsyncAbout>
+  <AsyncSettings v-model="settingsVisible"></AsyncSettings>
+  <AsyncWallpaper v-model="wallpaperVisible"></AsyncWallpaper>
+  <AsyncWidgetList v-model="addWidgetVisible"></AsyncWidgetList>
 </template>
 
 <style lang="scss" scoped>
