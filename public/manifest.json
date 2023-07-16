@@ -1,11 +1,11 @@
 {
-  "name": "wtab",
+  "name": "WTab",
   "description": "WTab标签页的浏览器插件",
   "version": "0.0.1",
   "manifest_version": 3,
-  "icons": {
-    "48": "/favicon.ico"
-  },
+  "start_url": "index.html",
+  "display":"standalone",
+  "icons": [{ "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }],
   "chrome_url_overrides": {
     "newtab": "index.html"
   }
