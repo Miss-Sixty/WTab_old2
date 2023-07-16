@@ -25,6 +25,10 @@ const onContextmenu = async (boundingClientRect: any) => {
       placement: 'right-start',
       transformOrigin: '0% 0%'
     },
+    desktop: {
+      placement: 'right-start',
+      transformOrigin: '0% 0%'
+    },
     settings: {
       placement: 'bottom-end',
       transformOrigin: '90% 0%'
@@ -75,13 +79,24 @@ const onEmitChange = (
   <Teleport to="body">
     <Transition name="fade">
       <ul v-show="popperVisible" ref="floatingRef" :style="styles">
-        <li v-show="contextmenuType === 'settings'" class="item" @click="onEmitChange('settings')">
+        <li
+          v-show="contextmenuType === 'settings' || contextmenuType === 'desktop'"
+          class="item"
+          @click="onEmitChange('settings')"
+        >
           常规设置
         </li>
-        <li v-show="contextmenuType === 'settings'" class="item" @click="onEmitChange('wallpaper')">
+        <li
+          v-show="contextmenuType === 'settings' || contextmenuType === 'desktop'"
+          class="item"
+          @click="onEmitChange('wallpaper')"
+        >
           壁纸偏好
         </li>
-        <li v-show="contextmenuType === 'settings'" class="separator"></li>
+        <li
+          v-show="contextmenuType === 'settings' || contextmenuType === 'desktop'"
+          class="separator"
+        ></li>
 
         <li class="item" @click="onEmitChange('addWidget')">添加小组件</li>
         <li class="item" @click="onEmitChange('editWidget')">编辑小组件</li>

@@ -6,6 +6,12 @@ import useColorMeta from '@/hooks/useColorMeta'
 import useLayoutStore from '@/stores/layout'
 import { GridLayout, GridItem } from '@/components/Grid'
 import Widget from '@/widget/index.vue'
+const AsyncHeader = defineAsyncComponent(() => import('@/components/Header.vue'))
+const AsyncContextmenu = defineAsyncComponent(() => import('@/components/Contextmenu.vue'))
+const AsyncAbout = defineAsyncComponent(() => import('@/components/About.vue'))
+const AsyncSettings = defineAsyncComponent(() => import('@/components/Settings/index.vue'))
+const AsyncWallpaper = defineAsyncComponent(() => import('@/components/Wallpaper/index.vue'))
+const AsyncWidgetList = defineAsyncComponent(() => import('@/components/WidgetList.vue'))
 
 const wallpaperStore = useWallpaperStore()
 const layoutStore = useLayoutStore()
@@ -42,6 +48,11 @@ const onContentMenuVisible = ({ ev, type, dom, item }: any) => {
     y = ev.clientY
   }
 
+  if (type === 'desktop') {
+    x = ev.clientX
+    y = ev.clientY
+  }
+
   const reference = {
     getBoundingClientRect() {
       return {
@@ -71,13 +82,6 @@ const settingsVisible = ref(false)
 const wallpaperVisible = ref(false)
 const addWidgetVisible = ref(false)
 
-const AsyncHeader = defineAsyncComponent(() => import('@/components/Header.vue'))
-const AsyncContextmenu = defineAsyncComponent(() => import('@/components/Contextmenu.vue'))
-const AsyncAbout = defineAsyncComponent(() => import('@/components/About.vue'))
-const AsyncSettings = defineAsyncComponent(() => import('@/components/Settings/index.vue'))
-const AsyncWallpaper = defineAsyncComponent(() => import('@/components/Wallpaper/index.vue'))
-const AsyncWidgetList = defineAsyncComponent(() => import('@/components/WidgetList.vue'))
-
 const dragging = ref(false)
 // 删除组件
 const delWidget = (item: any) => {
@@ -86,25 +90,22 @@ const delWidget = (item: any) => {
 // 编辑组件
 const editWidget = (item: any) => {
   layoutStore.editing = true
-
 }
 
 const addWidge = () => {
   addWidgetVisible.value = true
 }
+
+const homeRef = ref()
 </script>
 
 <template>
-  <div class="home" @contextmenu.prevent>
+  <div
+    class="home"
+    ref="homeRef"
+    @contextmenu.prevent="onContentMenuVisible({ ev: $event, type: 'desktop', dom: homeRef })"
+  >
     <TransitionGroup name="opacity">
-      <img
-        v-if="wallpaperStore.wallpaperType === 'my'"
-        @load="bgImg[3] = 1"
-        v-show="bgImg[3] === 1"
-        :src="wallpaperStore.myWallpaper"
-        class="background"
-      />
-
       <template v-if="wallpaperStore.wallpaperType === 'bing'">
         <img
           @load="bgImg[0] = 1"
@@ -129,6 +130,14 @@ const addWidge = () => {
           key="hd"
         />
       </template>
+
+      <img
+        v-else-if="wallpaperStore.wallpaperType === 'my' && wallpaperStore?.myWallpaper"
+        @load="bgImg[3] = 1"
+        v-show="bgImg[3] === 1"
+        :src="wallpaperStore.myWallpaper"
+        class="background"
+      />
     </TransitionGroup>
 
     <AsyncHeader @clickSettings="onContentMenuVisible"></AsyncHeader>
