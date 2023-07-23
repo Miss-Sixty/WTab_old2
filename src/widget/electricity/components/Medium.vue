@@ -5,6 +5,8 @@ import { useElementVisibility } from '@vueuse/core'
 import dayjs from 'dayjs'
 import Consumption from './Consumption.vue'
 import Charge from './Charge.vue'
+import { Refresh } from '@/icons'
+import Icon from '@/components/Icon.vue'
 
 const props = defineProps({
   dragging: Boolean
@@ -58,17 +60,24 @@ const openDialog = (domRef: any) => {
 <template>
   <div class="medium" ref="mediumRef">
     <el-row style="height: 100%" align="middle">
-      <el-col class="left" style="height: 100%" :span="17">
+      <el-col class="left" v-loading="loading" style="height: 100%" :span="17">
         <el-row style="height: 100%" align="middle">
           <el-col :span="24">
             <el-statistic
               :precision="3"
-              :title="`剩余电量 ${update}`"
               :value="elePrice"
               :value-style="{
                 color: elePrice <= 15 ? '#F56C6C' : ''
               }"
             >
+              <template #title>
+                <div style="display: inline-flex; align-items: center">
+                  剩余电量 {{ update }}
+                  <Icon style="margin-left: 4px; cursor: pointer" @click="init">
+                    <Refresh />
+                  </Icon>
+                </div>
+              </template>
               <template #suffix>
                 <span style="font-size: 12px">度</span>
               </template>

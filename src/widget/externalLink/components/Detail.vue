@@ -258,7 +258,7 @@ watch(cropperVisible, () => {
   </Dialog>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .title {
   margin-right: 40px;
   height: 40px;
