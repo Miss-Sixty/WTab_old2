@@ -60,6 +60,7 @@ const _name = ref(props.name)
 const _bgColor = ref(props.bgColor)
 const _icon = ref(props.icon)
 const onlineIcon = ref([])
+const onlineActiveIcon = ref([])
 
 const submit = () => {
   const find = layoutStore.data.find((item: any) => item.id === props.id)
@@ -182,7 +183,10 @@ watch(cropperVisible, () => {
             <el-radio-button label="local">本地上传</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="选择图标">
+        <el-form-item
+          label="选择图标"
+          :style="{ marginBottom: _iconType === 'online' ? 0 : '18px' }"
+        >
           <div
             v-if="_iconType === 'pure'"
             class="icon"
@@ -191,16 +195,22 @@ watch(cropperVisible, () => {
           >
             <span :style="nameFontSize">{{ _name }}</span>
           </div>
-          <template v-if="_iconType === 'online'">
+          <div class="onlineList" v-if="_iconType === 'online'">
             <img
               class="icon online"
-              :class="{ active: _iconType === 'online' }"
+              :class="{ active: onlineActiveIcon === item }"
               v-for="item in onlineIcon"
               :key="item"
               :src="item"
               referrerpolicy="no-referrer"
+              @click="
+                () => {
+                  _icon = item
+                  onlineActiveIcon = item
+                }
+              "
             />
-          </template>
+          </div>
           <div
             v-if="_iconType === 'local'"
             class="icon local"
@@ -279,62 +289,66 @@ watch(cropperVisible, () => {
   flex: 1;
 }
 
-.icon {
-  height: 80px;
-  width: 80px;
-  border-radius: 14px;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &.active {
-    border: 2px solid #ccc;
-  }
-
-  &.online {
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
-  &.local {
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: relative;
-
-    .add {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-      .icon {
-        font-size: 36px;
-        color: var(--w-upload-icon-color);
-      }
+.onlineList {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  .icon {
+    height: 80px;
+    width: 80px;
+    border-radius: 14px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.active {
+      border: 2px solid #ccc;
     }
 
-    .edit-or-del {
-      display: none;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      opacity: 0;
-      transition: all 0.3s;
-      border-radius: 14px;
-      .icon {
-        font-size: 24px;
-        color: #fff;
+    &.online {
+      cursor: pointer;
+    }
+
+    &.local {
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: relative;
+
+      .add {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
         cursor: pointer;
+        .icon {
+          font-size: 36px;
+          color: var(--w-upload-icon-color);
+        }
       }
-      &:hover {
-        opacity: 1;
+
+      .edit-or-del {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        opacity: 0;
+        transition: all 0.3s;
+        border-radius: 14px;
+        .icon {
+          font-size: 24px;
+          color: #fff;
+          cursor: pointer;
+        }
+        &:hover {
+          opacity: 1;
+        }
       }
     }
   }

@@ -31,7 +31,7 @@ const closeDialog = () => {
 <template>
   <Teleport to="body">
     <Transition name="fade">
-      <div v-show="modelValue" class="overlay-dialog" :class="class" @contextmenu.prevent>
+      <div v-show="modelValue" class="overlay-dialog" @contextmenu.prevent>
         <transition name="zoom">
           <div v-show="modelValue" class="dialog" :style="{ width: width + 'px' }">
             <div v-if="header" class="dialog-header">
