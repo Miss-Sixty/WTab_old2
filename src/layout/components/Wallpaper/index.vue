@@ -52,7 +52,7 @@ const active = (type: 'my' | 'bing') => wallpaperStore.wallpaperType === type
             <p class="right__info">将您的图片设为壁纸。</p>
             <p class="right__tip">建议分辨率：1920×1080 或更高</p>
             <div>
-              <Button style="width:130px" type="primary" @click="open">浏览…</Button>
+              <Button style="width: 130px" type="primary" @click="open">浏览…</Button>
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ const active = (type: 'my' | 'bing') => wallpaperStore.wallpaperType === type
           />
           <div class="right">
             <p class="right__info">来自 Bing 的壁纸，每日更新。</p>
-            <p class="right__tip">每天更新来自 Bing 的壁纸。</p>
+            <p class="right__tip">{{ wallpaperStore.bingCopyright }}</p>
             <div>
               <span style="vertical-align: middle">图像来源：</span>
               <a href="https://cn.bing.com" target="_blank">

@@ -34,12 +34,12 @@ defineProps({
 
 <style lang="scss" scoped>
 .img-box {
-  width: 135px;
-  height: 90px;
+  width: 145px;
+  height: 96px;
   border-radius: 6px;
   overflow: hidden;
   position: relative;
-
+  flex-shrink: 0;
   .icon {
     position: absolute;
     right: 0;

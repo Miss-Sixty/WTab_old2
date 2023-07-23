@@ -87,6 +87,7 @@ const closeDialog = () => {
       height: 52px;
       display: flex;
       align-items: center;
+      flex-shrink: 0;
 
       &__title {
         line-height: 24px;

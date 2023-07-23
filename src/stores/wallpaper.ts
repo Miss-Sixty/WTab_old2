@@ -7,6 +7,7 @@ export default defineStore(
   () => {
     // 自定义壁纸
     const myWallpaper = ref('')
+    const bingCopyright = ref('')
     const bing = ref({
       url_mini: '',
       url: '',
@@ -25,11 +26,12 @@ export default defineStore(
     async function getBingImg() {
       try {
         if (dayjs().diff(date.value, 'day') === 0 && bing.value.url) return
-        const res = await fetch('https://bingw.jasonzeng.dev?format=json')
-        const data = await res.json()
-        bing.value.url_mini = `https://www.bing.com${data.urlbase}_320x240.jpg`
-        bing.value.url = `https://www.bing.com${data.urlbase}_1920x1080.jpg`
-        bing.value.url_hd = `https://www.bing.com${data.urlbase}_UHD.jpg`
+        const res = await fetch('http://localhost:3500/admin/bing')
+        const { copyright, urlbase } = await res.json()
+        bingCopyright.value = copyright
+        bing.value.url_mini = `https://www.bing.com${urlbase}_320x240.jpg`
+        bing.value.url = `https://www.bing.com${urlbase}_1920x1080.jpg`
+        bing.value.url_hd = `https://www.bing.com${urlbase}_UHD.jpg`
         date.value = dayjs().format('YYYY-MM-DD')
       } catch (e) {
         console.log(e)
@@ -43,10 +45,19 @@ export default defineStore(
       myWallpaper.value = URL.createObjectURL(file)
     }
 
-    return { myWallpaper, getMyWallpaper, bing, wallpaperType, wallpaperUrl, getBingImg, date }
+    return {
+      myWallpaper,
+      getMyWallpaper,
+      bing,
+      wallpaperType,
+      wallpaperUrl,
+      getBingImg,
+      date,
+      bingCopyright
+    }
   },
   {
     // 持久化
-    persist: { paths: ['wallpaperType', 'myWallpaper', 'bing', 'date'] }
+    persist: { paths: ['wallpaperType', 'myWallpaper', 'bing', 'date', 'bingCopyright'] }
   }
 )
