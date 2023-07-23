@@ -1,5 +1,4 @@
 import { useChangeCase } from '@vueuse/integrations/useChangeCase'
-
 const componentsContext: any = import.meta.glob('./*/index.vue', { eager: true })
 
 const list: any = {
@@ -20,6 +19,12 @@ const list: any = {
     name: '门店',
     text: '汪汪门店',
     sizes: ['small', 'medium']
+  },
+  electricity: {
+    key: 'electricity',
+    name: '电费',
+    text: '电费相关',
+    sizes: ['medium']
   }
 }
 
