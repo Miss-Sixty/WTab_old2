@@ -59,6 +59,7 @@ const _src = ref(props.src)
 const _name = ref(props.name)
 const _bgColor = ref(props.bgColor)
 const _icon = ref(props.icon)
+const onlineIcon = ref([])
 
 const submit = () => {
   const find = layoutStore.data.find((item: any) => item.id === props.id)
@@ -109,9 +110,15 @@ watch(
   }
 )
 
-const iconTypeChange = (val: string) => {
-  if (val === 'online') _icon.value = `${_src.value}/favicon.ico`
-  if (val === 'local') _icon.value = ''
+const iconTypeChange = async (val: string) => {
+  // if (val === 'online') _icon.value = `${_src.value}/favicon.ico`
+  // if (val === 'local') _icon.value = ''
+  const res = await fetch(`http://localhost:3500/admin/logo?url=${_src.value}`)
+  const { data } = await res.json()
+  console.log(111, data)
+  // _icon.value = data.data
+  onlineIcon.value = data.logo
+  _name.value = data.name
 }
 
 const cropperRef = ref()
@@ -184,12 +191,16 @@ watch(cropperVisible, () => {
           >
             <span :style="nameFontSize">{{ _name }}</span>
           </div>
-          <div
-            v-if="_iconType === 'online'"
-            class="icon online"
-            :style="{ backgroundImage: `url(${_icon})` }"
-            :class="{ active: _iconType === 'online' }"
-          ></div>
+          <template v-if="_iconType === 'online'">
+            <img
+              class="icon online"
+              :class="{ active: _iconType === 'online' }"
+              v-for="item in onlineIcon"
+              :key="item"
+              :src="item"
+              referrerpolicy="no-referrer"
+            />
+          </template>
           <div
             v-if="_iconType === 'local'"
             class="icon local"

@@ -18,6 +18,9 @@ defineProps({
   header: {
     type: Boolean,
     default: true
+  },
+  bodyStyle: {
+    type: Object
   }
 })
 const closeDialog = () => {
@@ -28,7 +31,7 @@ const closeDialog = () => {
 <template>
   <Teleport to="body">
     <Transition name="fade">
-      <div v-show="modelValue" class="overlay-dialog" @contextmenu.prevent>
+      <div v-show="modelValue" class="overlay-dialog" :class="class" @contextmenu.prevent>
         <transition name="zoom">
           <div v-show="modelValue" class="dialog" :style="{ width: width + 'px' }">
             <div v-if="header" class="dialog-header">
@@ -40,7 +43,7 @@ const closeDialog = () => {
             </button>
 
             <el-scrollbar>
-              <div class="dialog-body">
+              <div class="dialog-body" :style="bodyStyle">
                 <!-- <el-scrollbar view-style="padding: 10px 40px;"> -->
                 <slot></slot>
                 <!-- </el-scrollbar> -->

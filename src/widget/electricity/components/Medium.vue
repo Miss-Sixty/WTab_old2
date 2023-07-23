@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { elemeterInfoApi } from '../api'
-import { useElementVisibility } from '@vueuse/core'
 import dayjs from 'dayjs'
 import Consumption from './Consumption.vue'
 import Charge from './Charge.vue'
@@ -33,13 +32,7 @@ const init = async () => {
     loading.value = false
   }
 }
-
-const mediumRef = ref()
-const targetIsVisible = useElementVisibility(mediumRef)
-
-watch(targetIsVisible, (val) => {
-  if (val) init()
-})
+init()
 
 const update = computed(() => dayjs(data.value.consume_amount_time).format('MM-DD HH:mm'))
 // 电费
@@ -58,7 +51,7 @@ const openDialog = (domRef: any) => {
 </script>
 
 <template>
-  <div class="medium" ref="mediumRef">
+  <div class="medium">
     <el-row style="height: 100%" align="middle">
       <el-col class="left" v-loading="loading" style="height: 100%" :span="17">
         <el-row style="height: 100%" align="middle">

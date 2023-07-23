@@ -83,6 +83,7 @@ const component = computed(() => {
   position: relative;
   transform: scale(1);
   transition: transform 0.25s;
+  border-radius: 14px;
 
   &__widget {
     width: 100%;
@@ -109,10 +110,10 @@ const component = computed(() => {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 500px) {
   .content.addWidget.scale {
     transform: scale(0.65);
-    .el-icon {
+    .icon {
       transform: translate(-25%, -25%) scale(1.5);
     }
   }
