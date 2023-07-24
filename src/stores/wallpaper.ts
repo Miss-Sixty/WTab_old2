@@ -26,8 +26,9 @@ export default defineStore(
     async function getBingImg() {
       try {
         if (dayjs().diff(date.value, 'day') === 0 && bing.value.url) return
-        const res = await fetch('http://localhost:3500/admin/bing')
+        const res = await fetch('/admin/bing')
         const { copyright, urlbase } = await res.json()
+        if (!urlbase) return
         bingCopyright.value = copyright
         bing.value.url_mini = `https://www.bing.com${urlbase}_320x240.jpg`
         bing.value.url = `https://www.bing.com${urlbase}_1920x1080.jpg`

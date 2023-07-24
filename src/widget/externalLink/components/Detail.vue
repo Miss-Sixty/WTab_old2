@@ -114,7 +114,7 @@ watch(
 const iconTypeChange = async (val: string) => {
   // if (val === 'online') _icon.value = `${_src.value}/favicon.ico`
   // if (val === 'local') _icon.value = ''
-  const res = await fetch(`http://localhost:3500/admin/logo?url=${_src.value}`)
+  const res = await fetch(`/admin/logo?url=${_src.value}`)
   const { data } = await res.json()
   console.log(111, data)
   // _icon.value = data.data

@@ -8,7 +8,7 @@ const token =
 // 电费详情
 export function elemeterInfoApi() {
   return axios({
-    url: `http://localhost:3500/admin/elemeter/${uuid}`,
+    url: `/admin/elemeter/${uuid}`,
     headers: {
       'x-access-token': token
     }
@@ -18,7 +18,7 @@ export function elemeterInfoApi() {
 // 充值记录
 export function chargeRecordApi() {
   return axios({
-    url: `http://localhost:3500/admin/elemeter/charge_record/${uuid}`,
+    url: `/admin/elemeter/charge_record/${uuid}`,
     headers: {
       'x-access-token': token
     },
@@ -32,7 +32,7 @@ export function chargeRecordApi() {
 // 用电记录
 export function amountRecordApi() {
   return axios({
-    url: `http://localhost:3500/admin/elemeter/amount_record/${uuid}`,
+    url: `/admin/elemeter/amount_record/${uuid}`,
     headers: {
       'x-access-token': token
     },
