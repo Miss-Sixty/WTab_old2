@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { EditBox } from '@/icons'
-import Detail from './components/Detail.vue'
 import Tiny from './components/Tiny.vue'
 import Icon from '@/components/Icon.vue'
-// import Medium from './components/Medium.vue'
 
 defineOptions({
   name: 'ExternalLink'
@@ -11,60 +9,32 @@ defineOptions({
 
 const props = defineProps({
   dragging: Boolean,
-  size: {
-    type: String,
-    // 限制传入的值
-    validator: (val: string) => ['tiny', 'small', 'medium', 'large'].includes(val),
+  editing: Boolean,
+  itemData: {
+    type: Object,
     required: true
   },
-  editing: Boolean,
-  data: {
-    type: Object,
-    default: () => ({})
-  }
+  size: String
 })
 
 const clickChange = () => {
   if (props.dragging) return
-  window.open(widgetData.value?.src, '_blank')
+  window.open(props.itemData.widgetData?.src, '_blank')
 }
 
-const editChang = () => {
+const widgetData = computed(() => props.itemData.widgetData)
+
+const appContextKey: any = inject('appContextKey')
+const editWidget = () => {
   if (props.dragging) return
-  detailVisible.value = true
+  appContextKey.editWidget(props.itemData)
 }
-
-const detailVisible = ref(false)
-
-const widgetData = computed(() => props.data?.widgetData)
 </script>
 
 <template>
   <div class="widget">
-    <Icon class="edit" v-show="editing" @click="editChang"> <EditBox /> </Icon>
-    <Tiny
-      v-if="size === 'tiny'"
-      @click="clickChange"
-      :icon="widgetData?.icon"
-      :name="widgetData?.name"
-      :style="{ backgroundColor: widgetData?.bgColor }"
-    />
-    <!-- <Medium
-      v-if="size === 'medium'"
-      @click="clickChange"
-      :icon="widgetData?.icon"
-      :name="widgetData?.name"
-      :style="{ backgroundColor: widgetData?.bgColor }"
-    /> -->
-
-    <Detail
-      v-model="detailVisible"
-      :id="data.id"
-      :name="widgetData?.name"
-      :bgColor="widgetData?.bgColor"
-      :src="widgetData?.src"
-      :icon="widgetData?.icon"
-    />
+    <Icon class="edit" v-show="editing || !widgetData.src" @click="editWidget"> <EditBox /> </Icon>
+    <Tiny v-if="size === 'tiny'" @click="clickChange" :widgetData="widgetData" />
   </div>
 </template>
 

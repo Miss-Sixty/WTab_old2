@@ -86,7 +86,9 @@ export default defineStore(
     }
 
     // 添加页面小组件
-    function addPageWidget(key: string, size: string) {
+    function addPageWidget(item: any, size: string) {
+      console.log('23',item);
+      
       const id = nanoid()
       const [w, h] = sizeType[size]
 
@@ -96,7 +98,7 @@ export default defineStore(
         position[key] = [x, y]
       }
 
-      data.value.push({ id, key, size, w, h, position })
+      data.value.push({ id, key: item.key, size, w, h, position, widgetData: item.widgetData })
     }
 
     // 删除小组件

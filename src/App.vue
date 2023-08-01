@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import useLayoutStore from '@/stores/layout'
-import { GridLayout, GridItem } from '@/layout/components/Grid'
+import { GridLayout, GridItem } from '@/layout/Grid'
 import Widget from '@/widget/index.vue'
-import Wallpaper from '@/layout/components/Wallpaper.vue'
-const AsyncHeader = defineAsyncComponent(() => import('@/layout/components/Header.vue'))
-const AsyncContextmenu = defineAsyncComponent(() => import('@/layout/components/Contextmenu.vue'))
+import Wallpaper from '@/layout/Wallpaper.vue'
+import ExternalLinkDetail from '@/components/ExternalLinkDetail.vue'
+
+const AsyncHeader = defineAsyncComponent(() => import('@/layout/Header.vue'))
+const AsyncContextmenu = defineAsyncComponent(() => import('@/layout/Contextmenu.vue'))
 
 const layoutStore = useLayoutStore()
 
@@ -44,7 +46,6 @@ const onContentMenuVisible = ({ ev, type, dom, item }: any) => {
       }
     }
   }
-
   contextMenuRef.value.show(type, reference)
 }
 
@@ -52,13 +53,26 @@ const onContentMenuVisible = ({ ev, type, dom, item }: any) => {
 const delWidget = (item: any) => {
   layoutStore.deleteWidget(item)
 }
+
+const externalLinkDetailRef = ref()
 // 编辑组件
 const editWidget = (item: any) => {
+  console.log(222,item);
+  
+  externalLinkDetailRef.value.openDialog(item)
+}
+
+// 编辑组件模式
+const edit = () => {
   layoutStore.editing = true
 }
 
 const homeRef = ref()
 const dragging = ref(false)
+
+provide('appContextKey', {
+  editWidget
+})
 </script>
 
 <template>
@@ -67,16 +81,17 @@ const dragging = ref(false)
     ref="homeRef"
     @contextmenu.prevent="onContentMenuVisible({ ev: $event, type: 'desktop', dom: homeRef })"
   >
-    <Wallpaper></Wallpaper>
+    <Wallpaper />
 
-    <AsyncHeader @clickSettings="onContentMenuVisible"></AsyncHeader>
+    <AsyncHeader @clickSettings="onContentMenuVisible" />
 
     <AsyncContextmenu
       ref="contextMenuRef"
       @editWidget="editWidget(contextMenuWidgetData)"
       @delWidget="delWidget(contextMenuWidgetData)"
       @close="contextMenuWidgetData = {}"
-    ></AsyncContextmenu>
+      @edit="edit"
+    />
 
     <main class="main">
       <GridLayout
@@ -90,17 +105,18 @@ const dragging = ref(false)
         <GridItem v-for="item in layoutStore.data" :key="item.id" :id="item.id">
           <Widget
             :editing="layoutStore.editing"
+            :itemData="item"
             :size="item.size"
             :type="layoutStore.editing ? 'delWidget' : ''"
-            scale
-            :componentKey="item.key"
             :dragging="dragging"
             @delWidget="delWidget(item)"
-            @contextmenu="onContentMenuVisible({ ev: $event, type: 'widget', dom: null, item })"
-            :data="item"
-          ></Widget>
+            @contextmenu.prevent.stop="
+              onContentMenuVisible({ ev: $event, type: 'widget', dom: null, item })
+            "
+          />
         </GridItem>
       </GridLayout>
+      <ExternalLinkDetail ref="externalLinkDetailRef" />
     </main>
   </div>
 </template>

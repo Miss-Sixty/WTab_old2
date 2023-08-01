@@ -3,14 +3,15 @@ import { computePosition, flip, shift } from '@floating-ui/dom'
 import { onClickOutside } from '@vueuse/core'
 import { ArrowRightUp } from '@/icons'
 import Icon from '@/components/Icon.vue'
-const AsyncAbout = defineAsyncComponent(() => import('@/layout/components/About.vue'))
-const AsyncSettings = defineAsyncComponent(() => import('@/layout/components/Settings/index.vue'))
-const AsyncWallpaper = defineAsyncComponent(() => import('@/layout/components/Wallpaper/index.vue'))
-const AsyncWidgetList = defineAsyncComponent(() => import('@/layout/components/WidgetList.vue'))
+const AsyncAbout = defineAsyncComponent(() => import('@/layout/About.vue'))
+const AsyncSettings = defineAsyncComponent(() => import('@/layout/Settings/index.vue'))
+const AsyncWallpaper = defineAsyncComponent(() => import('@/layout/Wallpaper/index.vue'))
+const AsyncWidgetList = defineAsyncComponent(() => import('@/layout/WidgetList.vue'))
 
 const emit = defineEmits([
   'delWidget',
   'editWidget',
+  'edit',
   'close'
 ])
 
@@ -66,7 +67,7 @@ const show = (type: string, boundingClientRect: any) => {
 }
 defineExpose({ show })
 
-const onEmitChange = (type: 'delWidget' | 'editWidget', data?: any) => {
+const onEmitChange = (type: 'delWidget' | 'editWidget'|'edit', data?: any) => {
   popperVisible.value = false
   emit(type, data)
 }
@@ -91,7 +92,7 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
 <template>
   <Teleport to="body">
     <Transition name="fade">
-      <ul v-show="popperVisible" ref="floatingRef" :style="styles">
+      <ul @contextmenu.prevent v-show="popperVisible" ref="floatingRef" :style="styles">
         <li
           v-show="contextmenuType === 'settings' || contextmenuType === 'desktop'"
           class="item"
@@ -112,7 +113,14 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
         ></li>
 
         <li class="item" @click="clickChange('addWidget')">添加小组件</li>
-        <li class="item" @click="onEmitChange('editWidget')">编辑小组件</li>
+        <li v-show="contextmenuType !== 'widget'" class="item" @click="onEmitChange('edit')">编辑小组件</li>
+        <li
+          v-show="contextmenuType === 'widget'"
+          class="item"
+          @click="onEmitChange('editWidget')"
+        >
+          编辑此小组件
+        </li>
         <li
           v-show="contextmenuType === 'widget'"
           class="item delete"

@@ -8,30 +8,21 @@ import { useChangeCase } from '@vueuse/integrations/useChangeCase'
 
 defineEmits(['addWidget', 'delWidget'])
 const props = defineProps({
-  // 只能是 addWidget 或 delWidget
   type: {
     type: String,
-    validator: (val: string) => {
-      return ['addWidget', 'delWidget', ''].includes(val)
-    },
     default: 'addWidget'
   },
-  size: {
-    type: String,
-    // 限制传入的值
-    validator: (val: string) => ['tiny', 'small', 'medium', 'large'].includes(val),
-    required: true
-  },
-  componentKey: {
-    type: String,
+  itemData: {
+    type: Object,
     required: true
   },
   dragging: {
     type: Boolean
   },
   editing: Boolean,
-  data: {
-    type: Object
+  size: {
+    type: String,
+    default: 'tiny'
   }
 })
 
@@ -47,8 +38,8 @@ const iconType: any = {
 }
 const iconData: any = computed(() => iconType?.[props.type] || {})
 
-const component = computed(() => {
-  const componentName = useChangeCase(props.componentKey, 'pascalCase').value
+const widgetComponent = computed(() => {
+  const componentName = useChangeCase(props.itemData.key, 'pascalCase').value
   return widgets[componentName]
 })
 </script>
@@ -68,12 +59,11 @@ const component = computed(() => {
     </Icon>
     <component
       class="content__widget"
-      :style="{ backgroundColor: data?.bgColor || 'var(--w-widget-bg-color)' }"
-      :is="component.component"
+      :is="widgetComponent.component"
       :dragging="dragging"
-      :size="size"
       :editing="editing"
-      :data="data"
+      :itemData="itemData"
+      :size="size"
     />
   </div>
 </template>
@@ -84,13 +74,13 @@ const component = computed(() => {
   transform: scale(1);
   transition: transform 0.25s;
   border-radius: 14px;
+  background-color: var(--w-widget-bg-color);
 
   &__widget {
     width: 100%;
     height: 100%;
     border-radius: 14px;
     overflow: hidden;
-    // background-color: var(--w-widget-bg-color);
   }
 
   .icon {

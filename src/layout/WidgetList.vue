@@ -15,7 +15,7 @@ import Dialog from '@/components/Dialog.vue'
 const layoutStore = useLayoutStore()
 
 const onClick = (item: any, size: string) => {
-  layoutStore.addPageWidget(item.key, size)
+  layoutStore.addPageWidget(item, size)
 }
 </script>
 <template>
@@ -29,8 +29,7 @@ const onClick = (item: any, size: string) => {
                 :size="size"
                 type="addWidget"
                 @addWidget="onClick(widget, size)"
-                scale
-                :componentKey="widget.key"
+                :itemData="widget"
               />
             </el-carousel-item>
           </el-carousel>

@@ -10,5 +10,12 @@
   },
   "chrome_url_overrides": {
     "newtab": "index.html"
+  },
+  "browser_action": {
+    "default_title": "WTab",
+    "default_icon": {
+      "48": "/favicon.ico"
+    },
+    "default_popup": "index.html"
   }
 }

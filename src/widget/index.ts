@@ -12,7 +12,16 @@ const list: any = {
     key: 'externalLink',
     name: '外链',
     text: '外链',
-    sizes: ['tiny', 'medium']
+    sizes: ['tiny', 'medium'],
+    widgetData: {
+      src: '',
+      name: '',
+      bgColor: '',
+      iconType: 'online',
+      onlineIcon: '',
+      pureIcon: '',
+      localIcon: ''
+    }
   },
   shop: {
     key: 'shop',

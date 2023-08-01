@@ -27,6 +27,8 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ExternalLinkCropperDialog: typeof import('./src/components/ExternalLinkCropperDialog.vue')['default']
+    ExternalLinkDetail: typeof import('./src/components/ExternalLinkDetail.vue')['default']
     Group: typeof import('./src/components/Radio/group.vue')['default']
     Icon: typeof import('./src/components/Icon.vue')['default']
     Image: typeof import('./src/components/Image/index.vue')['default']

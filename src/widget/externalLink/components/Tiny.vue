@@ -1,25 +1,41 @@
 <script setup lang="ts">
 import Image from '@/components/Image/index.vue'
 const props = defineProps({
-  icon: String,
-  name: {
-    type: String,
-    default: ''
+  widgetData: {
+    type: Object,
+    required: true
   }
 })
 
 const nameFontSize = computed(() => {
-  const sizes = ['40px', '30px', '20px', '15px', '10px']
+  const sizes = ['35px', '26px', '20px', '15px']
   return {
-    fontSize: sizes[props.name?.length - 1]
+    fontSize: sizes[props.widgetData.name?.length - 1] || '12px'
   }
+})
+
+const imgUrl = computed(() => {
+  const type: any = {
+    pure: 'pureIcon',
+    online: 'onlineIcon'
+  }
+
+  return props.widgetData[type[props.widgetData.iconType]]
 })
 </script>
 
 <template>
-  <div class="content">
-    <Image v-if="icon" height="100%" width="100%" :src="icon" />
-    <span v-else :style="nameFontSize">{{ name }}</span>
+  <div
+    class="content"
+    :style="{ backgroundColor: widgetData.iconType === 'pure' ? widgetData.bgColor : '' }"
+  >
+    <Image
+      v-if="widgetData.iconType !== 'pure' && widgetData.src"
+      height="100%"
+      width="100%"
+      :src="imgUrl"
+    />
+    <span v-else :style="nameFontSize">{{ widgetData.name }}</span>
   </div>
 </template>
 
