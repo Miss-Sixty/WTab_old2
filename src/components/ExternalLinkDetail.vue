@@ -159,6 +159,7 @@ const getOnlineIcon = async () => {
     if (!src.value) return
     const res = await fetch(`/admin/logo?url=${src.value}`)
     const { data, code, message } = await res.json()
+    console.log(2222,data)
     if (code !== 0) return ElMessage.error(message)
     // const data = {
     //   name: '百度',
@@ -172,7 +173,7 @@ const getOnlineIcon = async () => {
     //     'https://infinitypro-img.infinitynewtab.com/custom-icon/9001ch0q92fpbyuc925iqvkao74p01.png'
     //   ]
     // }
-    onlineIconList.value = onlineIconList.value.concat(data.logo)
+    onlineIconList.value = onlineIconList.value.concat(data.icons)
     name.value = data.name
   } catch {
     onlineIconList.value = []
@@ -252,7 +253,6 @@ watch(
               class="icon online"
               :class="{ active: onlineIcon === item }"
               :src="item"
-              referrerpolicy="no-referrer"
               @click="onlineIcon = item"
             />
           </div>

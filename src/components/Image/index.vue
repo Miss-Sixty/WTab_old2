@@ -65,7 +65,6 @@ const onError = (event: Event) => {
       @load="onLoad"
       @error="onError"
       v-if="!error"
-      referrerpolicy="no-referrer"
     />
 
     <div class="image__placeholder" v-if="loading || error">
