@@ -159,7 +159,7 @@ const getOnlineIcon = async () => {
     if (!src.value) return
     const res = await fetch(`/admin/logo?url=${src.value}`)
     const { data, code, message } = await res.json()
-    console.log(2222,data)
+    console.log(2222, data)
     if (code !== 0) return ElMessage.error(message)
     // const data = {
     //   name: '百度',
@@ -224,13 +224,67 @@ watch(
     bgColor.value = '#FBAF5D'
   }
 )
+
+const formData = ref({
+  protocol: 'http://',
+  url: ''
+})
+const select = ref('http')
+
+// function isValidHttpUrl(
+//   rule: any,
+//   value: any,
+//   callback: any
+//   //  url: string
+// ) {
+//   if (!value) {
+//     return callback(new Error('请输入网站地址'))
+//   }
+//   let url
+//   try {
+//     console.log(33, formData.value.protocol + value)
+//     url = new URL(formData.value.protocol + value)
+//     console.log(22, url)
+//   } catch (_) {
+//     return callback(new Error('请输入正确的网站地址'))
+//   }
+
+//   if (url.protocol === 'http:' || url.protocol === 'https:') {
+//     return callback()
+//   } else {
+//     return callback(new Error('请输入正确的网站地址'))
+//   }
+// }
+
+function isValidHttpUrl(string) {
+  let url;
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+console.log(isValidHttpUrl('https://www.baidu'))
 </script>
 <template>
   <Dialog v-model="dialogVisible" :width="650" title="图标设置">
+    {{ formData }}
     <Card>
-      <el-form>
-        <el-form-item label="网站地址">
-          <el-input type="text" v-model="src" />
+      <el-form :model="formData">
+        <el-form-item
+          label="网站地址"
+          prop="url"
+          :rules="{ validator: isValidHttpUrl, trigger: 'change' }"
+        >
+          <el-input type="text" v-model="formData.url">
+            <template #prepend>
+              <el-select v-model="formData.protocol" style="width: 75px">
+                <el-option label="http" value="http://" />
+                <el-option label="https" value="https://" />
+              </el-select>
+            </template>
+          </el-input>
         </el-form-item>
         <el-form-item label="网站名称">
           <el-input type="text" v-model="name" />

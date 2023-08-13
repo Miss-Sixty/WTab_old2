@@ -15,7 +15,8 @@
   --w-widget-carousel-bg-color: rgb(208, 209, 212);
 
   // dialog 背景色
-  --w-dialog-bg-color: rgb(245, 245, 245);
+  --w-dialog-bg-color: #fff;
+  // --w-dialog-bg-color: rgb(245, 245, 245);
 
   // 设置 card 背景色
   --w-settings-bg-color: #fff;
@@ -35,6 +36,6 @@
   // icon修改
   --w-icon-text-color: #fff;
 
-    // 图标上传
-    --w-upload-icon-color: #ccc;
+  // 图标上传
+  --w-upload-icon-color: #ccc;
 }

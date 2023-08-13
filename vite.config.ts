@@ -61,7 +61,8 @@ export default defineConfig({
   server: {
     proxy: {
       // '/admin': 'http://nest.zhangxihe.com', //开发服务器
-      '/admin': 'http://localhost:3500' //后端本地
+      '/admin': 'http://192.168.50.87:3500' //后端本地
+      // '/admin': 'http://localhost:3500' //后端本地
     },
     host: true // 监听所有地址
   }

@@ -68,14 +68,13 @@ const closeDialog = () => {
 
   .dialog {
     position: absolute;
-    top: 0;
+    top: 15vh;
     left: 0;
     right: 0;
-    bottom: 0;
+    // bottom: 0;
     margin: auto;
     max-width: calc(100vw - 40px);
-    height: 640px;
-    max-height: 100%;
+    max-height: 650px;
     border-radius: 10px;
     box-shadow:
       0px 12px 32px 4px rgba(0, 0, 0, 0.04),
