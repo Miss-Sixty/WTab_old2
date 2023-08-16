@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: import.meta.env.VUE_APP_BASE_API,
+  // baseURL: import.meta.env.VITE_API_URL,
   timeout: 60 * 1000
   // withCredentials: true, // send cookies when cross-domain requests
 })

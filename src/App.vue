@@ -57,8 +57,6 @@ const delWidget = (item: any) => {
 const externalLinkDetailRef = ref()
 // 编辑组件
 const editWidget = (item: any) => {
-  console.log(222,item);
-  
   externalLinkDetailRef.value.openDialog(item)
 }
 
@@ -125,12 +123,16 @@ provide('appContextKey', {
 .home {
   height: 100%;
   user-select: none;
-
   .main {
     overflow: hidden;
     overflow-y: auto;
     padding: 5vh 0;
     height: 100%;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
+    }
   }
 }
 

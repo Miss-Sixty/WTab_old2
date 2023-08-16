@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 列表
 export const getQrCodeApi = async (nanoid: string) => {
   const res = await request({
-    url: '/admin/qrCode',
+    url: `${import.meta.env.VITE_API_URL}/admin/qrCode`,
     params: {
       nanoid
     }
@@ -13,7 +13,7 @@ export const getQrCodeApi = async (nanoid: string) => {
 // 列表
 export const loopGetWxStateApi = async (nanoid: string) => {
   const res = await request({
-    url: '/admin/loopGetWxState',
+    url: `${import.meta.env.VITE_API_URL}/admin/loopGetWxState`,
     params: {
       nanoid
     }

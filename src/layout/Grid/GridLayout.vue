@@ -172,7 +172,11 @@ provide('gridLayoutContextKey', {
 </script>
 
 <template>
-  <div ref="gridRef" class="grid" :style="{ height: heightStyle, width: widthStyle }">
+  <div
+    ref="gridRef"
+    class="grid"
+    :style="{ height: heightStyle, width: widthStyle, touchAction: editing ? 'none' : 'auto' }"
+  >
     <GridItem
       v-show="props.dragging"
       :x="placeholderGridItem?.position?.[props.colsNum]?.[0] || 0"
