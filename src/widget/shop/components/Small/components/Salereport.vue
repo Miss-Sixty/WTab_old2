@@ -2,6 +2,8 @@
 import { reactive, ref, nextTick } from 'vue'
 import { salereportApi } from '../../../api'
 import userList from '../../../userList'
+import useLayoutStore from '@/stores/layout'
+const layoutStore = useLayoutStore()
 
 const state = reactive({
   dialogVisible: false,
@@ -47,8 +49,8 @@ defineExpose({ openDialog })
   <el-drawer
     v-model="state.dialogVisible"
     append-to-body
-    :with-header="false"
-    :size="500"
+    :with-header="layoutStore.colsNum < 5"
+    :size="layoutStore.colsNum < 5 ? '100%' : 500"
     @closed="closedChange"
   >
     <div class="content">

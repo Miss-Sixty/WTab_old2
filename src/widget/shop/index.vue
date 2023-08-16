@@ -19,7 +19,7 @@ defineProps({
 
 <template>
   <div class="widget">
-    <Medium v-if="size === 'medium'" />
+    <Medium :dragging="dragging" v-if="size === 'medium'" />
     <Small :dragging="dragging" v-if="size === 'small'" />
   </div>
 </template>

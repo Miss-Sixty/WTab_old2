@@ -3,6 +3,12 @@ import { ref } from 'vue'
 import { operinfoApi } from '../api'
 import userList from '../userList'
 import { useElementVisibility } from '@vueuse/core'
+import { Refresh } from '@/icons'
+import Icon from '@/components/Icon.vue'
+
+const props = defineProps({
+  dragging: Boolean
+})
 
 const loading = ref(false)
 const rankingInfo = ref({
@@ -20,6 +26,7 @@ const rankingInfo = ref({
 
 // 个人排名信息
 const init = async (name: string) => {
+  if (props.dragging) return
   loading.value = true
   try {
     const res = await operinfoApi(userList[name].operaterid)
@@ -39,7 +46,10 @@ watch(targetIsVisible, (val) => {
 </script>
 
 <template>
-  <div class="medium" ref="mediumRef">
+  <div class="medium" ref="mediumRef" v-loading="loading">
+    <Icon class="icon" @click="init('xiaohong')">
+      <Refresh />
+    </Icon>
     <el-row :gutter="20" align="middle">
       <el-col :span="8">
         <el-statistic title="今日排名" :value="+rankingInfo.ranking" />
@@ -78,6 +88,17 @@ watch(targetIsVisible, (val) => {
 .medium {
   padding: 10px 16px;
   height: 100%;
+  position: relative;
+
+  .icon {
+    cursor: pointer;
+    position: absolute;
+    padding: 6px;
+    right: 0;
+    top: 0;
+    box-sizing: content-box;
+    z-index: 1;
+  }
 }
 
 .el-row {

@@ -3,6 +3,8 @@ import { nextTick, reactive, ref } from 'vue'
 import { operrankinginfoApi } from '../../../api'
 import dayjs from 'dayjs'
 import userList from '../../../userList'
+import useLayoutStore from '@/stores/layout'
+const layoutStore = useLayoutStore()
 
 const state = reactive({
   dialogVisible: false,
@@ -71,8 +73,8 @@ defineExpose({ openDialog })
 <template>
   <el-drawer
     v-model="state.dialogVisible"
-    :with-header="false"
-    :size="500"
+    :with-header="layoutStore.colsNum < 5"
+    :size="layoutStore.colsNum < 5 ? '100%' : 500"
     title="排名"
     @closed="closedChange"
     append-to-body
