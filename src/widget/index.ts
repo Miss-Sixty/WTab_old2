@@ -19,6 +19,7 @@ const list: any = {
     text: '外链',
     sizes: ['tiny', 'medium'],
     widgetData: {
+      protocol: '',
       src: '',
       name: '',
       bgColor: '',

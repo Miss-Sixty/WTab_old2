@@ -1,6 +1,7 @@
 export { default as AccountCircleFill } from './vue/account-circle-fill.vue'
 export { default as AddLine } from './vue/add-line.vue'
 export { default as ArrowRightUp } from './vue/arrow-right-up.vue'
+export { default as CheckLine } from './vue/check-line.vue'
 export { default as Check } from './vue/check.vue'
 export { default as CheckboxCircleFill } from './vue/checkbox-circle-fill.vue'
 export { default as Close } from './vue/close.vue'

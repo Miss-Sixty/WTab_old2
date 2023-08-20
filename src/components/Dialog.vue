@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Close } from '@/icons'
 import Icon from '@/components/Icon.vue'
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'closed'])
 defineProps({
   modelValue: {
     type: Boolean,
@@ -22,6 +22,9 @@ defineProps({
 })
 const closeDialog = () => {
   emit('update:modelValue', false)
+  setTimeout(() => {
+    emit('closed')
+  }, 250)
 }
 </script>
 
@@ -125,8 +128,7 @@ const closeDialog = () => {
       overflow: hidden;
 
       :deep(.dialog-body__scrollbar) {
-        padding: 10px 40px 10px;
-        height: 100%;
+        padding: 20px 40px;
       }
     }
   }

@@ -34,7 +34,8 @@
   --w-image-placeholder-background: var(--w-alpha-5);
 
   // icon修改
-  --w-icon-text-color: #fff;
+  --w-icon-bg-color: rgba(255, 255, 255, 0.7);
+  --w-icon-text-color: var(--el-text-color-regular);
 
   // 图标上传
   --w-upload-icon-color: #ccc;

@@ -6,6 +6,7 @@ import Consumption from './Consumption.vue'
 import Charge from './Charge.vue'
 import { Refresh } from '@/icons'
 import Icon from '@/components/Icon.vue'
+import { useElementVisibility } from '@vueuse/core'
 
 const props = defineProps({
   dragging: Boolean
@@ -32,7 +33,6 @@ const init = async () => {
     loading.value = false
   }
 }
-init()
 
 const update = computed(() => dayjs(data.value.consume_amount_time).format('MM-DD HH:mm'))
 // 电费
@@ -48,10 +48,16 @@ const openDialog = (domRef: any) => {
   if (props.dragging) return
   domRef.openDialog()
 }
+
+const domRef = ref()
+const targetIsVisible = useElementVisibility(domRef)
+watch(targetIsVisible, (val) => {
+  if (val && !data.value.consume_amount) init()
+})
 </script>
 
 <template>
-  <div class="medium">
+  <div class="medium" ref="domRef">
     <el-row style="height: 100%" align="middle">
       <el-col class="left" v-loading="loading" style="height: 100%" :span="17">
         <el-row style="height: 100%" align="middle">

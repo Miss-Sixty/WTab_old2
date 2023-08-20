@@ -5,7 +5,8 @@ import Widget from '@/widget/index.vue'
 import Wallpaper from '@/layout/Wallpaper.vue'
 import Header from '@/layout/Header.vue'
 import Contextmenu from '@/layout/Contextmenu.vue'
-import ExternalLinkDetail from '@/components/ExternalLinkDetail.vue'
+import evevtBus from '@/utils/evevtBus'
+import WidgetDialog from '@/widget/dialog.vue'
 
 const layoutStore = useLayoutStore()
 
@@ -47,7 +48,7 @@ const onContentMenuVisible = ({ ev, type, dom, item, widgetKey }: any) => {
   }
 
   // 是否显示编辑
-  const isEditWidget: any = []
+  const isEditWidget: any = ['externalLink']
   contextMenuRef.value.show(type, reference, isEditWidget.includes(widgetKey))
 }
 
@@ -56,18 +57,14 @@ const delWidget = (item: any) => {
   layoutStore.deleteWidget(item)
 }
 
-const externalLinkDetailRef = ref()
 // 编辑组件
 const editWidget = (item: any) => {
-  externalLinkDetailRef.value.openDialog(item)
+  layoutStore.editing = true
+  evevtBus.emit('externalLinkDetailOpenDialog', item)
 }
 
 const homeRef = ref()
 const dragging = ref(false)
-
-provide('appContextKey', {
-  editWidget
-})
 </script>
 
 <template>
@@ -116,8 +113,9 @@ provide('appContextKey', {
           />
         </GridItem>
       </GridLayout>
-      <ExternalLinkDetail ref="externalLinkDetailRef" />
     </main>
+
+    <WidgetDialog />
   </div>
 </template>
 
