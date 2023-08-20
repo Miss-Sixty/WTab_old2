@@ -14,15 +14,16 @@ const formData = reactive({
   protocol: 'https://',
   src: '',
   name: '',
-  onlineIcon: ''
+  onlineIcon: '',
+  iconType: ''
 })
-const widgetItemData = ref({})
+const id = ref('')
 const formRef = ref()
 
 const openDialog = async (data: any) => {
   console.log(2323, data)
   dialogVisible.value = true
-  widgetItemData.value = data
+  id.value = data.id
   const { src, name, onlineIcon, iconType } = data.widgetData
   formData.src = src
   formData.name = name
@@ -42,7 +43,7 @@ const openDialog = async (data: any) => {
 evevtBus.on('externalLinkDetailOpenDialog', openDialog)
 
 const submit = async () => {
-  const find = layoutStore.data.find((item: any) => item.id === widgetItemData.value.id)
+  const find = layoutStore.data.find((item: any) => item.id === id.value)
   if (!find) return ElMessage.error('未找到该组件')
   console.log('submit', find)
 
@@ -204,7 +205,7 @@ const clearData = () => {
   // formData.src = ''
   // formData.name = ''
   // formData.onlineIcon = ''
-  widgetItemData.value = {}
+  id.value = ''
   onlineIconLoading.value = false
   onlineIconList.value = []
   console.log(222, formData)
