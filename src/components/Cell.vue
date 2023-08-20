@@ -38,6 +38,10 @@ const props = defineProps({
 
     .right {
       margin-left: 24px;
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     }
   }
 }

@@ -10,7 +10,7 @@ defineProps({
 <template>
   <div class="card">
     <h4 v-if="title">{{ title }}</h4>
-    <slot name="card">
+    <slot name="content">
       <div class="content">
         <slot />
       </div>
@@ -27,6 +27,7 @@ defineProps({
     padding: 20px;
     border-radius: 6px;
     background-color: var(--w-settings-bg-color);
+    transition: background-color 0.3s;
   }
   &:not(:last-child) {
     margin-bottom: 16px;

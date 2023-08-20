@@ -3,15 +3,6 @@ import useLayoutStore from '@/stores/layout'
 import Widget from '@/widget/index.vue'
 import widgets from '@/widget'
 import Dialog from '@/components/Dialog.vue'
-// const emit = defineEmits(['update:modelValue'])
-
-// defineProps({
-//   modelValue: {
-//     type: Boolean,
-//     default: false
-//   }
-// })
-
 const layoutStore = useLayoutStore()
 
 const onClick = (item: any, size: string) => {
@@ -19,11 +10,21 @@ const onClick = (item: any, size: string) => {
 }
 </script>
 <template>
-  <Dialog :bodyStyle="{ padding: '14px' }" title="添加小组件">
+  <Dialog title="添加小组件">
     <el-row :gutter="14">
       <el-col :md="12" :sm="24" v-for="(widget, i) in widgets" :key="i">
         <div class="box">
-          <el-carousel :autoplay="false">
+          <div v-if="widget.sizes.length < 2" class="el-carousel__container">
+            <div class="el-carousel__item" v-for="(size, i) in widget.sizes" :key="i">
+              <Widget
+                :size="size"
+                type="addWidget"
+                @addWidget="onClick(widget, size)"
+                :itemData="widget"
+              />
+            </div>
+          </div>
+          <el-carousel v-else :autoplay="false" arrow="always" trigger="click">
             <el-carousel-item v-for="(size, i) in widget.sizes" :key="i">
               <Widget
                 :size="size"
@@ -50,7 +51,7 @@ const onClick = (item: any, size: string) => {
   }
 }
 .box {
-  background-color: #303030;
+  background-color: var(--w-widget-carousel-bg-color);
   border-radius: 10px;
   height: 390px;
 

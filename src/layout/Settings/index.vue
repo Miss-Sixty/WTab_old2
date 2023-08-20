@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import Dialog from '@/components/Dialog.vue'
 import Card from '@/components/Card.vue'
-import Cell from '@/components/Cell.vue'
-import Button from '@/components/Button.vue'
-import { Radio, RadioGroup } from '@/components/Radio'
 import { useFileDialog, useColorMode } from '@vueuse/core'
-// import { Sunny, Moon } from '@element-plus/icons-vue'
+import { ComputerFill, MoonClearFill, SunFill } from '@/icons'
 import useSettingsStore from '@/stores/settings'
 import useBookmarkStore from '@/stores/bookmark'
 const bookmarkStore = useBookmarkStore()
@@ -32,6 +29,7 @@ onChangeBooks((files) => {
  */
 const exportData = () => {
   settingsStore.downloadConfig()
+  ElMessage.success('导出成功！')
 }
 
 /**
@@ -41,6 +39,7 @@ const exportData = () => {
 onChange((files) => {
   const [rawFile]: any = files || []
   settingsStore.uploadConfig(rawFile)
+  ElMessage.success('导入成功！')
 })
 
 const { store } = useColorMode({
@@ -49,58 +48,63 @@ const { store } = useColorMode({
 
 // 恢复默认设置
 const resetData = async () => {
-  try {
-    store.value = 'auto'
-  } catch {}
+  store.value = 'auto'
 }
 </script>
 
 <template>
   <Dialog :width="650" title="常规设置">
-    <Card title="备份数据">
-      <Cell title="导出备份数据">
-        <template #right>
-          <Button @click="exportData">导 出</Button>
-        </template>
-      </Cell>
-      <Cell title="导入备份数据">
-        <template #right>
-          <Button @click="open()">导 入</Button>
-        </template>
-      </Cell>
-      <Cell title="导入浏览器书签">
-        <template #right>
-          <Button
-            v-show="bookmarkStore.data.length"
-            plain
-            type="danger"
-            @click="bookmarkStore.reset"
-          >
-            清空书签
-          </Button>
-          <Button @click="openBooks()">导 入</Button>
-        </template>
-      </Cell>
-    </Card>
+    <el-form label-position="left">
+      <Card title="备份数据">
+        <el-form-item label="导出备份数据">
+          <div class="item">
+            <ElButton @click="exportData" type="primary"> 导 出 </ElButton>
+          </div>
+        </el-form-item>
+        <el-form-item label="导入备份数据" class="no-margin-bottom">
+          <div class="item">
+            <ElButton @click="open()" type="primary"> 导 入 </ElButton>
+          </div>
+        </el-form-item>
+      </Card>
 
-    <Card title="主题">
-      <Cell title="深色模式">
-        <template #right>
-          <RadioGroup v-model="store">
-            <Radio value="auto">跟随系统</Radio>
-            <Radio value="light">亮色主题</Radio>
-            <Radio value="dark">暗色主题</Radio>
-          </RadioGroup>
-        </template>
-      </Cell>
-    </Card>
+      <Card title="主题">
+        <el-form-item label="外观" class="no-margin-bottom">
+          <div class="item">
+            <el-button-group>
+              <el-button
+                @click="store = 'auto'"
+                :type="store === 'auto' ? 'primary' : ''"
+                :icon="ComputerFill"
+              >
+                系统
+              </el-button>
+              <el-button
+                @click="store = 'dark'"
+                :type="store === 'dark' ? 'primary' : ''"
+                :icon="MoonClearFill"
+              >
+                深色
+              </el-button>
+              <el-button
+                @click="store = 'light'"
+                :type="store === 'light' ? 'primary' : ''"
+                :icon="SunFill"
+              >
+                浅色
+              </el-button>
+            </el-button-group>
+          </div>
+        </el-form-item>
+      </Card>
+    </el-form>
 
     <div class="reset">
       <div class="left">
         <p>重置数据</p>
         <p>将设置项还原为默认值，不会清除桌面小组件。</p>
       </div>
-      <Button plain type="danger" @click="resetData">重 置</Button>
+      <el-button type="danger" plain @click="resetData">重 置</el-button>
     </div>
   </Dialog>
 </template>
@@ -120,5 +124,16 @@ const resetData = async () => {
       line-height: 1;
     }
   }
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.no-margin-bottom {
+  margin-bottom: 0;
 }
 </style>

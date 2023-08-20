@@ -1,37 +1,21 @@
 <script setup lang="ts">
 import useWallpaperStore from '@/stores/wallpaper'
-import useSetThemeColor from '@/hooks/useSetThemeColor'
 defineOptions({
   name: 'Wallpaper'
 })
 const wallpaperStore = useWallpaperStore()
-
-const init = () => {
-  const type = {
-    bing: wallpaperStore.getBingImg, // 获取bing壁纸
-    my: wallpaperStore.getMyWallpaper // 获取自定义壁纸
-  }
-
-  type[wallpaperStore.wallpaperType]()
-}
+wallpaperStore.getWallpaper(wallpaperStore.type)
 
 const bgImg = ref([0, 0, 0, 0]) // 图片是否加载完成 0:mini 1:normal 2:hd 3:my
-
-watch(
-  () => wallpaperStore.wallpaperUrl,
-  (url) => useSetThemeColor(url)
-)
-
-init()
 </script>
 
 <template>
   <TransitionGroup name="opacity">
-    <template v-if="wallpaperStore.wallpaperType === 'bing'">
+    <template v-if="wallpaperStore.type === 'bing'">
       <img
         @load="bgImg[0] = 1"
         v-show="bgImg[0] === 1"
-        :src="wallpaperStore.bing.url_mini"
+        :src="wallpaperStore.bing_mini_url"
         class="background"
         style="filter: blur(30px)"
         key="mini"
@@ -39,25 +23,26 @@ init()
       <img
         @load="bgImg[1] = 1"
         v-show="bgImg[1] === 1"
-        :src="wallpaperStore.bing.url"
+        :src="wallpaperStore.bing_1080_url"
         class="background"
         key="normal"
       />
       <img
         @load="bgImg[2] = 1"
         v-show="bgImg[2] === 1"
-        :src="wallpaperStore.bing.url_hd"
+        :src="wallpaperStore.bing_hd_url"
         class="background"
         key="hd"
       />
     </template>
 
     <img
-      v-else-if="wallpaperStore.wallpaperType === 'my'"
+      v-else-if="wallpaperStore.type === 'my'"
       @load="bgImg[3] = 1"
       v-show="bgImg[3] === 1"
-      :src="wallpaperStore.myWallpaper"
+      :src="wallpaperStore.my_url"
       class="background"
+      key="my"
     />
   </TransitionGroup>
 </template>
@@ -72,7 +57,7 @@ init()
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1;
+  // z-index: -1;
   pointer-events: none;
 }
 

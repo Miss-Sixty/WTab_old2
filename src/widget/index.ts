@@ -6,7 +6,12 @@ const list: any = {
     key: 'hitokoto',
     name: '每日一言',
     text: '我们历经沧桑，这样错过了一生最好的时光。',
-    sizes: ['tiny', 'small', 'medium', 'large']
+    sizes: ['tiny', 'small', 'medium', 'large'],
+    itemData: {
+      hitokoto: '',
+      from_who: '',
+      from: ''
+    }
   },
   externalLink: {
     key: 'externalLink',
@@ -39,7 +44,7 @@ const list: any = {
 
 const components: any = {}
 for (const path in componentsContext) {
-  const component = componentsContext[path].default
+  const component = componentsContext[path]?.default
   components[component.name] = {
     component,
     ...list[useChangeCase(component.name, 'camelCase').value]

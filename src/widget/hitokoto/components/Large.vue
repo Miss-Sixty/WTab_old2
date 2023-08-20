@@ -1,34 +1,69 @@
 <script setup lang="ts">
+import dayjs from 'dayjs'
+import { useClipboard } from '@vueuse/core'
+import { Refresh, FileCopy2Line } from '@/icons'
+defineEmits(['reset'])
 defineProps({
-  hitokoto: String,
+  hitokoto: {
+    type: String,
+    default: ''
+  },
   from_who: {
     type: String,
     default: '佚名'
+  },
+  from: {
+    type: String,
+    default: ''
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
+})
+
+const time = computed(() => ({
+  date: dayjs().format('YYYY年MM月DD日'),
+  week: dayjs().format('dddd')
+}))
+const { copy, isSupported, copied } = useClipboard({ legacy: true })
+watch(copied, (bl) => {
+  bl && ElMessage.success('复制成功！')
 })
 </script>
 
 <template>
-  <h1 class="text">TODO</h1>
+  <h1 class="text">每日一言</h1>
   <div class="content">
-    <!-- <p class="hitoloto">{{ hitokoto }}</p>
-    <p class="text">—— {{ from_who }}</p> -->
-    <p>1、优化bing壁纸和自定义壁纸渲染逻辑</p>
-    <p>3、无自定义壁纸时背景颜色优化</p>
-    <p>5、考虑要不要右击桌面时显示右键菜单</p>
-    <p>6、思考如何做到专属小组件</p>
-    <p>7、错误捕获</p>
-    <p>8、浏览上报</p>
-    <p>9、每日一言适配不同大小，详情改版</p>
+    <p class="date">{{ time.date }}</p>
+    <p class="week">{{ time.week }}</p>
+    <div class="box">
+      <p class="hitokoto">{{ hitokoto }}</p>
+    </div>
+    <p class="from text" v-if="from">《{{ from }}》</p>
+    <p class="from_who text" v-if="from_who">—— {{ from_who }} ——</p>
+    <div class="btn">
+      <el-tooltip content="刷新一言">
+        <el-button
+          :loading="loading"
+          @click.stop="$emit('reset', 'reset')"
+          :icon="Refresh"
+          circle
+        />
+      </el-tooltip>
+      <el-tooltip v-if="isSupported" content="复制">
+        <el-button @click.stop="copy(hitokoto)" :icon="FileCopy2Line" circle />
+      </el-tooltip>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 h1 {
-  margin-top: 10px;
-  display: flex;
+  position: absolute;
+  top: 5px;
   width: 100%;
-  justify-content: center;
+  text-align: center;
 }
 .text {
   opacity: 0.6;
@@ -36,20 +71,47 @@ h1 {
   font-size: 12px;
   line-height: 1;
 }
-.content {
-  letter-spacing: 1px;
-  line-height: 20px;
-  padding: 15px 0;
 
-  p {
+.content {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .date,
+  .week {
+    text-align: center;
+    font-size: 18px;
     margin: 0;
+    line-height: 1;
   }
-  .hitoloto {
-    margin-bottom: 20px;
-    font-size: 14px;
+  .date {
+    margin: 30px 0 5px;
   }
-  .text {
-    text-align: right;
+  .box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    .hitokoto {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .from,
+  .from_who {
+    text-align: center;
+    margin: 0 0 10px;
+  }
+  .from_who {
+    margin-bottom: 15px;
+  }
+
+  .btn {
+    margin-bottom: 10px;
   }
 }
 </style>

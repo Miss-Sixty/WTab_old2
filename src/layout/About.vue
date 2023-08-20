@@ -14,8 +14,17 @@ import Icon from '@/components/Icon.vue'
       </div>
 
       <div class="link">
-        <a href="https://web.wtab.cn" target="_blank"> 官方网站 </a>
-        <a href="https://support.qq.com/products/592621/" target="_blank"> 问题反馈 </a>
+        <el-link href="https://web.wtab.cn" target="_blank" :underline="false" type="primary">
+          官方网站
+        </el-link>
+        <el-link
+          href="https://support.qq.com/products/592621/"
+          target="_blank"
+          :underline="false"
+          type="primary"
+        >
+          问题反馈
+        </el-link>
       </div>
     </div>
   </Dialog>
@@ -51,12 +60,6 @@ import Icon from '@/components/Icon.vue'
     margin-top: 15px;
     a {
       margin: 0 5px;
-      transition: color 0.25s;
-      color: #fcc01d;
-
-      &:hover {
-        color: rgba($color: #fcc01d, $alpha: 0.7);
-      }
     }
   }
 }

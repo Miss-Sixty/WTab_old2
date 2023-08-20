@@ -3,16 +3,15 @@ import useLayoutStore from '@/stores/layout'
 import { GridLayout, GridItem } from '@/layout/Grid'
 import Widget from '@/widget/index.vue'
 import Wallpaper from '@/layout/Wallpaper.vue'
+import Header from '@/layout/Header.vue'
+import Contextmenu from '@/layout/Contextmenu.vue'
 import ExternalLinkDetail from '@/components/ExternalLinkDetail.vue'
-
-const AsyncHeader = defineAsyncComponent(() => import('@/layout/Header.vue'))
-const AsyncContextmenu = defineAsyncComponent(() => import('@/layout/Contextmenu.vue'))
 
 const layoutStore = useLayoutStore()
 
 const contextMenuWidgetData = ref<any>({})
 const contextMenuRef = ref()
-const onContentMenuVisible = ({ ev, type, dom, item }: any) => {
+const onContentMenuVisible = ({ ev, type, dom, item, widgetKey }: any) => {
   let x = 0
   let y = 0
   if (type === 'settings') {
@@ -46,7 +45,10 @@ const onContentMenuVisible = ({ ev, type, dom, item }: any) => {
       }
     }
   }
-  contextMenuRef.value.show(type, reference)
+
+  // 是否显示编辑
+  const isEditWidget: any = []
+  contextMenuRef.value.show(type, reference, isEditWidget.includes(widgetKey))
 }
 
 // 删除组件
@@ -58,11 +60,6 @@ const externalLinkDetailRef = ref()
 // 编辑组件
 const editWidget = (item: any) => {
   externalLinkDetailRef.value.openDialog(item)
-}
-
-// 编辑组件模式
-const edit = () => {
-  layoutStore.editing = true
 }
 
 const homeRef = ref()
@@ -81,14 +78,13 @@ provide('appContextKey', {
   >
     <Wallpaper />
 
-    <AsyncHeader @clickSettings="onContentMenuVisible" />
-
-    <AsyncContextmenu
+    <Header @clickSettings="onContentMenuVisible" />
+    <Contextmenu
       ref="contextMenuRef"
+      @edit="layoutStore.editing = true"
       @editWidget="editWidget(contextMenuWidgetData)"
       @delWidget="delWidget(contextMenuWidgetData)"
       @close="contextMenuWidgetData = {}"
-      @edit="edit"
     />
 
     <main class="main">
@@ -109,7 +105,13 @@ provide('appContextKey', {
             :dragging="dragging"
             @delWidget="delWidget(item)"
             @contextmenu.prevent.stop="
-              onContentMenuVisible({ ev: $event, type: 'widget', dom: null, item })
+              onContentMenuVisible({
+                ev: $event,
+                type: 'widget',
+                dom: null,
+                item,
+                widgetKey: item.key
+              })
             "
           />
         </GridItem>
@@ -134,18 +136,5 @@ provide('appContextKey', {
       display: none; /* Chrome Safari */
     }
   }
-}
-
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition:
-    transform 0.25s,
-    opacity 0.25s;
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateX(20px);
-  opacity: 0;
 }
 </style>

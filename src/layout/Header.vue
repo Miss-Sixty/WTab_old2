@@ -74,7 +74,7 @@ const wxLoginState = async () => {
       <Settings />
     </Icon>
 
-    <Dialog
+    <!-- <Dialog
       v-model="cropperVisible"
       :width="650"
       title="扫码登录"
@@ -100,7 +100,7 @@ const wxLoginState = async () => {
         </div>
       </div>
       <div class="wxlogin--text">{{ stateText[state] }}</div>
-    </Dialog>
+    </Dialog> -->
   </header>
 </template>
 <style lang="scss">
@@ -145,7 +145,7 @@ const wxLoginState = async () => {
   left: 0;
   right: 0;
   z-index: 1;
-  padding: 10px 20px;
+  padding: 10px;
   color: #fff;
   display: flex;
   justify-content: flex-end;
@@ -161,6 +161,7 @@ const wxLoginState = async () => {
       color 0.25s;
     color: rgba(255, 255, 255, 0.35);
     font-size: 36px;
+    will-change: transform;
     &:hover {
       color: rgba(255, 255, 255, 0.65);
     }
@@ -168,7 +169,7 @@ const wxLoginState = async () => {
 
   &--hover {
     &:hover {
-      transform: rotate(60deg);
+      transform: rotateZ(60deg);
     }
   }
 }

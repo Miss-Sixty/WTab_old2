@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/widget/utils/request'
 
 // 列表
 export const getQrCodeApi = async (nanoid: string) => {

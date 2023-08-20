@@ -48,8 +48,7 @@ const widgetComponent = computed(() => {
   <div
     class="content"
     :class="{
-      deling: type === 'delWidget',
-      addWidget: type === 'addWidget',
+      scaleLarge: type === 'addWidget' && size === 'large',
       scale: size === 'large' || size === 'medium'
     }"
     :style="layoutStore.sizeGridWH(size)"
@@ -62,8 +61,8 @@ const widgetComponent = computed(() => {
       :is="widgetComponent.component"
       :dragging="dragging"
       :editing="editing"
-      :itemData="itemData"
       :size="size"
+      :itemData="itemData"
     />
   </div>
 </template>
@@ -75,6 +74,13 @@ const widgetComponent = computed(() => {
   transition: transform 0.25s;
   border-radius: 14px;
   background-color: var(--w-widget-bg-color);
+
+  &.scaleLarge {
+    transform: scale(0.65);
+    .icon {
+      transform: translate(-25%, -25%) scale(1.5);
+    }
+  }
 
   &__widget {
     width: 100%;
@@ -101,7 +107,7 @@ const widgetComponent = computed(() => {
 }
 
 @media screen and (max-width: 500px) {
-  .content.addWidget.scale {
+  .content.scale {
     transform: scale(0.65);
     .icon {
       transform: translate(-25%, -25%) scale(1.5);

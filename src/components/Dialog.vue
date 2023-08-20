@@ -18,9 +18,6 @@ defineProps({
   header: {
     type: Boolean,
     default: true
-  },
-  bodyStyle: {
-    type: Object
   }
 })
 const closeDialog = () => {
@@ -33,7 +30,7 @@ const closeDialog = () => {
     <Transition name="fade">
       <div v-show="modelValue" class="overlay-dialog" @contextmenu.prevent>
         <transition name="zoom">
-          <div v-show="modelValue" class="dialog" :style="{ width: width + 'px' }">
+          <div v-show="modelValue" class="dialog" :style="{ width: `${width}px` }">
             <div v-if="header" class="dialog-header">
               <span class="dialog-header__title">{{ title }}</span>
             </div>
@@ -42,13 +39,11 @@ const closeDialog = () => {
               <Icon><Close /></Icon>
             </button>
 
-            <el-scrollbar>
-              <div class="dialog-body" :style="bodyStyle">
-                <!-- <el-scrollbar view-style="padding: 10px 40px;"> -->
+            <div class="dialog-body">
+              <el-scrollbar view-class="dialog-body__scrollbar">
                 <slot></slot>
-                <!-- </el-scrollbar> -->
-              </div>
-            </el-scrollbar>
+              </el-scrollbar>
+            </div>
           </div>
         </transition>
       </div>
@@ -68,13 +63,14 @@ const closeDialog = () => {
 
   .dialog {
     position: absolute;
-    top: 15vh;
+    top: 0;
     left: 0;
     right: 0;
-    // bottom: 0;
+    bottom: 0;
+    height: 500px;
     margin: auto;
     max-width: calc(100vw - 40px);
-    max-height: 650px;
+    height: 600px;
     border-radius: 10px;
     box-shadow:
       0px 12px 32px 4px rgba(0, 0, 0, 0.04),
@@ -82,7 +78,7 @@ const closeDialog = () => {
     display: flex;
     flex-direction: column;
     background-color: var(--w-dialog-bg-color);
-
+    transition: background-color 0.3s;
     &-header {
       padding: 0 20px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -127,15 +123,25 @@ const closeDialog = () => {
     &-body {
       flex: 1;
       overflow: hidden;
-      padding: 10px 40px;
+
+      :deep(.dialog-body__scrollbar) {
+        padding: 10px 40px 10px;
+        height: 100%;
+      }
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 600px) {
     .dialog {
-      max-height: 90%;
       bottom: 0;
       top: 0;
+      height: 100%;
+      width: 100%;
+      max-width: 100vw;
+      border-radius: 0;
+      :deep(.dialog-body__scrollbar) {
+        padding: 0 10px 10px;
+      }
     }
   }
 }

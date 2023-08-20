@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import * as bookmark from '@/utils/bookmark'
+import * as bookmark from '@/widget/utils/bookmark'
 
 export default defineStore(
   'six-bookmark',

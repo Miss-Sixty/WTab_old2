@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import Icon from '@/components/Icon.vue'
-import Image from '@/components/Image/index.vue'
-import { Check } from '@/icons'
+import useWallpaperStore from '@/stores/wallpaper'
+import { Check, ImageFill, ImageAddFill } from '@/icons'
+const wallpaperStore = useWallpaperStore()
+wallpaperStore.getWallpaper('all')
 defineEmits(['click'])
 defineProps({
   src: {
@@ -17,18 +18,23 @@ defineProps({
 
 <template>
   <div class="img-box" @click="src && $emit('click')">
-    <Image
-      scale
-      width="100%"
-      height="100%"
-      class="img"
-      :src="src"
+    <el-image
       fit="cover"
-      :style="src ? 'cursor: pointer' : ''"
+      :src="src"
+      :style="{ width: '100%', height: '100%', cursor: src ? 'pointer' : '' }"
     >
-      <template #error>{{ src ? '加载失败' : '请上传壁纸' }}</template>
-    </Image>
-    <Icon v-if="active"><Check /></Icon>
+      <template #placeholder>
+        <div class="image-slot">
+          <Icon class="icon__slot"><ImageAddFill /></Icon>
+        </div>
+      </template>
+      <template #error>
+        <div class="image-slot">
+          <Icon class="icon__slot"><ImageFill /></Icon>
+        </div>
+      </template>
+    </el-image>
+    <Icon v-if="active" class="icon__check"><Check /></Icon>
   </div>
 </template>
 
@@ -40,17 +46,29 @@ defineProps({
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
+
   .icon {
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 28px;
     width: 100%;
     height: 100%;
-    font-size: 28px;
-    color: #fff;
+    &__check {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+    }
+    &__slot {
+      color: var(--el-text-color-secondary);
+    }
+  }
+
+  .image-slot {
+    width: 100%;
+    height: 100%;
+    background-color: var(--el-fill-color-light);
   }
 }
 </style>

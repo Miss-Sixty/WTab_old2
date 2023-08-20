@@ -3,19 +3,15 @@ import { computePosition, flip, shift } from '@floating-ui/dom'
 import { onClickOutside } from '@vueuse/core'
 import { ArrowRightUp } from '@/icons'
 import Icon from '@/components/Icon.vue'
-const AsyncAbout = defineAsyncComponent(() => import('@/layout/About.vue'))
 const AsyncSettings = defineAsyncComponent(() => import('@/layout/Settings/index.vue'))
 const AsyncWallpaper = defineAsyncComponent(() => import('@/layout/Wallpaper/index.vue'))
 const AsyncWidgetList = defineAsyncComponent(() => import('@/layout/WidgetList.vue'))
+const AsyncAbout = defineAsyncComponent(() => import('@/layout/About.vue'))
 
-const emit = defineEmits([
-  'delWidget',
-  'editWidget',
-  'edit',
-  'close'
-])
+const emit = defineEmits(['delWidget', 'editWidget', 'edit', 'close'])
 
 const contextmenuType = ref('')
+const isShowEdit = ref(false)
 const styles = ref({})
 const floatingRef = ref()
 const popperVisible = ref(false)
@@ -61,13 +57,14 @@ onClickOutside(floatingRef, () => {
   emit('close')
 })
 
-const show = (type: string, boundingClientRect: any) => {
+const show = (type: string, boundingClientRect: any, isEdit: boolean) => {
   contextmenuType.value = type
+  isShowEdit.value = isEdit
   onContextmenu(boundingClientRect)
 }
 defineExpose({ show })
 
-const onEmitChange = (type: 'delWidget' | 'editWidget'|'edit', data?: any) => {
+const onEmitChange = (type: 'delWidget' | 'editWidget' | 'edit', data?: any) => {
   popperVisible.value = false
   emit(type, data)
 }
@@ -110,12 +107,14 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
         <li
           v-show="contextmenuType === 'settings' || contextmenuType === 'desktop'"
           class="separator"
-        ></li>
+        />
 
         <li class="item" @click="clickChange('addWidget')">添加小组件</li>
-        <li v-show="contextmenuType !== 'widget'" class="item" @click="onEmitChange('edit')">编辑小组件</li>
+        <li v-show="contextmenuType !== 'widget'" class="item" @click="onEmitChange('edit')">
+          编辑小组件
+        </li>
         <li
-          v-show="contextmenuType === 'widget'"
+          v-show="contextmenuType === 'widget' && isShowEdit"
           class="item"
           @click="onEmitChange('editWidget')"
         >
@@ -129,9 +128,9 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
           删除此小组件
         </li>
 
-        <li v-show="contextmenuType === 'settings'" class="separator"></li>
+        <li v-show="contextmenuType === 'settings'" class="separator" />
         <li v-show="contextmenuType === 'settings'" class="item" @click="onFeedback">
-          <span>问题反馈</span> <Icon color="rgba(60, 60, 60, .33)"><ArrowRightUp /></Icon>
+          <span>问题反馈</span> <Icon><ArrowRightUp /></Icon>
         </li>
         <li v-show="contextmenuType === 'settings'" class="item" @click="clickChange('about')">
           关于
@@ -140,12 +139,11 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
     </Transition>
   </Teleport>
 
-  <AsyncAbout v-model="aboutVisible"></AsyncAbout>
-  <AsyncSettings v-model="settingsVisible"></AsyncSettings>
-  <AsyncWallpaper v-model="wallpaperVisible"></AsyncWallpaper>
-  <AsyncWidgetList v-model="addWidgetVisible"></AsyncWidgetList>
+  <AsyncSettings v-model="settingsVisible" />
+  <AsyncWallpaper v-model="wallpaperVisible" />
+  <AsyncWidgetList v-model="addWidgetVisible" />
+  <AsyncAbout v-model="aboutVisible" />
 </template>
-
 <style lang="scss" scoped>
 ul {
   position: fixed;

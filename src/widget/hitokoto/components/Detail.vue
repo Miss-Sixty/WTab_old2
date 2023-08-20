@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import { useClipboard } from '@vueuse/core'
-import Dialog from '@/components/Dialog.vue'
-import Button from '@/components/Button.vue'
+import { Refresh, FileCopy2Line } from '@/icons'
 
 defineEmits(['reset'])
 defineProps({
@@ -17,6 +16,10 @@ defineProps({
   from: {
     type: String,
     default: ''
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
 const time = computed(() => ({
@@ -38,8 +41,17 @@ const { copy, isSupported } = useClipboard()
         <p class="from_who text" v-if="from_who">—— {{ from_who }} ——</p>
       </div>
       <div class="detail__btn">
-        <Button @click="$emit('reset')">刷新一言</Button>
-        <Button v-if="isSupported" @click="copy(hitokoto)">复 制</Button>
+        <el-tooltip content="刷新一言">
+          <el-button
+            :loading="loading"
+            @click.stop="$emit('reset', 'reset')"
+            :icon="Refresh"
+            circle
+          />
+        </el-tooltip>
+        <el-tooltip v-if="isSupported" content="复制">
+          <el-button @click.stop="copy(hitokoto)" :icon="FileCopy2Line" circle />
+        </el-tooltip>
       </div>
     </div>
   </Dialog>
