@@ -59,7 +59,14 @@ const wxLoginState = async () => {
 <template>
   <header class="header">
     <Transition name="slide-fade">
-      <Button v-show="layoutStore.editing" @click="layoutStore.editing = false">完成编辑</Button>
+      <ElButton
+        style="margin-right: 6px"
+        size="small"
+        v-show="layoutStore.editing"
+        @click="layoutStore.editing = false"
+      >
+        保 存
+      </ElButton>
     </Transition>
 
     <Icon class="settings">
@@ -182,7 +189,7 @@ const wxLoginState = async () => {
 }
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateX(20px);
+  transform: translateX(15px);
   opacity: 0;
 }
 </style>

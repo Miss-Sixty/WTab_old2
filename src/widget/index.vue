@@ -49,7 +49,7 @@ const widgetComponent = computed(() => {
     class="content"
     :class="{
       scaleLarge: type === 'addWidget' && size === 'large',
-      scale: size === 'large' || size === 'medium'
+      scale: type === 'addWidget' && (size === 'large' || size === 'medium')
     }"
     :style="layoutStore.sizeGridWH(size)"
   >

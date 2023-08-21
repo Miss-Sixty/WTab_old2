@@ -245,13 +245,17 @@ const getOnlineIcon = async () => {
 </script>
 <template>
   <Dialog v-model="dialogVisible" :width="650" title="图标设置" @closed="clearData">
+    <template #header-right>
+      <el-button type="primary" @click="submit">确 定</el-button>
+    </template>
+
     <el-form ref="formRef" :model="formData">
       <el-form-item
         label="网站地址"
         prop="src"
         :rules="{ validator: isValidHttpUrl, trigger: 'change' }"
       >
-        <el-input type="text" v-model="formData.src" placeholder="请输入网址" @blur="getOnlineIcon">
+        <el-input type="text" v-model="formData.src" placeholder="请输入网址" @change="getOnlineIcon">
           <template #prepend>
             <el-select v-model="formData.protocol" style="width: 75px">
               <el-option label="https" value="https://" />
@@ -280,14 +284,25 @@ const getOnlineIcon = async () => {
         :prop="formData.iconType + 'Icon'"
       >
         <div class="onlineList" v-if="formData.iconType === 'online'" v-loading="onlineIconLoading">
-          <el-image
-            v-for="src in onlineIconList"
-            :key="src"
-            class="icon online"
-            :src="src"
-            :class="{ active: formData.onlineIcon === src }"
-            @click="formData.onlineIcon = src"
-          />
+          <div class="grid" v-if="onlineIconList.length">
+            <el-image
+              v-for="src in onlineIconList"
+              :key="src"
+              class="icon online"
+              :src="src"
+              :class="{ active: formData.onlineIcon === src }"
+              @click="formData.onlineIcon = src"
+            />
+          </div>
+
+          <el-empty
+            style="padding: 0"
+            v-else
+            description="暂未获取到当前链接的图标"
+            :image-size="60"
+          >
+            <el-button type="primary" plain @click="getOnlineIcon">重 试</el-button>
+          </el-empty>
         </div>
         <!-- <div v-if="iconType === 'pure'" class="icon pure" :style="{ backgroundColor: bgColor }">
           <span :style="nameFontSize">{{ name }}</span>
@@ -334,11 +349,6 @@ const getOnlineIcon = async () => {
     </Card>
 
     <ExternalLinkCropperDialog ref="externalLinkCropperDialogRef" />-->
-
-    <div class="btn">
-      <el-button @click="dialogVisible = false">关 闭</el-button>
-      <el-button type="primary" @click="submit">确 定</el-button>
-    </div>
   </Dialog>
 </template>
 
@@ -353,11 +363,13 @@ const getOnlineIcon = async () => {
 }
 
 .onlineList {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
   width: 100%;
   min-height: 60px;
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
 }
 // .icon-box {
 //   position: relative;

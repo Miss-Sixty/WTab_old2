@@ -36,6 +36,7 @@ const closeDialog = () => {
           <div v-show="modelValue" class="dialog" :style="{ width: `${width}px` }">
             <div v-if="header" class="dialog-header">
               <span class="dialog-header__title">{{ title }}</span>
+              <slot name="header-right"></slot>
             </div>
 
             <button class="close" @click="closeDialog">
@@ -83,12 +84,13 @@ const closeDialog = () => {
     background-color: var(--w-dialog-bg-color);
     transition: background-color 0.3s;
     &-header {
-      padding: 0 20px;
+      padding: 0 62px 0 20px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       height: 52px;
       display: flex;
       align-items: center;
       flex-shrink: 0;
+      justify-content: space-between;
 
       &__title {
         line-height: 24px;
