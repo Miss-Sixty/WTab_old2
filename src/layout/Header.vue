@@ -69,9 +69,9 @@ const wxLoginState = async () => {
       </ElButton>
     </Transition>
 
-    <Icon class="settings">
+    <!-- <Icon class="settings">
       <AccountCircleFill @click="cropperVisible = true" />
-    </Icon>
+    </Icon> -->
 
     <Icon
       ref="settingsRef"

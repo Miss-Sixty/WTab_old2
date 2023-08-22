@@ -269,13 +269,13 @@ const getOnlineIcon = async () => {
         <el-input type="text" v-model="formData.name" placeholder="请输入网站名称" />
       </el-form-item>
 
-      <el-form-item label="图标类型" prop="iconType">
+      <!-- <el-form-item label="图标类型" prop="iconType">
         <el-radio-group v-model="formData.iconType">
           <el-radio-button label="online">在线图标</el-radio-button>
-          <!-- <el-radio-button label="pure">纯色图标</el-radio-button>
-          <el-radio-button label="local">本地上传</el-radio-button> -->
+          <el-radio-button label="pure">纯色图标</el-radio-button>
+          <el-radio-button label="local">本地上传</el-radio-button>
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item
         class="icon-box"
