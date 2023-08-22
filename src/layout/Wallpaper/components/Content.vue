@@ -95,7 +95,7 @@ defineProps({
     .image-slot {
       width: 100%;
       height: 100%;
-      background-color: var(--el-fill-color-light);
+      background-color: var(--el-bg-color);
     }
   }
   .right {
