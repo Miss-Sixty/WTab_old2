@@ -7,6 +7,7 @@ const layoutStore = useLayoutStore()
 
 const onClick = (item: any, size: string) => {
   layoutStore.addPageWidget(item, size)
+  ElMessage.success('添加成功！')
 }
 </script>
 <template>

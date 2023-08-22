@@ -110,9 +110,7 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
         />
 
         <li class="item" @click="clickChange('addWidget')">添加小组件</li>
-        <li v-show="contextmenuType !== 'widget'" class="item" @click="onEmitChange('edit')">
-          编辑小组件
-        </li>
+        <li class="item" @click="onEmitChange('edit')">编辑小组件</li>
         <li
           v-show="contextmenuType === 'widget' && isShowEdit"
           class="item"
