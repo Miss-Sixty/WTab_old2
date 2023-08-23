@@ -230,7 +230,7 @@ const getOnlineIcon = async () => {
   onlineIconList.value = []
   onlineIconLoading.value = true
   try {
-    const { data, code, message } = await logoApi(formData.src)
+    const { data, code, message } = await logoApi(formData.protocol + formData.src)
     if (code !== 0) return ElMessage.error(message)
     const { icons, name } = data
     onlineIconList.value = icons
@@ -255,7 +255,12 @@ const getOnlineIcon = async () => {
         prop="src"
         :rules="{ validator: isValidHttpUrl, trigger: 'change' }"
       >
-        <el-input type="text" v-model="formData.src" placeholder="请输入网址" @change="getOnlineIcon">
+        <el-input
+          type="text"
+          v-model="formData.src"
+          placeholder="请输入网址"
+          @change="getOnlineIcon"
+        >
           <template #prepend>
             <el-select v-model="formData.protocol" style="width: 75px">
               <el-option label="https" value="https://" />
