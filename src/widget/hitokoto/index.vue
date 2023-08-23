@@ -7,6 +7,9 @@ import Medium from './components/Medium.vue'
 import Large from './components/Large.vue'
 import { hitokotoApi } from '@/api/hitokoto'
 import { useElementVisibility } from '@vueuse/core'
+import dayjs from 'dayjs'
+// const appConfig: any = inject('app')
+
 defineOptions({
   name: 'Hitokoto'
 })
@@ -30,17 +33,18 @@ const hitokoto = ref('')
 const from_who = ref('')
 const from = ref('')
 const loading = ref(false)
-const init = async (type?: string) => {
-  if (type !== 'reset') {
-    const widgetData = props.itemData.widgetData || {}
-    if (widgetData.hitokoto || widgetData.from_who || widgetData.from) {
-      hitokoto.value = widgetData.hitokoto
-      from_who.value = widgetData.from_who
-      from.value = widgetData.from
-      return
-    }
-  }
+const init = async () => {
+  const widgetData = props.itemData.widgetData || {}
 
+  if (!dayjs().isSame(widgetData.updateDate, 'day')) return getDate()
+  if (!widgetData.hitokoto) return getDate()
+
+  hitokoto.value = widgetData.hitokoto
+  from_who.value = widgetData.from_who
+  from.value = widgetData.from
+}
+
+const getDate = async () => {
   loading.value = true
   try {
     const res = await hitokotoApi()
@@ -50,7 +54,8 @@ const init = async (type?: string) => {
     props.itemData.widgetData = {
       hitokoto: res.hitokoto,
       from_who: res.from_who,
-      from: res.from
+      from: res.from,
+      updateDate: dayjs().format('YYYY-MM-DD')
     }
   } finally {
     loading.value = false
@@ -90,7 +95,7 @@ const clickChange = () => {
       :hitokoto="hitokoto"
       :from_who="from_who"
       :from="from"
-      @reset="init"
+      @reset="getDate"
       :loading="loading"
     />
 
@@ -99,7 +104,7 @@ const clickChange = () => {
       :hitokoto="hitokoto"
       :from_who="from_who"
       :from="from"
-      @reset="init"
+      @reset="getDate"
       :loading="loading"
     />
   </div>

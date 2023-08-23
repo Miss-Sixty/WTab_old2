@@ -7,10 +7,11 @@ const list: any = {
     name: '每日一言',
     text: '我们历经沧桑，这样错过了一生最好的时光。',
     sizes: ['tiny', 'small', 'medium', 'large'],
-    itemData: {
+    widgetData: {
       hitokoto: '',
       from_who: '',
-      from: ''
+      from: '',
+      updateDate: ''
     }
   },
   externalLink: {

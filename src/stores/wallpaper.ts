@@ -33,11 +33,10 @@ export default defineStore(
 
     async function getBingWallpaper() {
       try {
-        if (dayjs().diff(date.value, 'day') === 0 && (bing_hd_url.value || bing_hd_url.value))
-          return
+        if (dayjs().isSame(date.value, 'day') && (bing_hd_url.value || bing_hd_url.value)) return
         const { copyright, urlbase } = await wallpaperApi()
         if (!urlbase) return
-        // const copyright = '看着相机镜头的松鼠 (© Alfredo Piedrafita/Getty Images)'
+        // const copyright = '看着相机镜头的松鼠 (nh© Alfredo Piedrafita/Getty Images)'
         // const urlbase = '/th?id=OHR.CameraSquirrel_ZH-CN3580119980'
 
         bingCopyright.value = copyright

@@ -41,17 +41,13 @@ const { copy, isSupported } = useClipboard()
         <p class="from_who text" v-if="from_who">—— {{ from_who }} ——</p>
       </div>
       <div class="detail__btn">
-        <el-tooltip content="刷新一言">
-          <el-button
-            :loading="loading"
-            @click.stop="$emit('reset', 'reset')"
-            :icon="Refresh"
-            circle
-          />
-        </el-tooltip>
-        <el-tooltip v-if="isSupported" content="复制">
-          <el-button @click.stop="copy(hitokoto)" :icon="FileCopy2Line" circle />
-        </el-tooltip>
+        <el-button
+          :loading="loading"
+          @click.stop="$emit('reset', 'reset')"
+          :icon="Refresh"
+          circle
+        />
+        <el-button v-if="isSupported" @click.stop="copy(hitokoto)" :icon="FileCopy2Line" circle />
       </div>
     </div>
   </Dialog>
