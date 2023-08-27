@@ -1,0 +1,12 @@
+{
+  "name": "WTab",
+  "description": "WTab标签页的浏览器插件",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "icons": {
+    "48": "/miaomiao.svg"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  }
+}

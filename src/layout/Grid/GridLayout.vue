@@ -2,7 +2,9 @@
 import { useEventListener } from '@vueuse/core'
 import { cloneDeep } from 'lodash-es'
 import GridItem from './GridItem.vue'
-const emit = defineEmits(['update:modelValue', 'update:dragging'])
+import { onLongPress } from '@vueuse/core'
+const emit = defineEmits(['update:modelValue', 'update:dragging', 'onLongPress'])
+
 const props = defineProps({
   // 是否拖拽中
   dragging: {
@@ -37,6 +39,15 @@ const widthStyle = computed(() => {
   if (!props.colsNum) return '100%'
   return props.colsNum * (props.baseSize + props.baseMargin) + props.baseMargin + 'px'
 })
+
+onLongPress(
+  gridRef,
+  () => {
+    if (props.editing) return
+    emit('onLongPress')
+  },
+  { delay: 1000 }
+)
 
 const heightStyle = computed(() => {
   let h = 0
