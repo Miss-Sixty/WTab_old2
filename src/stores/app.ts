@@ -7,9 +7,11 @@ export default defineStore('six-app', () => {
   useIntervalFn(() => (date.value = dayjs().valueOf()), 1000)
 
   watch(date, (newVal, oldVal) => {
-    if (dayjs(newVal).isSame(oldVal, 'day')) return
-    eventBus.emit('onReset')
+    if (!dayjs(newVal).isSame(oldVal, 'day')) return eventBus.emit('onResetDay')
+    if (!dayjs(newVal).isSame(oldVal, 'hour')) return eventBus.emit('onResetHour')
+    if (!dayjs(newVal).isSame(oldVal, 'minute')) return eventBus.emit('onResetMinute')
+    if (!dayjs(newVal).isSame(oldVal, 'second')) return eventBus.emit('onResetSecond')
   })
 
-  return {}
+  return { date }
 })

@@ -78,7 +78,7 @@ const clickChange = () => {
 }
 
 if (props.type !== 'addWidget') {
-  eventBus.on('onReset', () => targetIsVisible.value && getDate())
+  eventBus.on('onResetDay', () => targetIsVisible.value && getDate())
 }
 </script>
 

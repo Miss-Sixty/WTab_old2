@@ -4,24 +4,11 @@ import Card from '@/components/Card.vue'
 import { useFileDialog, useColorMode } from '@vueuse/core'
 import { ComputerFill, MoonClearFill, SunFill } from '@/icons'
 import useSettingsStore from '@/stores/settings'
-import useBookmarkStore from '@/stores/bookmark'
-const bookmarkStore = useBookmarkStore()
 
 const settingsStore = useSettingsStore()
 const { open, onChange } = useFileDialog({
   multiple: false,
   accept: '.wtab'
-})
-
-const { open: openBooks, onChange: onChangeBooks } = useFileDialog({
-  multiple: false,
-  accept: '.html'
-})
-
-onChangeBooks((files) => {
-  const [rawFile]: any = files || []
-
-  bookmarkStore.setBookmark(rawFile)
 })
 
 /**

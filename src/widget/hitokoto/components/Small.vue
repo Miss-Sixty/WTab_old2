@@ -21,7 +21,7 @@ defineProps({
     <p class="hitokoto">
       {{ hitokoto }}
     </p>
-    <p class="from_who text">—— {{ from_who }}</p>
+    <p class="from_who text">—— {{ from_who || '佚名' }}</p>
   </div>
 </template>
 
