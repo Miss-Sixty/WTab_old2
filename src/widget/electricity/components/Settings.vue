@@ -47,7 +47,7 @@ defineExpose({ openDialog })
       <el-button type="primary" @click="submit">确 定</el-button>
     </template>
 
-    <el-form ref="formRef" :model="formData" label-width="50px">
+    <el-form ref="formRef" :model="formData" label-width="80px" style="margin-top: 20px">
       <el-form-item
         label="UUID"
         prop="uuid"

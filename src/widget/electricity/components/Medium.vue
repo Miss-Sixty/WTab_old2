@@ -28,9 +28,14 @@ const month_amount = computed(() => props.widgetData?.month_amount)
 const elePrice = computed(() => props.widgetData?.elePrice)
 const update = computed(() => dayjs(props.widgetData?.update).format('MM-DD HH:mm'))
 
+watch(
+  () => props.widgetData?.update,
+  (update) => update && getDate()
+)
+
 const loading = ref(false)
 
-// 个人排名信息
+// 获取信息
 const getDate = async (message?: string) => {
   if (!uuid.value || !token.value) return message && ElMessage.error(message)
   loading.value = true

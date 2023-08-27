@@ -20,16 +20,8 @@ const props = defineProps({
 })
 
 watch(
-  [
-    () => props.widgetData?.operaterid,
-    () => props.widgetData?.examplecode,
-    () => props.widgetData?.clientcode,
-    () => props.widgetData?.deptcode
-  ],
-  ([operaterid, examplecode, clientcode, deptcode]) => {
-    if (!operaterid || !examplecode || !clientcode || !deptcode) return
-    getDate()
-  }
+  () => props.widgetData?.update,
+  (update) => update && getDate()
 )
 
 const loading = ref(false)

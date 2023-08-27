@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { chargeRecordApi } from '@/api/electricity'
 import dayjs from 'dayjs'
 import useLayoutStore from '@/stores/layout'
+import { Close } from '@/icons'
 const layoutStore = useLayoutStore()
 
 const props = defineProps({
@@ -69,11 +70,12 @@ defineExpose({ openDialog })
   <el-drawer
     v-model="state.dialogVisible"
     append-to-body
-    :with-header="layoutStore.colsNum < 5"
+    :with-header="false"
     :size="layoutStore.colsNum < 5 ? '100%' : 500"
     @closed="closedChange"
   >
     <div class="content">
+      <Icon class="close-icon" @click="state.dialogVisible = false"><Close /></Icon>
       <div
         style="
           border-bottom: 1px solid var(--el-border-color-lighter);
@@ -113,15 +115,16 @@ defineExpose({ openDialog })
         </el-row>
       </div>
       <el-table v-loading="state.loading" style="flex: 1" :data="dataList">
-        <el-table-column prop="fees" label="充值金额(元)" />
+        <el-table-column prop="fees" label="充值金额(元)" show-overflow-tooltip />
         <el-table-column
           :formatter="(row: any) => row.amount + row.charge_pooling_amount"
           label="充值电量(度)"
+          show-overflow-tooltip
         />
         <!-- <el-table-column prop="eleprice" label="电价(元/度)" /> -->
         <el-table-column
           prop="time"
-          min-width="100px"
+          show-overflow-tooltip
           :formatter="(row: any) => dayjs(row.time).format('YYYY-MM-DD HH:mm:ss')"
           label="充值时间"
         />
@@ -134,10 +137,25 @@ defineExpose({ openDialog })
 .el-row {
   text-align: center;
 }
-
 .content {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  .close-icon {
+    position: absolute;
+    right: 0;
+    top: 3px;
+    z-index: 9999;
+    font-size: 22px;
+    color: #72767b;
+    padding: 5px;
+    box-sizing: content-box;
+    cursor: pointer;
+    &:hover {
+      color: #409eff;
+    }
+  }
 }
 </style>

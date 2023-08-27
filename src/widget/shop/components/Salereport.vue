@@ -113,8 +113,8 @@ defineExpose({ openDialog })
         style="flex: 1"
         :data="state.retdata"
       >
-        <el-table-column prop="operName" label="姓名" />
-        <el-table-column prop="type" label="属性" width="80">
+        <el-table-column prop="operName" label="姓名" show-overflow-tooltip />
+        <el-table-column prop="type" label="属性" width="90">
           <template #default="{ row }">
             <el-tag :type="row.type === '销售单' ? 'success' : 'danger'" disable-transitions>
               {{ row.type }}
@@ -122,7 +122,7 @@ defineExpose({ openDialog })
           </template>
         </el-table-column>
         <el-table-column prop="money" label="金额" width="90" />
-        <el-table-column prop="inputDate" label="时间" />
+        <el-table-column prop="inputDate" label="时间" show-overflow-tooltip />
       </el-table>
     </div>
   </el-drawer>
@@ -138,9 +138,9 @@ defineExpose({ openDialog })
   .close-icon {
     position: absolute;
     right: 0;
-    top: 2px;
+    top: 3px;
     z-index: 9999;
-    font-size: 24px;
+    font-size: 22px;
     color: #72767b;
     padding: 5px;
     box-sizing: content-box;

@@ -56,8 +56,7 @@ defineExpose({ openDialog })
     <template #header-right>
       <el-button type="primary" @click="submit">确 定</el-button>
     </template>
-    {{ formData }}
-    <el-form ref="formRef" :model="formData" label-width="90px">
+    <el-form ref="formRef" :model="formData" label-width="90px" style="margin-top: 20px">
       <el-form-item
         label="operaterid"
         prop="operaterid"

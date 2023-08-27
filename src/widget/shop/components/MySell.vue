@@ -124,10 +124,10 @@ defineExpose({ openDialog })
         style="flex: 1"
         :data="state.retdata"
       >
-        <el-table-column prop="operrank" label="排名" />
-        <el-table-column prop="opername" label="姓名" />
-        <el-table-column prop="deptname" label="店铺" />
-        <el-table-column prop="factmoney" label="金额" />
+        <el-table-column prop="operrank" label="排名" show-overflow-tooltip />
+        <el-table-column prop="opername" label="姓名" show-overflow-tooltip />
+        <el-table-column prop="deptname" label="店铺" show-overflow-tooltip />
+        <el-table-column prop="factmoney" label="金额" show-overflow-tooltip />
       </el-table>
     </div>
   </el-drawer>
@@ -143,9 +143,9 @@ defineExpose({ openDialog })
   .close-icon {
     position: absolute;
     right: 0;
-    top: 2px;
+    top: 3px;
     z-index: 9999;
-    font-size: 24px;
+    font-size: 22px;
     color: #72767b;
     padding: 5px;
     box-sizing: content-box;

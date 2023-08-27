@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { amountRecordApi } from '@/api/electricity'
 import dayjs from 'dayjs'
 import useLayoutStore from '@/stores/layout'
+import { Close } from '@/icons'
 const layoutStore = useLayoutStore()
 
 const props = defineProps({
@@ -69,11 +70,12 @@ defineExpose({ openDialog })
   <el-drawer
     v-model="state.dialogVisible"
     append-to-body
-    :with-header="layoutStore.colsNum < 5"
+    :with-header="false"
     :size="layoutStore.colsNum < 5 ? '100%' : 500"
     @closed="closedChange"
   >
     <div class="content">
+      <Icon class="close-icon" @click="state.dialogVisible = false"><Close /></Icon>
       <div
         style="
           border-bottom: 1px solid var(--el-border-color-lighter);
@@ -113,11 +115,27 @@ defineExpose({ openDialog })
         </el-row>
       </div>
       <el-table v-loading="state.loading" style="flex: 1" :data="dataList">
-        <el-table-column prop="date" label="日期" min-width="100px" />
-        <el-table-column label="房间用电" :formatter="(row: any) => `${row.room_consume}度`" />
-        <el-table-column label="公摊用电" :formatter="(row: any) => `${row.pool_consume}度`" />
-        <el-table-column label="总共用电" :formatter="(row: any) => `${row.total_consume}度`" />
-        <el-table-column label="剩余电量" :formatter="(row: any) => `${row.left_amount}度`" />
+        <el-table-column prop="date" label="日期" show-overflow-tooltip />
+        <el-table-column
+          label="房间用电"
+          :formatter="(row: any) => `${row.room_consume}度`"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="公摊用电"
+          :formatter="(row: any) => `${row.pool_consume}度`"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="总共用电"
+          :formatter="(row: any) => `${row.total_consume}度`"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="剩余电量"
+          :formatter="(row: any) => `${row.left_amount}度`"
+          show-overflow-tooltip
+        />
       </el-table>
     </div>
   </el-drawer>
@@ -127,10 +145,25 @@ defineExpose({ openDialog })
 .el-row {
   text-align: center;
 }
-
 .content {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  .close-icon {
+    position: absolute;
+    right: 0;
+    top: 3px;
+    z-index: 9999;
+    font-size: 22px;
+    color: #72767b;
+    padding: 5px;
+    box-sizing: content-box;
+    cursor: pointer;
+    &:hover {
+      color: #409eff;
+    }
+  }
 }
 </style>
