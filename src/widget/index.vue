@@ -63,6 +63,7 @@ const widgetComponent = computed(() => {
       :editing="editing"
       :size="size"
       :itemData="itemData"
+      :type="type"
     />
   </div>
 </template>

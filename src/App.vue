@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import useLayoutStore from '@/stores/layout'
-import useAppStore from '@/stores/app'
 import { GridLayout, GridItem } from '@/layout/Grid'
 import Widget from '@/widget/index.vue'
 import Wallpaper from '@/layout/Wallpaper.vue'
@@ -10,7 +9,6 @@ import evevtBus from '@/utils/evevtBus'
 import WidgetDialog from '@/widget/dialog.vue'
 
 const layoutStore = useLayoutStore()
-const appStore = useAppStore()
 
 const contextMenuWidgetData = ref<any>({})
 const contextMenuRef = ref()
@@ -67,14 +65,6 @@ const editWidget = (item: any) => {
 
 const homeRef = ref()
 const dragging = ref(false)
-
-provide(
-  'app',
-  reactive({
-    date: appStore.date,
-    reset: appStore.reset
-  })
-)
 </script>
 
 <template>

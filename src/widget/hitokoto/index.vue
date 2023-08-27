@@ -8,7 +8,7 @@ import Large from './components/Large.vue'
 import { hitokotoApi } from '@/api/hitokoto'
 import { useElementVisibility } from '@vueuse/core'
 import dayjs from 'dayjs'
-// const appConfig: any = inject('app')
+import eventBus from '@/utils/evevtBus'
 
 defineOptions({
   name: 'Hitokoto'
@@ -26,6 +26,10 @@ const props = defineProps({
   itemData: {
     type: Object,
     required: true
+  },
+  type: {
+    type: String,
+    default: 'addWidget'
   }
 })
 
@@ -33,16 +37,6 @@ const hitokoto = ref('')
 const from_who = ref('')
 const from = ref('')
 const loading = ref(false)
-const init = async () => {
-  const widgetData = props.itemData.widgetData || {}
-
-  if (!dayjs().isSame(widgetData.updateDate, 'day')) return getDate()
-  if (!widgetData.hitokoto) return getDate()
-
-  hitokoto.value = widgetData.hitokoto
-  from_who.value = widgetData.from_who
-  from.value = widgetData.from
-}
 
 const getDate = async () => {
   loading.value = true
@@ -68,10 +62,23 @@ watch(targetIsVisible, (val) => {
   if (val) init()
 })
 
+const init = async () => {
+  const widgetData = props.itemData.widgetData || {}
+  if (!widgetData.hitokoto) return getDate()
+
+  hitokoto.value = widgetData.hitokoto
+  from_who.value = widgetData.from_who
+  from.value = widgetData.from
+}
+
 const detailVisible = ref(false)
 const clickChange = () => {
   if (props.dragging) return
   detailVisible.value = true
+}
+
+if (props.type !== 'addWidget') {
+  eventBus.on('onReset', () => targetIsVisible.value && getDate())
 }
 </script>
 
