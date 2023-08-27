@@ -1,45 +1,54 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { elemeterInfoApi } from '../api'
+import { elemeterInfoApi } from '@/api/electricity'
 import dayjs from 'dayjs'
 import Consumption from './Consumption.vue'
 import Charge from './Charge.vue'
 import { Refresh } from '@/icons'
 import Icon from '@/components/Icon.vue'
 import { useElementVisibility } from '@vueuse/core'
+import eventBus from '@/utils/evevtBus'
 
 const props = defineProps({
-  dragging: Boolean
+  dragging: Boolean,
+  type: {
+    type: String,
+    default: 'addWidget'
+  },
+  widgetData: {
+    type: Object,
+    required: true
+  }
 })
 
+const uuid = computed(() => props.widgetData?.uuid)
+const token = computed(() => props.widgetData?.token)
+const total_amount = computed(() => props.widgetData?.total_amount)
+const month_amount = computed(() => props.widgetData?.month_amount)
+const elePrice = computed(() => props.widgetData?.elePrice)
+const update = computed(() => props.widgetData?.update)
+
 const loading = ref(false)
-const data = ref({
-  consume_amount: 0,
-  consume_amount_time: '',
-  consume_amount_ranking: 0,
-  total_amount: 0,
-  total_amount_ranking: 0,
-  pooling_amount: 0,
-  charge_pooling_amount: 0,
-  month_amount: 0
-})
+
 // 个人排名信息
-const init = async () => {
+const getDate = async () => {
+  if (!uuid.value || !token.value) return
   loading.value = true
+
   try {
-    const res = await elemeterInfoApi()
-    data.value = res.data.result
+    const { data } = await elemeterInfoApi({ uuid: uuid.value, token: token.value })
+    const { consume_amount, total_amount, charge_pooling_amount, month_amount, pooling_amount } =
+      data.result
+
+    props.widgetData.update = dayjs(data.consume_amount_time).format('MM-DD HH:mm')
+    props.widgetData.total_amount = total_amount
+    props.widgetData.month_amount = month_amount
+    props.widgetData.elePrice =
+      total_amount - +consume_amount - pooling_amount + charge_pooling_amount
   } finally {
     loading.value = false
   }
 }
-
-const update = computed(() => dayjs(data.value.consume_amount_time).format('MM-DD HH:mm'))
-// 电费
-const elePrice = computed(() => {
-  const { pooling_amount, charge_pooling_amount, consume_amount, total_amount } = data.value
-  return total_amount - +consume_amount - pooling_amount + charge_pooling_amount
-})
 
 // 弹窗
 const consumptionRef = ref()
@@ -49,15 +58,19 @@ const openDialog = (domRef: any) => {
   domRef.openDialog()
 }
 
-const domRef = ref()
-const targetIsVisible = useElementVisibility(domRef)
+const widgetRef = ref()
+const targetIsVisible = useElementVisibility(widgetRef)
 watch(targetIsVisible, (val) => {
-  if (val && !data.value.consume_amount) init()
+  if (val && !props.widgetData.update) getDate()
 })
+
+if (props.type !== 'addWidget') {
+  eventBus.on('onResetHour', () => targetIsVisible.value && getDate())
+}
 </script>
 
 <template>
-  <div class="medium" ref="domRef">
+  <div class="medium" ref="widgetRef">
     <el-row style="height: 100%" align="middle">
       <el-col class="left" v-loading="loading" style="height: 100%" :span="17">
         <el-row style="height: 100%" align="middle">
@@ -72,7 +85,7 @@ watch(targetIsVisible, (val) => {
               <template #title>
                 <div style="display: inline-flex; align-items: center">
                   剩余电量 {{ update }}
-                  <Icon style="margin-left: 4px; cursor: pointer" @click="init">
+                  <Icon style="margin-left: 4px; cursor: pointer" @click="getDate">
                     <Refresh />
                   </Icon>
                 </div>
@@ -83,10 +96,10 @@ watch(targetIsVisible, (val) => {
             </el-statistic>
           </el-col>
           <el-col :span="12">
-            <el-statistic title="本月用电(元)" :value="data.month_amount" />
+            <el-statistic title="本月用电(元)" :value="month_amount" />
           </el-col>
           <el-col :span="12">
-            <el-statistic title="总计充值(元)" :value="data.total_amount" />
+            <el-statistic title="总计充值(元)" :value="total_amount" />
           </el-col>
         </el-row>
       </el-col>
@@ -98,8 +111,8 @@ watch(targetIsVisible, (val) => {
       </el-col>
     </el-row>
 
-    <Consumption ref="consumptionRef" />
-    <Charge ref="chargeRef" />
+    <Consumption ref="consumptionRef" :uuid="uuid" :token="token" />
+    <Charge ref="chargeRef" :uuid="uuid" :token="token" />
   </div>
 </template>
 

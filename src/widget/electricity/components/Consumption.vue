@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { chargeRecordApi } from '../api'
+import { chargeRecordApi } from '@/api/electricity'
 import dayjs from 'dayjs'
 import useLayoutStore from '@/stores/layout'
 const layoutStore = useLayoutStore()
 
+const props = defineProps({
+  uuid: {
+    type: String,
+    default: ''
+  },
+  token: {
+    type: String,
+    default: ''
+  }
+})
 const state = reactive({
   dialogVisible: false,
   loading: false
@@ -16,9 +26,10 @@ const month = ref(0)
 const threeMonth = ref(0)
 const halfYear = ref(0)
 const getDetailDate = async () => {
+  if (!props.uuid || !props.token) return
   state.loading = true
   try {
-    const { data } = await chargeRecordApi()
+    const { data } = await chargeRecordApi({ uuid: props.uuid, token: props.token })
     dataList.value = data.result.history
     const halfMonthDate = dayjs().subtract(15, 'day')
     const monthDate = dayjs().subtract(1, 'month')

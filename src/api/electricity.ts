@@ -1,24 +1,27 @@
 import request from '@/utils/request'
 import dayjs from 'dayjs'
-const VITE_ELECTRICITY_UUID = '6850685d6dda8eb95628e6a85b551216'
-const VITE_ELECTRICITY_TOKEN =
-  'ed130a4d01e5b6435e88ba4e182351b9841a02183e4e785412ec1c7e1d565f3d836f2f64954c92839424af28a3e462fbc9454804c14b825301e2fb86ab1f7360'
+// 设置数据类型
+interface ElectricityInfo {
+  uuid: string
+  token: string
+}
+
 // 电费详情
-export function elemeterInfoApi() {
+export function elemeterInfoApi({ uuid, token }: ElectricityInfo) {
   return request({
-    url: `${import.meta.env.VITE_API_URL}/admin/elemeter/${VITE_ELECTRICITY_UUID}`,
+    url: `${import.meta.env.VITE_API_URL}/admin/elemeter/${uuid}`,
     headers: {
-      'x-access-token': VITE_ELECTRICITY_TOKEN
+      'x-access-token': token
     }
   })
 }
 
 // 充值记录
-export function chargeRecordApi() {
+export function chargeRecordApi({ uuid, token }: ElectricityInfo) {
   return request({
-    url: `${import.meta.env.VITE_API_URL}/admin/elemeter/charge_record/${VITE_ELECTRICITY_UUID}`,
+    url: `${import.meta.env.VITE_API_URL}/admin/elemeter/charge_record/${uuid}`,
     headers: {
-      'x-access-token': VITE_ELECTRICITY_TOKEN
+      'x-access-token': token
     },
     params: {
       start_time: '1675304460000',
@@ -28,11 +31,11 @@ export function chargeRecordApi() {
 }
 
 // 用电记录
-export function amountRecordApi() {
+export function amountRecordApi({ uuid, token }: ElectricityInfo) {
   return request({
-    url: `${import.meta.env.VITE_API_URL}/admin/elemeter/amount_record/${VITE_ELECTRICITY_UUID}`,
+    url: `${import.meta.env.VITE_API_URL}/admin/elemeter/amount_record/${uuid}`,
     headers: {
-      'x-access-token': VITE_ELECTRICITY_TOKEN
+      'x-access-token': token
     },
     params: {
       start_time: dayjs().subtract(31, 'day').valueOf(),

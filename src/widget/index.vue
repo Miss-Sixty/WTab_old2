@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { AddLine, SubtractLine } from '@/icons'
-import Icon from '@/components/Icon.vue'
 import useLayoutStore from '@/stores/layout'
-const layoutStore = useLayoutStore()
 import widgets from '@/widget'
 import { useChangeCase } from '@vueuse/integrations/useChangeCase'
 
+const layoutStore = useLayoutStore()
 defineEmits(['addWidget', 'delWidget'])
 const props = defineProps({
   type: {
@@ -53,9 +52,15 @@ const widgetComponent = computed(() => {
     }"
     :style="layoutStore.sizeGridWH(size)"
   >
-    <Icon @click="$emit(type)" v-show="type" :style="{ backgroundColor: iconData.bgColor }">
+    <Icon
+      class="operate"
+      @click="$emit(type)"
+      v-show="type"
+      :style="{ backgroundColor: iconData.bgColor }"
+    >
       <component :is="iconData.icon" />
     </Icon>
+
     <component
       class="content__widget"
       :is="widgetComponent.component"
@@ -76,21 +81,7 @@ const widgetComponent = computed(() => {
   border-radius: 14px;
   background-color: var(--w-widget-bg-color);
 
-  &.scaleLarge {
-    transform: scale(0.65);
-    .icon {
-      transform: translate(-25%, -25%) scale(1.5);
-    }
-  }
-
-  &__widget {
-    width: 100%;
-    height: 100%;
-    border-radius: 14px;
-    overflow: hidden;
-  }
-
-  .icon {
+  .operate {
     position: absolute;
     left: 0;
     top: 0;
@@ -105,12 +96,26 @@ const widgetComponent = computed(() => {
     transform: translate(-25%, -25%) scale(1);
     transition: transform 0.25s;
   }
+
+  &.scaleLarge {
+    transform: scale(0.65);
+    .operate {
+      transform: translate(-25%, -25%) scale(1.5);
+    }
+  }
+
+  &__widget {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+  }
 }
 
 @media screen and (max-width: 500px) {
   .content.scale {
     transform: scale(0.65);
-    .icon {
+    .operate {
       transform: translate(-25%, -25%) scale(1.5);
     }
   }

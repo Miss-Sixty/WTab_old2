@@ -40,7 +40,20 @@ const list: any = {
     key: 'electricity',
     name: '电费',
     text: '电费相关',
-    sizes: ['medium']
+    sizes: ['medium'],
+    widgetData: {
+      uuid: '',
+      token: '',
+      consume_amount: 0,
+      consume_amount_time: '',
+      consume_amount_ranking: 0,
+      total_amount: 0,
+      total_amount_ranking: 0,
+      pooling_amount: 0,
+      charge_pooling_amount: 0,
+      month_amount: 0,
+      updateDate: ''
+    }
   }
 }
 
