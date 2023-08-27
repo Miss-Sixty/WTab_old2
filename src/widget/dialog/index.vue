@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const componentsContext: any = import.meta.glob('./dialog/*/index.vue', { eager: true })
+const componentsContext: any = import.meta.glob('./*/index.vue', { eager: true })
 
 const components: any = {}
 for (const path in componentsContext) {

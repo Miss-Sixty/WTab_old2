@@ -1,10 +1,30 @@
 <script setup lang="ts">
 import { nextTick, reactive, ref } from 'vue'
-import { operrankinginfoApi } from '../../../api'
+import { operrankinginfoApi } from '@/api/shop'
 import dayjs from 'dayjs'
-import userList from '../../../userList'
 import useLayoutStore from '@/stores/layout'
+import { useStyleTag } from '@vueuse/core'
+import { Close } from '@/icons'
 const layoutStore = useLayoutStore()
+
+const props = defineProps({
+  operaterid: {
+    type: String,
+    default: ''
+  },
+  examplecode: {
+    type: String,
+    default: ''
+  },
+  clientcode: {
+    type: String,
+    default: ''
+  },
+  highlight: {
+    type: Array,
+    default: () => []
+  }
+})
 
 const state = reactive({
   dialogVisible: false,
@@ -21,24 +41,23 @@ const date: any = {
   month: {
     begintime: dayjs().startOf('month').format('YYYY-MM-DD'),
     endtime: dayjs().endOf('month').format('YYYY-MM-DD')
-  },
-  year: {
-    begintime: dayjs().startOf('year').format('YYYY-MM-DD'),
-    endtime: dayjs().endOf('year').format('YYYY-MM-DD')
   }
 }
 
 const tableRef = ref()
-const getDetailDate = async (name: string) => {
+const getDetailDate = async () => {
   state.loading = true
   try {
-    const { data } = await operrankinginfoApi({
-      operaterid: userList[name].operaterid,
+    const { retdata, retmsg } = await operrankinginfoApi({
+      operaterid: props.operaterid,
+      examplecode: props.examplecode,
+      clientcode: props.clientcode,
       ...date[state.dateType]
     })
-    const { retdata } = data
+    if (retmsg !== 'ok') return ElMessage.error(retmsg)
     state.retdata = retdata
-    const index = retdata.findIndex((item: any) => item.opername === '汪艳红') - 8
+    const [firstData]: any = props.highlight
+    const index = retdata.findIndex((item: any) => item[firstData.key] === firstData.value) - 6
 
     await nextTick()
     tableRef.value.scrollTo({ top: index * 40, behavior: 'smooth' })
@@ -47,18 +66,36 @@ const getDetailDate = async (name: string) => {
   }
 }
 
+const color = computed(() => {
+  let css = ''
+  props.highlight.forEach((item: any, i) => {
+    css += `.color${i} { --el-table-tr-bg-color: ${item.color} }`
+  })
+  return css
+})
+
+watch(
+  () => state.dialogVisible,
+  (bl) => {
+    const { load, unload, isLoaded } = useStyleTag(color.value)
+    if (!bl) return unload()
+    if (!isLoaded) load()
+  }
+)
+
 const tableRowClassName = ({ row }: any) => {
-  if (row.opername === '汪艳红') {
-    return 'warning-row'
-  } else if (row.deptname === '16店') {
-    return 'info-row'
+  for (let i = 0; i < props.highlight.length; i++) {
+    const item: any = props.highlight[i]
+    if (row[item.key] === item.value) {
+      return 'color' + i
+    }
   }
 }
 
-const openDialog = async (row: { name: string; dateType: string }) => {
+const openDialog = async (dateType: string) => {
   state.dialogVisible = true
-  state.dateType = row.dateType
-  getDetailDate(row.name)
+  state.dateType = dateType
+  getDetailDate()
 }
 
 // 关闭弹窗
@@ -73,13 +110,13 @@ defineExpose({ openDialog })
 <template>
   <el-drawer
     v-model="state.dialogVisible"
-    :with-header="layoutStore.colsNum < 5"
     :size="layoutStore.colsNum < 5 ? '100%' : 500"
-    title="排名"
     @closed="closedChange"
     append-to-body
+    :with-header="false"
   >
     <div class="content">
+      <Icon class="close-icon" @click="state.dialogVisible = false"><Close /></Icon>
       <el-table
         ref="tableRef"
         v-loading="state.loading"
@@ -101,13 +138,21 @@ defineExpose({ openDialog })
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 
-  :deep(.warning-row) {
-    --el-table-tr-bg-color: var(--el-color-warning-light-5);
-  }
-
-  :deep(.info-row) {
-    --el-table-tr-bg-color: var(--el-color-info-light-5);
+  .close-icon {
+    position: absolute;
+    right: 0;
+    top: 2px;
+    z-index: 9999;
+    font-size: 24px;
+    color: #72767b;
+    padding: 5px;
+    box-sizing: content-box;
+    cursor: pointer;
+    &:hover {
+      color: #409eff;
+    }
   }
 }
 </style>

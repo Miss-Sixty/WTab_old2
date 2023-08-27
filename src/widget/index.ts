@@ -1,6 +1,6 @@
 import { useChangeCase } from '@vueuse/integrations/useChangeCase'
 const componentsContext: any = import.meta.glob('./*/index.vue', { eager: true })
-
+delete componentsContext['./dialog/index.vue']
 const list: any = {
   hitokoto: {
     key: 'hitokoto',
@@ -34,7 +34,20 @@ const list: any = {
     key: 'shop',
     name: '门店',
     text: '汪汪门店',
-    sizes: ['small', 'medium']
+    sizes: ['medium'],
+    widgetData: {
+      operaterid: '',
+      examplecode: '',
+      clientcode: '',
+      deptcode: '',
+      highlight: [{ key: '', value: '', color: '' }],
+      ranking: 0,
+      offlinesalenum: 0,
+      factmoney: 0,
+      selfsalenum: 0,
+      selfasfactmoney: 0,
+      sharasfactmoney: 0
+    }
   },
   electricity: {
     key: 'electricity',

@@ -7,7 +7,7 @@ import Wallpaper from '@/layout/Wallpaper.vue'
 import Header from '@/layout/Header.vue'
 import Contextmenu from '@/layout/Contextmenu.vue'
 import evevtBus from '@/utils/evevtBus'
-import WidgetDialog from '@/widget/dialog.vue'
+import WidgetDialog from '@/widget/dialog/index.vue'
 
 const layoutStore = useLayoutStore()
 const appStore = useAppStore()

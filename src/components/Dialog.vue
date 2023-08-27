@@ -2,7 +2,7 @@
 import { Close } from '@/icons'
 import Icon from '@/components/Icon.vue'
 const emit = defineEmits(['update:modelValue', 'closed'])
-defineProps({
+const props = defineProps({
   modelValue: {
     type: Boolean,
     default: false
@@ -22,10 +22,15 @@ defineProps({
 })
 const closeDialog = () => {
   emit('update:modelValue', false)
-  setTimeout(() => {
-    emit('closed')
-  }, 250)
 }
+
+watch(
+  () => props.modelValue,
+  (bl) => {
+    if (bl) return
+    setTimeout(() => emit('closed'), 250)
+  }
+)
 </script>
 
 <template>

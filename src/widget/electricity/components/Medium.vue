@@ -26,13 +26,13 @@ const token = computed(() => props.widgetData?.token)
 const total_amount = computed(() => props.widgetData?.total_amount)
 const month_amount = computed(() => props.widgetData?.month_amount)
 const elePrice = computed(() => props.widgetData?.elePrice)
-const update = computed(() => props.widgetData?.update)
+const update = computed(() => dayjs(props.widgetData?.update).format('MM-DD HH:mm'))
 
 const loading = ref(false)
 
 // 个人排名信息
-const getDate = async () => {
-  if (!uuid.value || !token.value) return
+const getDate = async (message?: string) => {
+  if (!uuid.value || !token.value) return message && ElMessage.error(message)
   loading.value = true
 
   try {
@@ -40,7 +40,7 @@ const getDate = async () => {
     const { consume_amount, total_amount, charge_pooling_amount, month_amount, pooling_amount } =
       data.result
 
-    props.widgetData.update = dayjs(data.consume_amount_time).format('MM-DD HH:mm')
+    props.widgetData.update = dayjs().valueOf()
     props.widgetData.total_amount = total_amount
     props.widgetData.month_amount = month_amount
     props.widgetData.elePrice =
@@ -85,7 +85,10 @@ if (props.type !== 'addWidget') {
               <template #title>
                 <div style="display: inline-flex; align-items: center">
                   剩余电量 {{ update }}
-                  <Icon style="margin-left: 4px; cursor: pointer" @click="getDate">
+                  <Icon
+                    style="margin-left: 4px; cursor: pointer"
+                    @click="getDate('请先配置设备信息')"
+                  >
                     <Refresh />
                   </Icon>
                 </div>
@@ -136,7 +139,7 @@ if (props.type !== 'addWidget') {
       background-color 0.3s,
       color 0.3s;
     cursor: pointer;
-    &:first-child {
+    &:not(:last-child) {
       border-bottom: 1px solid var(--el-border-color);
     }
     &:hover {

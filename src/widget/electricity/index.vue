@@ -59,7 +59,7 @@ const handleSettings = () => {
     transition:
       transform 0.25s,
       color 0.25s;
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--w-settings-icon-color);
     will-change: transform;
     &:hover {
       transform: rotateZ(60deg);
