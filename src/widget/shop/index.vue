@@ -30,18 +30,24 @@ const settingsRef = ref()
 const handleSettings = () => {
   settingsRef.value.openDialog(props.itemData)
 }
+
+const mediumRef = ref()
+const update = () => {
+  mediumRef.value.getDate()
+}
 </script>
 
 <template>
   <div class="widget">
     <Icon v-show="editing" class="setting" @click="handleSettings"> <SettingsIcon /> </Icon>
     <Medium
+      ref="mediumRef"
       v-if="size === 'medium'"
       :dragging="dragging"
       :widgetData="itemData.widgetData"
       :type="type"
     />
-    <Settings ref="settingsRef" />
+    <Settings ref="settingsRef" @update="update" />
   </div>
 </template>
 

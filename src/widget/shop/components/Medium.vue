@@ -19,11 +19,6 @@ const props = defineProps({
   }
 })
 
-watch(
-  () => props.widgetData?.update,
-  (update) => update && getDate()
-)
-
 const loading = ref(false)
 const operaterid = computed(() => props.widgetData?.operaterid)
 const examplecode = computed(() => props.widgetData?.examplecode)
@@ -49,9 +44,9 @@ const getDate = async (message?: string) => {
       examplecode.value,
       clientcode.value
     )
+    if (retmsg !== 'ok') return ElMessage.error(retmsg)
     const [firstData] = retdata
     if (!firstData) return
-    if (retmsg !== 'ok') return ElMessage.error(retmsg)
     props.widgetData.update = dayjs().valueOf()
     props.widgetData.ranking = firstData.ranking
     props.widgetData.offlinesalenum = firstData.offlinesalenum
@@ -80,8 +75,9 @@ watch(targetIsVisible, (val) => {
 })
 
 if (props.type !== 'addWidget') {
-  eventBus.on('onResetHour', () => targetIsVisible.value && getDate())
+  eventBus.on('onResetHour', () => targetIsVisible.value && !loading.value && getDate())
 }
+defineExpose({ getDate })
 </script>
 
 <template>

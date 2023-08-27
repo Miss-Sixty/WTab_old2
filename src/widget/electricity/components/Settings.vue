@@ -4,6 +4,7 @@ const layoutStore = useLayoutStore()
 defineOptions({
   name: 'electricitySettings'
 })
+const emit = defineEmits(['update'])
 
 const dialogVisible = ref(false)
 const formRef = ref()
@@ -32,6 +33,7 @@ const submit = async () => {
     }
     dialogVisible.value = false
     ElMessage.success('修改成功！')
+    emit('update')
   } catch (e) {}
 }
 

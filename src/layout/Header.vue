@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import useLayoutStore from '@/stores/layout'
 import { Settings, AccountCircleFill, CheckboxCircleFill, LoopRightLine } from '@/icons'
-import Icon from '@/components/Icon.vue'
-import Button from '@/components/Button.vue'
 import { nanoid } from 'nanoid'
 import { getQrCodeApi, loopGetWxStateApi } from '@/api/qrCode'
 
@@ -59,14 +57,19 @@ const wxLoginState = async () => {
 <template>
   <header class="header">
     <Transition name="slide-fade">
-      <ElButton
+      <!-- <ElButton
         style="margin-right: 6px"
         size="small"
         v-show="layoutStore.editing"
         @click="layoutStore.editing = false"
-      >
-        保 存
-      </ElButton>
+        type="primary"
+        :icon="CheckLine"
+        circle
+      /> -->
+
+      <Icon v-show="layoutStore.editing" class="check" @click="layoutStore.editing = false">
+        <CheckboxCircleFill />
+      </Icon>
     </Transition>
 
     <!-- <Icon class="settings">
@@ -158,25 +161,30 @@ const wxLoginState = async () => {
   justify-content: flex-end;
   align-items: center;
 
-  .settings {
+  .icon {
     padding: 6px;
     margin-left: 6px;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 36px;
+  }
+
+  .settings {
     transition:
       transform 0.25s,
       color 0.25s;
     color: rgba(255, 255, 255, 0.35);
-    font-size: 36px;
     will-change: transform;
     &:hover {
       color: rgba(255, 255, 255, 0.65);
+      transform: rotateZ(60deg);
     }
   }
 
-  &--hover {
+  .check {
+    color: var(--el-color-primary);
     &:hover {
-      transform: rotateZ(60deg);
+      color: var(--el-color-primary-light-3);
     }
   }
 }

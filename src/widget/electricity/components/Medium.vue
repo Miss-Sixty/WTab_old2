@@ -28,11 +28,6 @@ const month_amount = computed(() => props.widgetData?.month_amount)
 const elePrice = computed(() => props.widgetData?.elePrice)
 const update = computed(() => dayjs(props.widgetData?.update).format('MM-DD HH:mm'))
 
-watch(
-  () => props.widgetData?.update,
-  (update) => update && getDate()
-)
-
 const loading = ref(false)
 
 // 获取信息
@@ -70,8 +65,9 @@ watch(targetIsVisible, (val) => {
 })
 
 if (props.type !== 'addWidget') {
-  eventBus.on('onResetHour', () => targetIsVisible.value && getDate())
+  eventBus.on('onResetHour', () => targetIsVisible.value && !loading.value && getDate())
 }
+defineExpose({ getDate })
 </script>
 
 <template>
