@@ -1,16 +1,37 @@
 <script setup lang="ts">
 import useWallpaperStore from '@/stores/wallpaper'
+import useInterval from '@/hooks/useInterval'
 defineOptions({
   name: 'Wallpaper'
 })
 const wallpaperStore = useWallpaperStore()
-wallpaperStore.getWallpaper(wallpaperStore.type)
+const loading = ref(false)
+const getData = async () => {
+  try {
+    loading.value = true
+    await wallpaperStore.getWallpaper(wallpaperStore.type)
+  } finally {
+    loading.value = false
+  }
+}
+
+const widgetRef = ref()
+const init = async () => {
+  useInterval({
+    date: wallpaperStore.date,
+    dateType: 'day',
+    callback: getData,
+    elementVisibilityRef: widgetRef,
+    loading: loading
+  })
+}
+init()
 
 const bgImg = ref([0, 0, 0, 0]) // 图片是否加载完成 0:mini 1:normal 2:hd 3:my
 </script>
 
 <template>
-  <TransitionGroup name="opacity">
+  <TransitionGroup name="opacity" ref="widgetRef" tag="div">
     <template v-if="wallpaperStore.type === 'bing'">
       <img
         @load="bgImg[0] = 1"

@@ -33,12 +33,9 @@ export default defineStore(
 
     async function getBingWallpaper() {
       try {
-        if (dayjs().isSame(date.value, 'day') && (bing_hd_url.value || bing_hd_url.value)) return
         const { copyright, urlbase } = await wallpaperApi()
         if (!urlbase) return
-        // const copyright = '看着相机镜头的松鼠 (nh© Alfredo Piedrafita/Getty Images)'
-        // const urlbase = '/th?id=OHR.CameraSquirrel_ZH-CN3580119980'
-
+      
         bingCopyright.value = copyright
         bing_mini_url.value = `https://www.bing.com${urlbase}_320x240.jpg`
         bing_1080_url.value = `https://www.bing.com${urlbase}_1920x1080.jpg`
@@ -54,14 +51,13 @@ export default defineStore(
       my_url.value = file ? URL.createObjectURL(file) : ''
     }
 
-    const getWallpaper = (type: 'all' | 'my' | 'bing') => {
+    const getWallpaper = async (type: 'all' | 'my' | 'bing') => {
       if (type === 'all') {
-        getBingWallpaper()
-        getMyWallpaper()
+        return Promise.all([getMyWallpaper(), getBingWallpaper()])
       } else if (type === 'my') {
-        getMyWallpaper()
+        return getMyWallpaper()
       } else if (type === 'bing') {
-        getBingWallpaper()
+        return getBingWallpaper()
       }
     }
 
