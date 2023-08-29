@@ -6,9 +6,8 @@ import Small from './components/Small.vue'
 import Medium from './components/Medium.vue'
 import Large from './components/Large.vue'
 import { hitokotoApi } from '@/api/hitokoto'
-import { useElementVisibility } from '@vueuse/core'
 import dayjs from 'dayjs'
-import eventBus from '@/utils/evevtBus'
+import useInterval from '@/hooks/useInterval'
 
 defineOptions({
   name: 'Hitokoto'
@@ -33,52 +32,43 @@ const props = defineProps({
   }
 })
 
-const hitokoto = ref('')
-const from_who = ref('')
-const from = ref('')
 const loading = ref(false)
+const hitokoto = computed(() => props.itemData.widgetData?.hitokoto)
+const from_who = computed(() => props.itemData.widgetData?.from_who)
+const from = computed(() => props.itemData.widgetData?.from)
 
 const getDate = async () => {
   loading.value = true
   try {
     const res = await hitokotoApi()
-    hitokoto.value = res.hitokoto
-    from_who.value = res.from_who
-    from.value = res.from
-    props.itemData.widgetData = {
-      hitokoto: res.hitokoto,
-      from_who: res.from_who,
-      from: res.from,
-      updateDate: dayjs().format('YYYY-MM-DD')
-    }
+    props.itemData.widgetData.hitokoto = res.hitokoto
+    props.itemData.widgetData.from_who = res.from_who
+    props.itemData.widgetData.from = res.from
+    props.itemData.widgetData.update = dayjs().valueOf()
   } finally {
     loading.value = false
   }
 }
 
 const widgetRef = ref()
-const targetIsVisible = useElementVisibility(widgetRef)
-watch(targetIsVisible, (val) => {
-  if (val) init()
-})
-
 const init = async () => {
-  const widgetData = props.itemData.widgetData || {}
-  if (!widgetData.hitokoto) return getDate()
+  if (props.type === 'addWidget') return
+  if (!hitokoto.value) return getDate()
 
-  hitokoto.value = widgetData.hitokoto
-  from_who.value = widgetData.from_who
-  from.value = widgetData.from
+  useInterval({
+    date: props.itemData.widgetData.update,
+    dateType: 'day',
+    callback: getDate,
+    elementVisibilityRef: widgetRef,
+    loading: loading
+  })
 }
+init()
 
 const detailVisible = ref(false)
 const clickChange = () => {
-  if (props.dragging) return
+  if (props.dragging || props.editing) return
   detailVisible.value = true
-}
-
-if (props.type !== 'addWidget') {
-  eventBus.on('onResetDay', () => targetIsVisible.value && getDate())
 }
 </script>
 

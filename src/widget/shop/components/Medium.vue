@@ -2,10 +2,9 @@
 import { GroupLine, UserLine, Refresh } from '@/icons'
 import MySell from './MySell.vue'
 import Salereport from './Salereport.vue'
-import { useElementVisibility } from '@vueuse/core'
-import eventBus from '@/utils/evevtBus'
 import { operinfoApi } from '@/api/shop'
 import dayjs from 'dayjs'
+import useInterval from '@/hooks/useInterval'
 
 const props = defineProps({
   dragging: Boolean,
@@ -60,6 +59,21 @@ const getDate = async (message?: string) => {
   }
 }
 
+const widgetRef = ref()
+const init = async () => {
+  if (props.type === 'addWidget') return
+  if (!operaterid.value) return getDate()
+
+  useInterval({
+    date: props.widgetData.update,
+    dateType: 'hour',
+    callback: getDate,
+    elementVisibilityRef: widgetRef,
+    loading: loading
+  })
+}
+init()
+
 // 弹窗
 const mySellRef = ref()
 const salereportRef = ref()
@@ -68,15 +82,6 @@ const openDialog = (domRef: any, row: string) => {
   domRef.openDialog(row)
 }
 
-const widgetRef = ref()
-const targetIsVisible = useElementVisibility(widgetRef)
-watch(targetIsVisible, (val) => {
-  if (val && !props.widgetData.update) getDate()
-})
-
-if (props.type !== 'addWidget') {
-  eventBus.on('onResetHour', () => targetIsVisible.value && !loading.value && getDate())
-}
 defineExpose({ getDate })
 </script>
 

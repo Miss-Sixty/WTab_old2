@@ -6,8 +6,7 @@ import Consumption from './Consumption.vue'
 import Charge from './Charge.vue'
 import { Refresh } from '@/icons'
 import Icon from '@/components/Icon.vue'
-import { useElementVisibility } from '@vueuse/core'
-import eventBus from '@/utils/evevtBus'
+import useInterval from '@/hooks/useInterval'
 
 const props = defineProps({
   dragging: Boolean,
@@ -27,7 +26,6 @@ const total_amount = computed(() => props.widgetData?.total_amount)
 const month_amount = computed(() => props.widgetData?.month_amount)
 const elePrice = computed(() => props.widgetData?.elePrice)
 const update = computed(() => dayjs(props.widgetData?.update).format('MM-DD HH:mm'))
-
 const loading = ref(false)
 
 // 获取信息
@@ -50,6 +48,21 @@ const getDate = async (message?: string) => {
   }
 }
 
+const widgetRef = ref()
+const init = async () => {
+  if (props.type === 'addWidget') return
+  if (!total_amount.value) return getDate()
+
+  useInterval({
+    date: props.widgetData.update,
+    dateType: 'hour',
+    callback: getDate,
+    elementVisibilityRef: widgetRef,
+    loading: loading
+  })
+}
+init()
+
 // 弹窗
 const consumptionRef = ref()
 const chargeRef = ref()
@@ -58,15 +71,6 @@ const openDialog = (domRef: any) => {
   domRef.openDialog()
 }
 
-const widgetRef = ref()
-const targetIsVisible = useElementVisibility(widgetRef)
-watch(targetIsVisible, (val) => {
-  if (val && !props.widgetData.update) getDate()
-})
-
-if (props.type !== 'addWidget') {
-  eventBus.on('onResetHour', () => targetIsVisible.value && !loading.value && getDate())
-}
 defineExpose({ getDate })
 </script>
 

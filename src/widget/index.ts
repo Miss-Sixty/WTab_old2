@@ -11,7 +11,7 @@ const list: any = {
       hitokoto: '',
       from_who: '',
       from: '',
-      updateDate: ''
+      update: ''
     }
   },
   externalLink: {
@@ -27,7 +27,8 @@ const list: any = {
       iconType: 'online',
       onlineIcon: '',
       pureIcon: '',
-      localIcon: ''
+      localIcon: '',
+      update: ''
     }
   },
   shop: {
@@ -46,7 +47,8 @@ const list: any = {
       factmoney: 0,
       selfsalenum: 0,
       selfasfactmoney: 0,
-      sharasfactmoney: 0
+      sharasfactmoney: 0,
+      update: ''
     }
   },
   electricity: {
@@ -65,7 +67,7 @@ const list: any = {
       pooling_amount: 0,
       charge_pooling_amount: 0,
       month_amount: 0,
-      updateDate: ''
+      update: ''
     }
   }
 }
