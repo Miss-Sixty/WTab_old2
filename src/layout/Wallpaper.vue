@@ -14,7 +14,7 @@ const getData = async () => {
     loading.value = false
   }
 }
-
+getData()
 const widgetRef = ref()
 const init = async () => {
   useInterval({

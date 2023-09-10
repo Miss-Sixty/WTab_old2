@@ -32,7 +32,7 @@ const { copy, isSupported } = useClipboard()
 <template>
   <Dialog :header="false" :width="650" title="关于我们">
     <div class="detail">
-      <div class="detail__top">
+      <!--  <div class="detail__top">
         <h1 class="text">每日一言</h1>
         <p class="date">{{ time.date }}</p>
         <p class="week">{{ time.week }}</p>
@@ -48,7 +48,7 @@ const { copy, isSupported } = useClipboard()
           circle
         />
         <el-button v-if="isSupported" @click.stop="copy(hitokoto)" :icon="FileCopy2Line" circle />
-      </div>
+      </div> -->
     </div>
   </Dialog>
 </template>

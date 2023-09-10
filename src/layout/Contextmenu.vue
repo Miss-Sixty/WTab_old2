@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { computePosition, flip, shift } from '@floating-ui/dom'
-import { onClickOutside } from '@vueuse/core'
 import { ArrowRightUp } from '@/icons'
 import Icon from '@/components/Icon.vue'
+import useAppStore from '@/stores/app'
+const appStore = useAppStore()
+
 const AsyncSettings = defineAsyncComponent(() => import('@/layout/Settings/index.vue'))
 const AsyncWallpaper = defineAsyncComponent(() => import('@/layout/Wallpaper/index.vue'))
-const AsyncWidgetList = defineAsyncComponent(() => import('@/layout/WidgetList.vue'))
 const AsyncAbout = defineAsyncComponent(() => import('@/layout/About.vue'))
 
-const emit = defineEmits(['delWidget', 'editWidget', 'edit', 'close'])
+const emit = defineEmits(['delWidget', 'editWidget', 'edit', 'close', 'addWidget'])
 
 const contextmenuType = ref('')
 const isShowEdit = ref(false)
 const styles = ref({})
 const floatingRef = ref()
-const popperVisible = ref(false)
 const onContextmenu = async (boundingClientRect: any) => {
-  popperVisible.value = true
+  appStore.popperVisible = true
   const obj: any = {
     widget: {
       placement: 'right-start',
@@ -29,7 +29,8 @@ const onContextmenu = async (boundingClientRect: any) => {
     settings: {
       placement: 'bottom-end',
       transformOrigin: '90% 0%'
-    }
+    },
+    langTabWidget: {}
   }
 
   const type = obj[contextmenuType.value]
@@ -48,14 +49,9 @@ const onContextmenu = async (boundingClientRect: any) => {
 }
 
 const onFeedback = () => {
-  popperVisible.value = false
+  appStore.popperVisible = false
   window.open('https://support.qq.com/products/592621/')
 }
-
-onClickOutside(floatingRef, () => {
-  popperVisible.value = false
-  emit('close')
-})
 
 const show = (type: string, boundingClientRect: any, isEdit: boolean) => {
   contextmenuType.value = type
@@ -64,23 +60,21 @@ const show = (type: string, boundingClientRect: any, isEdit: boolean) => {
 }
 defineExpose({ show })
 
-const onEmitChange = (type: 'delWidget' | 'editWidget' | 'edit', data?: any) => {
-  popperVisible.value = false
+const onEmitChange = (type: 'addWidget' | 'delWidget' | 'editWidget' | 'edit', data?: any) => {
+  appStore.popperVisible = false
   emit(type, data)
 }
 
 const aboutVisible = ref(false)
 const settingsVisible = ref(false)
 const wallpaperVisible = ref(false)
-const addWidgetVisible = ref(false)
 
-const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => {
-  popperVisible.value = false
+const clickChange = (type: 'about' | 'settings' | 'wallpaper') => {
+  appStore.popperVisible = false
   const typeRef = {
     about: aboutVisible,
     settings: settingsVisible,
-    wallpaper: wallpaperVisible,
-    addWidget: addWidgetVisible
+    wallpaper: wallpaperVisible
   }
   typeRef[type].value = true
 }
@@ -89,7 +83,7 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
 <template>
   <Teleport to="body">
     <Transition name="fade">
-      <ul @contextmenu.prevent v-show="popperVisible" ref="floatingRef" :style="styles">
+      <ul @contextmenu.prevent v-show="appStore.popperVisible" ref="floatingRef" :style="styles">
         <li
           v-show="contextmenuType === 'settings' || contextmenuType === 'desktop'"
           class="item"
@@ -109,17 +103,17 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
           class="separator"
         />
 
-        <li class="item" @click="clickChange('addWidget')">添加小组件</li>
+        <li class="item" @click="onEmitChange('addWidget')">添加小组件</li>
         <li class="item" @click="onEmitChange('edit')">编辑小组件</li>
         <li
-          v-show="contextmenuType === 'widget' && isShowEdit"
+          v-show="contextmenuType === 'widget' || contextmenuType === 'langTabWidget'"
           class="item"
           @click="onEmitChange('editWidget')"
         >
           编辑此小组件
         </li>
         <li
-          v-show="contextmenuType === 'widget'"
+          v-show="contextmenuType === 'widget' || contextmenuType === 'langTabWidget'"
           class="item delete"
           @click="onEmitChange('delWidget')"
         >
@@ -139,7 +133,6 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
 
   <AsyncSettings v-model="settingsVisible" />
   <AsyncWallpaper v-model="wallpaperVisible" />
-  <AsyncWidgetList v-model="addWidgetVisible" />
   <AsyncAbout v-model="aboutVisible" />
 </template>
 <style lang="scss" scoped>

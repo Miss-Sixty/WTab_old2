@@ -37,8 +37,8 @@ const editWidget = () => {
 
 <template>
   <div class="widget">
-    <Icon class="edit" v-show="editing || !widgetData.src" @click="editWidget"> <EditBox /> </Icon>
-    <Tiny v-if="size === 'tiny'" @click="clickChange" :widgetData="widgetData" />
+    <!-- <Icon class="edit" v-show="editing || !widgetData.src" @click="editWidget"> <EditBox /> </Icon>
+    <Tiny v-if="size === 'tiny'" @click="clickChange" :widgetData="widgetData" /> -->
   </div>
 </template>
 

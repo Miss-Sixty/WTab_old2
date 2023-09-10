@@ -8,8 +8,8 @@ export default defineStore(
   () => {
     const editing = ref(false) // 编辑状态
     const data: any = ref([]) // 小组件数据
-    const baseSize = 66 // 图标大小
-    const baseMargin = 15 // 图标间距
+    const baseSize = 74 // 图标大小
+    const baseMargin = 18 // 图标间距
     // 小组件占几份
     const sizeType = {
       tiny: [1, 1],

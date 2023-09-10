@@ -13,5 +13,7 @@ export default defineStore('six-app', () => {
     if (!dayjs(newVal).isSame(oldVal, 'second')) return eventBus.emit('onResetSecond')
   })
 
-  return { date }
+  const popperVisible = ref(false)
+
+  return { date, popperVisible }
 })

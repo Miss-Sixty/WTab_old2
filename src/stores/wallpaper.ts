@@ -15,13 +15,6 @@ export default defineStore(
     const type = ref('bing') as Ref<'my' | 'bing'>
     const date = ref('')
 
-    // 更新壁纸后重新加载
-    watch(bing_mini_url, (newVal, oldVal) => {
-      if (!oldVal) return
-      bing_1080_url.value = ''
-      bing_hd_url.value = ''
-    })
-
     // 动态设置主题颜色
     const wallpaperUrl = computed(() => {
       if (type.value === 'bing') {
@@ -35,7 +28,7 @@ export default defineStore(
       try {
         const { copyright, urlbase } = await wallpaperApi()
         if (!urlbase) return
-      
+
         bingCopyright.value = copyright
         bing_mini_url.value = `https://www.bing.com${urlbase}_320x240.jpg`
         bing_1080_url.value = `https://www.bing.com${urlbase}_1920x1080.jpg`
