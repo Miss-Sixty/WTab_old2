@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import useLayoutStore from '@/stores/layout'
-import { Settings, AccountCircleFill, CheckboxCircleFill, LoopRightLine } from '@/icons'
+import { Settings, AddLine, CheckboxCircleFill, LoopRightLine } from '@/icons'
 import { nanoid } from 'nanoid'
 import { getQrCodeApi, loopGetWxStateApi } from '@/api/qrCode'
 
 const layoutStore = useLayoutStore()
-defineEmits(['clickSettings'])
+defineEmits(['clickSettings', 'addWidget'])
 const uuid = nanoid()
 const settingsRef = ref()
 const cropperVisible = ref(false)
@@ -56,25 +56,22 @@ const wxLoginState = async () => {
 
 <template>
   <header class="header">
-    <Transition name="slide-fade">
-      <!-- <ElButton
-        style="margin-right: 6px"
-        size="small"
-        v-show="layoutStore.editing"
-        @click="layoutStore.editing = false"
-        type="primary"
-        :icon="CheckLine"
-        circle
-      /> -->
-
-      <Icon v-show="layoutStore.editing" class="check" @click="layoutStore.editing = false">
-        <CheckboxCircleFill />
-      </Icon>
+    <Transition name="slide-fade" v-show="layoutStore.editing">
+      <div>
+        <ElButton
+          style="width: 48px"
+          size="small"
+          @click="$emit('addWidget')"
+          type="info"
+          round
+          :icon="AddLine"
+          key="add"
+        />
+        <ElButton size="small" @click="layoutStore.editing = false" type="info" round key="ok">
+          完成
+        </ElButton>
+      </div>
     </Transition>
-
-    <!-- <Icon class="settings">
-      <AccountCircleFill @click="cropperVisible = true" />
-    </Icon> -->
 
     <Icon
       ref="settingsRef"
@@ -113,7 +110,7 @@ const wxLoginState = async () => {
     </Dialog> -->
   </header>
 </template>
-<style lang="scss">
+<!-- <style lang="scss">
 .wxlogin--text {
   margin-top: 20px;
   font-size: 16px;
@@ -147,7 +144,7 @@ const wxLoginState = async () => {
     }
   }
 }
-</style>
+</style> -->
 <style lang="scss" scoped>
 .header {
   position: fixed;

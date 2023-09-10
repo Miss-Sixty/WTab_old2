@@ -5,10 +5,9 @@ import { ArrowRightUp } from '@/icons'
 import Icon from '@/components/Icon.vue'
 const AsyncSettings = defineAsyncComponent(() => import('@/layout/Settings/index.vue'))
 const AsyncWallpaper = defineAsyncComponent(() => import('@/layout/Wallpaper/index.vue'))
-const AsyncWidgetList = defineAsyncComponent(() => import('@/layout/WidgetList.vue'))
 const AsyncAbout = defineAsyncComponent(() => import('@/layout/About.vue'))
 
-const emit = defineEmits(['delWidget', 'editWidget', 'edit', 'close'])
+const emit = defineEmits(['delWidget', 'editWidget', 'edit', 'close', 'addWidget'])
 
 const contextmenuType = ref('')
 const isShowEdit = ref(false)
@@ -64,7 +63,7 @@ const show = (type: string, boundingClientRect: any, isEdit: boolean) => {
 }
 defineExpose({ show })
 
-const onEmitChange = (type: 'delWidget' | 'editWidget' | 'edit', data?: any) => {
+const onEmitChange = (type: 'addWidget' | 'delWidget' | 'editWidget' | 'edit', data?: any) => {
   popperVisible.value = false
   emit(type, data)
 }
@@ -72,15 +71,13 @@ const onEmitChange = (type: 'delWidget' | 'editWidget' | 'edit', data?: any) => 
 const aboutVisible = ref(false)
 const settingsVisible = ref(false)
 const wallpaperVisible = ref(false)
-const addWidgetVisible = ref(false)
 
-const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => {
+const clickChange = (type: 'about' | 'settings' | 'wallpaper') => {
   popperVisible.value = false
   const typeRef = {
     about: aboutVisible,
     settings: settingsVisible,
-    wallpaper: wallpaperVisible,
-    addWidget: addWidgetVisible
+    wallpaper: wallpaperVisible
   }
   typeRef[type].value = true
 }
@@ -109,7 +106,7 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
           class="separator"
         />
 
-        <li class="item" @click="clickChange('addWidget')">添加小组件</li>
+        <li class="item" @click="onEmitChange('addWidget')">添加小组件</li>
         <li class="item" @click="onEmitChange('edit')">编辑小组件</li>
         <li
           v-show="contextmenuType === 'widget' && isShowEdit"
@@ -139,7 +136,6 @@ const clickChange = (type: 'addWidget' | 'about' | 'settings' | 'wallpaper') => 
 
   <AsyncSettings v-model="settingsVisible" />
   <AsyncWallpaper v-model="wallpaperVisible" />
-  <AsyncWidgetList v-model="addWidgetVisible" />
   <AsyncAbout v-model="aboutVisible" />
 </template>
 <style lang="scss" scoped>

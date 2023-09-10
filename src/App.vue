@@ -7,7 +7,14 @@ import Header from '@/layout/Header.vue'
 import Contextmenu from '@/layout/Contextmenu.vue'
 import evevtBus from '@/utils/evevtBus'
 import WidgetDialog from '@/widget/dialog/index.vue'
+import Core from '@any-touch/core'
+import tap from '@any-touch/tap' //点击
+import pan from '@any-touch/pan' //拖拽
+import press from '@any-touch/press' //按压
+import WidgetList from '@/layout/WidgetList.vue'
+
 const layoutStore = useLayoutStore()
+const addWidgetVisible = ref(false)
 
 const contextMenuWidgetData = ref<any>({})
 const contextMenuRef = ref()
@@ -64,6 +71,33 @@ const editWidget = (item: any) => {
 
 const homeRef = ref()
 const dragging = ref(false)
+
+const init = () => {
+  // Core不识别任何手势.
+  const at = new Core(homeRef.value)
+  // 加载pan
+  at.use(tap)
+  at.use(pan)
+  at.use(press, {
+    minPressTime: 600
+  })
+}
+onMounted(() => {
+  init()
+})
+
+const onTap = (e: Event) => {
+  console.log('onTap', e)
+  if (layoutStore.editing) layoutStore.editing = false
+}
+const onPan = (e: Event) => {
+  console.log('onPan', e)
+}
+const onPress = (e: Event) => {
+  console.log('onPress', e)
+
+  layoutStore.editing = true
+}
 </script>
 
 <template>
@@ -71,16 +105,20 @@ const dragging = ref(false)
     class="home"
     ref="homeRef"
     @contextmenu.prevent="onContentMenuVisible({ ev: $event, type: 'desktop', dom: homeRef })"
+    @tap="onTap"
+    @pan="onPan"
+    @press="onPress"
   >
     <Wallpaper />
 
-    <Header @clickSettings="onContentMenuVisible" />
+    <Header @clickSettings="onContentMenuVisible" @addWidget="addWidgetVisible = true" />
     <Contextmenu
       ref="contextMenuRef"
       @edit="layoutStore.editing = true"
       @editWidget="editWidget(contextMenuWidgetData)"
       @delWidget="delWidget(contextMenuWidgetData)"
       @close="contextMenuWidgetData = {}"
+      @addWidget="addWidgetVisible = true"
     />
 
     <main class="main">
@@ -115,6 +153,7 @@ const dragging = ref(false)
       </GridLayout>
     </main>
 
+    <WidgetList v-model="addWidgetVisible" />
     <WidgetDialog />
   </div>
 </template>

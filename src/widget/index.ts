@@ -8,9 +8,9 @@ const list: any = {
     text: '我们历经沧桑，这样错过了一生最好的时光。',
     sizes: ['tiny', 'small', 'medium', 'large'],
     widgetData: {
-      hitokoto: '',
+      hitokoto: '执子之手，与子偕老。',
       from_who: '',
-      from: '',
+      from: '击鼓',
       update: ''
     }
   },
