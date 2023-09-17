@@ -1,4 +1,4 @@
-import request from '@/widget/utils/request'
+import request from '@/utils/request'
 
 export const logoApi = async (url: string) => {
   const res = await request({

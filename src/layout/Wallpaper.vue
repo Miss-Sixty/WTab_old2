@@ -9,12 +9,11 @@ const loading = ref(false)
 const getData = async () => {
   try {
     loading.value = true
-    await wallpaperStore.getWallpaper(wallpaperStore.type)
+    await wallpaperStore.getWallpaper()
   } finally {
     loading.value = false
   }
 }
-getData()
 const widgetRef = ref()
 const init = async () => {
   useInterval({

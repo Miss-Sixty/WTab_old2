@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computePosition, flip, shift } from '@floating-ui/dom'
+import { computePosition, flip, shift, offset } from '@floating-ui/dom'
 import { ArrowRightUp } from '@/icons'
 import Icon from '@/components/Icon.vue'
 import useAppStore from '@/stores/app'
@@ -12,53 +12,39 @@ const AsyncAbout = defineAsyncComponent(() => import('@/layout/About.vue'))
 const emit = defineEmits(['delWidget', 'editWidget', 'edit', 'close', 'addWidget'])
 
 const contextmenuType = ref('')
-const isShowEdit = ref(false)
 const styles = ref({})
 const floatingRef = ref()
-const onContextmenu = async (boundingClientRect: any) => {
-  appStore.popperVisible = true
-  const obj: any = {
-    widget: {
-      placement: 'right-start',
-      transformOrigin: '0% 0%'
-    },
-    desktop: {
-      placement: 'right-start',
-      transformOrigin: '0% 0%'
-    },
-    settings: {
-      placement: 'bottom-end',
-      transformOrigin: '90% 0%'
-    },
-    langTabWidget: {}
-  }
+const onContextmenu = async (boundingClientRect: any, options: any) => {
+  const {
+    placement = 'right-start',
+    transformOrigin = '0% 0%',
+    middleware = [flip(), shift()]
+  } = options || {}
 
-  const type = obj[contextmenuType.value]
+  appStore.popperVisible = true
 
   const { x, y } = await computePosition(boundingClientRect, floatingRef.value, {
-    placement: type.placement,
-    middleware: [flip(), shift()],
+    placement,
+    middleware,
     strategy: 'fixed'
   })
 
   styles.value = {
     left: `${x}px`,
     top: `${y}px`,
-    transformOrigin: type.transformOrigin //变换的基点
+    transformOrigin //变换的基点
   }
 }
-
+watch(
+  () => appStore.popperVisible,
+  (bl) => {
+    if (!bl) emit('close')
+  }
+)
 const onFeedback = () => {
   appStore.popperVisible = false
   window.open('https://support.qq.com/products/592621/')
 }
-
-const show = (type: string, boundingClientRect: any, isEdit: boolean) => {
-  contextmenuType.value = type
-  isShowEdit.value = isEdit
-  onContextmenu(boundingClientRect)
-}
-defineExpose({ show })
 
 const onEmitChange = (type: 'addWidget' | 'delWidget' | 'editWidget' | 'edit', data?: any) => {
   appStore.popperVisible = false
@@ -78,6 +64,33 @@ const clickChange = (type: 'about' | 'settings' | 'wallpaper') => {
   }
   typeRef[type].value = true
 }
+
+const options: any = {
+  desktop: {
+    placement: 'right-start',
+    transformOrigin: '0% 0%',
+    middleware: [flip(), shift()]
+  },
+  widget: {
+    placement: 'right-start',
+    transformOrigin: '0% 0%',
+    middleware: [flip(), shift()]
+  },
+  settings: {
+    placement: 'bottom-end',
+    transformOrigin: '90% 0%'
+  },
+  langTabWidget: {
+    placement: 'bottom-start',
+    transformOrigin: '30% 0%',
+    middleware: [offset(5), flip(), shift()]
+  }
+}
+const show = (type: string, boundingClientRect: any) => {
+  contextmenuType.value = type
+  onContextmenu(boundingClientRect, options[type])
+}
+defineExpose({ show })
 </script>
 
 <template>
@@ -149,7 +162,9 @@ ul {
   top: 0;
   z-index: 9999;
   user-select: none;
-  transition: all 0.3s;
+  transition:
+    top 0.2s,
+    left 0.2s;
 
   .item {
     padding: 6px 16px;
@@ -186,11 +201,10 @@ ul {
 }
 
 .fade-enter-active {
-  animation: pulse-in 0.25s;
-  transition: opacity 0.25s;
+  animation: pulse-in 0.4s;
+  transition: none;
 }
 .fade-leave-active {
-  animation: pulse-out 0.25s;
-  transition: opacity 0.25s;
+  animation: pulse-out 0.4s;
 }
 </style>

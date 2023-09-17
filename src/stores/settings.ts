@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import useLayoutStore from './layout'
 import dayjs from 'dayjs'
-import { decrypt, encrypt } from '@/widget/utils/crypto'
+import { decrypt, encrypt } from '@/utils/crypto'
 
 export default defineStore('six-settings', () => {
   // 下载配置

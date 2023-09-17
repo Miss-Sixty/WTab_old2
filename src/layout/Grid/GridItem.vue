@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onLongPress } from '@vueuse/core'
+const emit = defineEmits(['langTap'])
 const props = defineProps({
   x: {
     type: Number
@@ -64,6 +66,15 @@ const dragStyle = computed(() => {
     transition: 'none'
   }
 })
+
+const itemRef = ref()
+
+const onPress = (ev: Event) => {
+  emit('langTap', ev)
+}
+
+//按压
+onLongPress(itemRef, onPress, { modifiers: { prevent: true }, delay: 300 })
 </script>
 
 <template>
@@ -75,6 +86,7 @@ const dragStyle = computed(() => {
       ...initStyle,
       ...dragStyle
     }"
+    @click.stop
   >
     <slot></slot>
   </div>
@@ -84,6 +96,5 @@ const dragStyle = computed(() => {
 .grid_item {
   position: absolute;
   user-select: none;
-  transition: transform 0.2s;
 }
 </style>

@@ -6,7 +6,6 @@ import localforage from 'localforage'
 import useWallpaperStore from '@/stores/wallpaper'
 import Content from './components/Content.vue'
 const wallpaperStore = useWallpaperStore()
-// wallpaperStore.getWallpaper('all')
 defineEmits(['click'])
 const { open, onChange } = useFileDialog({
   multiple: false

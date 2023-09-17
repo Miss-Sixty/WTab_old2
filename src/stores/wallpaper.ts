@@ -34,9 +34,7 @@ export default defineStore(
         bing_1080_url.value = `https://www.bing.com${urlbase}_1920x1080.jpg`
         bing_hd_url.value = `https://www.bing.com${urlbase}_UHD.jpg`
         date.value = dayjs().format('YYYY-MM-DD')
-      } catch (e) {
-        console.log(e)
-      }
+      } catch (e) {}
     }
 
     async function getMyWallpaper() {
@@ -44,14 +42,8 @@ export default defineStore(
       my_url.value = file ? URL.createObjectURL(file) : ''
     }
 
-    const getWallpaper = async (type: 'all' | 'my' | 'bing') => {
-      if (type === 'all') {
-        return Promise.all([getMyWallpaper(), getBingWallpaper()])
-      } else if (type === 'my') {
-        return getMyWallpaper()
-      } else if (type === 'bing') {
-        return getBingWallpaper()
-      }
+    const getWallpaper = async () => {
+      return Promise.all([getMyWallpaper(), getBingWallpaper()])
     }
 
     return {

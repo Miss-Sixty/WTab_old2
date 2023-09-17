@@ -43,7 +43,6 @@ service.interceptors.response.use(
     return res
   },
   (err) => {
-    console.log(222, err)
     ElMessage.error({
       message: err?.message || err?.response?.data?.message,
       duration: 5000

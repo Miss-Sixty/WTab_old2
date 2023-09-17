@@ -1,4 +1,4 @@
-import request from '@/widget/utils/request'
+import request from '@/utils/request'
 
 export const wallpaperApi = async () => {
   const res = await request({
