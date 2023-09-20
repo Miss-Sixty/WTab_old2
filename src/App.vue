@@ -9,8 +9,12 @@ watch(
   () => appStore.popperVisible,
   (bl) => {
     if (!bl) return cleanup()
-    cleanup = useEventListener(document, 'click', (e) => {
-      appStore.popperVisible = false
+
+    cleanup = useEventListener(document, 'pointerup', (e) => {
+      if (e.button !== 0) return
+      const targetSettingsIcon = (e.target as HTMLElement).closest('.icon.settings.header--hover')
+      if (targetSettingsIcon) return
+      if (appStore.popperVisible) appStore.popperVisible = false
     })
   }
 )

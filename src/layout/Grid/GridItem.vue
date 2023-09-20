@@ -74,7 +74,7 @@ const onPress = (ev: Event) => {
 }
 
 //按压
-onLongPress(itemRef, onPress, { modifiers: { prevent: true }, delay: 300 })
+onLongPress(itemRef, onPress, { delay: 300 })
 </script>
 
 <template>
@@ -86,7 +86,7 @@ onLongPress(itemRef, onPress, { modifiers: { prevent: true }, delay: 300 })
       ...initStyle,
       ...dragStyle
     }"
-    @click.stop
+    @pointerup.stop
   >
     <slot></slot>
   </div>

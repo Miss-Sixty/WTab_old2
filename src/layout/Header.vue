@@ -29,7 +29,8 @@ const settingsRef = ref()
     <Icon
       ref="settingsRef"
       class="settings header--hover"
-      @click.stop="$emit('clickSettings', { type: 'settings', dom: settingsRef.$el })"
+      @pointerup="$emit('clickSettings', { type: 'settings', dom: settingsRef.$el })"
+      @contextmenu.prevent.stop
     >
       <Settings />
     </Icon>
@@ -42,7 +43,6 @@ const settingsRef = ref()
   left: 0;
   right: 0;
   z-index: 1;
-  padding: 10px;
   color: #fff;
   display: flex;
   justify-content: flex-end;

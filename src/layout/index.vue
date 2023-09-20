@@ -142,6 +142,7 @@ const cancelLongPress = () => {
     }
   })
 
+  appStore.popperVisible = false
   anime({
     targets: overlayRef.value,
     duration: 200,
@@ -155,7 +156,6 @@ const cancelLongPress = () => {
         easing: 'linear'
       })
       overlayRef.value.style.display = 'none'
-      appStore.popperVisible = false
     }
   })
 }
@@ -199,7 +199,7 @@ const close = () => {
     />
 
     <main class="main" ref="mainRef">
-      <div class="overlay" ref="overlayRef" @click="cancelLongPress" @contextmenu.prevent.stop />
+      <div class="overlay" ref="overlayRef" @pointerup="cancelLongPress" />
       <GridLayout
         v-model="layoutStore.data"
         :colsNum="layoutStore.colsNum"
